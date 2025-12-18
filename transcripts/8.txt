@@ -1,0 +1,1337 @@
+all right people we should be live welcome back to another Bitcoin live stream it's Trader
+0:16
+EXO here the date is 25th of November 2024 and the time is just after 10:3 PM
+0:25
+UTC if you could all give me a quick confirmation in the chat that you can hear my voice and that you can see my
+0:32
+screen and we'll kick off we shall kick off the
+0:41
+stream and as always a real pleasure to see the regular faces in the
+0:55
+chat awesome so as always ESP special thank you to OK
+1:01
+exchange for partnering with me where I'm a product partner and they currently sponsor my
+1:08
+streams and I get to present these to you guys at no cost secondly I'd just
+1:14
+like to state that anything in today's video is not Financial advice it is just my view of the market and that's all it
+1:21
+is okay without further Ado we'll just talk about
+1:26
+the private group that I was scheduled to run um I can
+1:32
+appreciate there's been some issues with the uh registration link so I've had to defer the group until the
+1:41
+new year I I probably will be looking to start more than likely now on the 5th of
+1:46
+January just whilst we resolve some technical issues so just to recap what
+1:51
+this is about I will be opening up a free private group okay it's not paid
+1:57
+I'm not asking you for your money I've never run any paid service or paid groups in the past uh it's not a signal
+2:03
+service it's not Financial advice it's not a Discord group or a telegram group
+2:09
+okay and it's basically where all I'm asking for people is to sign up with my
+2:14
+exchange partners and upon doing so any money received via commissions I will be
+2:20
+donating to charity okay I do not want anybody's money I do not need referral income for me this is just a way to give
+2:27
+back to you guys and at the same time give back to charity in the process okay
+2:33
+I will be doing some funded account giveaway and prizes the next part is like I said it
+2:41
+will be two to three private streams videos per week okay I be I will be
+2:46
+posting Less on Twitter and I shall be more focused on the group the content
+2:52
+that I deliver it will be some real uh Core Concepts around price action
+2:58
+orderflow Concepts TR trade execution on the lower time frames which is a very uh
+3:04
+commonly asked question and also trading systemization what does that mean what does that look like I will be happy to
+3:10
+share some of my trade journals my trading plans my trading methodologies the processes that I go through from
+3:16
+journaling to using uh software to record my trades and also how I manage
+3:23
+the the mental aspects of trading which I think is a topic that isn't very
+3:28
+well covered in the crypto space um I know everybody's Keen to talk about the
+3:34
+mindset and the trading mindset but how do you actually Journal your mindset how do you improve from some of the emotions
+3:41
+that you have to battle with on a daily basis which is fear or greed or anger or
+3:47
+you know not having the ability to to to focus on your trading so that's going to
+3:53
+be the plan okay unfortunately like I said I was hoping to launch on the 2nd of December that's now being pushed back
+3:58
+to the 5th of January uh as an interim workaround please stay
+4:03
+tuned into the streams during mid December because what I will
+4:09
+be doing and this is the plan that I had with the group was to share my 2025
+4:15
+trading manual I'll be sharing some of the processes that I go go through just to Hope just to hope that it inspires
+4:23
+others out there who who who perhaps want to come up with their own system but they're not sure what that looks
+4:28
+like okay now for today's stream I was hoping to cover patterns of um distribution
+4:37
+exiting markets looking for top signals and how to switch how do I switch context you know from a a long
+4:44
+perspective to shorts however I'm going to postpone this to Sunday stream which is Sunday the 1st of December I also
+4:50
+think that fits very well with the monthly open so we'll talk about the monthly open strategy um and I think now
+4:58
+given where Bitcoin is I think you know it's no surprise to me that we are seeing a corrective move on bitcoin it's
+5:04
+something that I covered on the last stream and I'll talk about that in further detail today so today's video or
+5:10
+today's stream is essentially likely to be a continuation of what we saw from last week now as always uh the first
+5:18
+question I'm going to ask the chat room is last week I asked you guys what's the
+5:26
+high of Bitcoin likely to be okay now my question to you guys is what's
+5:32
+the high of Bitcoin likely to be this week now that we're getting a pullback is the top in that's the first question
+5:39
+do people feel or believe that the top is in or do you still believe that we are likely to go higher in December or
+5:45
+January please leave a comment in the chat I'm very keen to see what some of the answers or the responses
+5:57
+are yeah Fabio for for people who are based around the world the the streams
+6:02
+are basically I'm going to be launching a website okay where you have to essentially sign up with an exchange
+6:08
+parter and once you have your exchange ID you will then need that to register on the website all the videos will be
+6:13
+there okay they'll be there for as long as the website remains running that's it there's nothing to sell there's no paid
+6:19
+courses or anything so it it's not going to cost you anything other than you signing up VI the referral link
+6:30
+higher okay so everybody's so bullish right so when Bitcoin pulls back this is all just expected right you all have
+6:37
+this down last week as per my stream that you've got to be looking for Corrections is that
+6:43
+correct everybody's going to start buying the dip and send Bitcoin back to 120k
+6:54
+right all right okay cool all right let's kick on let's kick on um do believe it's going to be an ALT
+7:03
+season or or do you feel as alts are not going to run at
+7:18
+all 85k then higher all right okay looks let's let's crack on then I think in today's stream I just it's been a long
+7:25
+week for me um my brain is pretty much ride at this stage but uh we crack on look at the end
+7:32
+of the day the key aspects that I talked about last week
+7:37
+was when I mapped this range out okay ignore anything below here this is
+7:43
+irrelevant I I'm not marking these out to say l Bitcoin could come here or here this is just contextual overview I use
+7:51
+this as a range projection this is now the mid level of what could potentially be the projected highs now what I want
+7:59
+you to understand very very importantly that this is not me telling you that Bitcoin is likely to go to 120k on top
+8:05
+out what I said to you last week was that the way I use this or use ranges is
+8:13
+first and foremost to manage risk secondly look for points of inflection
+8:19
+that I can position into whether that's on the long side whether that's on the short side or whether I wish to hedge
+8:26
+any given position and the third aspect is it gives me something to work with with my system system you know talking
+8:33
+about trade systematization this is a key purpose of me I'm not in the industry like I said
+8:39
+to to to guess where price is going I need to see reactions and then I will
+8:44
+react from those levels accordingly if I see enough evidence in the price in the
+8:51
+charts on the data to Warrant me making a trade whether that's a long short or a
+8:56
+hedge okay now let's just zoom into the chart the first thing that I talked about last week and again I'm not saying
+9:04
+hey I called it I said this was a top that's [ __ ] okay all I said was that there's a fairly decent chance this
+9:11
+might be a probable top a local top I should say and therefore if you're look
+9:16
+into longest long in this Zone I think it's very dangerous the the risk of
+9:21
+reward is fairly poor because we've already had an extensive move we had an
+9:26
+extensive move which was very similar to this from from 44,000 up until 70,000
+9:33
+and again there's been very few pullbacks it's been an aggressive Trend to the upside so at some point you have
+9:39
+to expect a corrective move down okay and and like I I talked about last week
+9:45
+that it's not unusual to see Bitcoin print these 20 30%
+9:51
+pullbacks over a matter of weeks but yet the crowd or the sentiment out there
+9:56
+will start telling you that Bitcoin is likely to go to 40,000 30,000 50,000 in the next sever in the next several
+10:03
+weeks distribution patterns take time to play out look back at what happened in
+10:09
+February to March okay whether this was distribution or not at the time you don't know until it breaks down the same
+10:15
+happened again in October November it Bitcoin traded 1 2 3 4 five nearly six
+10:22
+weeks at these highs before it lost momentum and started trading lower down
+10:27
+so I don't believe for any point in time that this is it that this is the top
+10:33
+what I do believe is that price in terms of probability is likely to trade
+10:39
+between this 80 81 82 83 region and that 100K level there perhaps over the next
+10:46
+few weeks we see a rotational range One Price action
+10:51
+whether it's a a series of intra lower lows uh lower highs lower lows until it
+10:57
+finds a base before we see the push back to to take out the highs in 200k okay
+11:02
+that's kind of the expectation that I'm leaning towards if I'm wrong on that expectation
+11:08
+then where am I wrong on that expectation it's essentially where if
+11:14
+price starts trading below this 82 81k level finds rejection on the inside and
+11:21
+continues lower then there is a a a significant shift in
+11:27
+context for as long as price keeps rejecting from theide of the 83k level
+11:33
+then I have to be open to the possibility that we could trade lower down into 78 75s okay but for now the
+11:39
+immediate zones that I'm looking at is between 99 and 83 from a high time frame
+11:45
+contextual point of view is that clear
+12:00
+now what I also like about this chart is the fact that today is the 25th of
+12:06
+November and if you look at the monthly open look at this for a monthly candle I do believe that we are pricing in or we
+12:14
+have already pricing the high of the month we've had the low of the month at 66,000 in a matter of weeks we've
+12:22
+rallied to 00,000 so I do believe that this is printing now the the high of the month maybe we
+12:29
+get 200 again I'm not sure I'm not convinced we will uh I don't I certainly don't think we're going to break out
+12:34
+into new all-time highs on a sustained rally over the next several days heading into month end okay it's Monday today so
+12:42
+we've got four days left of the uh of the business week and then we've got the weekend and we have the new monthly open
+12:48
+on Sunday the 1st of December so again rule of Thum now if you understand how I
+12:53
+play monthly opens can anybody as hasard a guess as to what I'm going to say next
+12:59
+about the monthly open for December and the type of strategy that I that I will be looking for on bitcoin I'll I'll I'll
+13:06
+leave that to the chat to to reply with and um and then I'll explain essentially what I'm looking for I just don't know
+13:18
+where thank you I appreciate you all I I really appreciate the the warm comments in the chat you know
+13:26
+um it's it's uh yeah thank
+13:32
+you I will talk about where I'm looking to close the BT uh Bitcoin short that I've got I just want to make it clear um I'm
+13:40
+not here to blow my own trumpet I am short on bitcoin but that short is not an outright short it's more of a hedge
+13:46
+against my spot position that's all it is it's downside protection it's downside insurance I still obtain and
+13:53
+hold my Bitcoin I'm still fully exposed to altcoins I use the Bitcoin hedge as
+13:58
+primary a way to offset risk and lock in the gains so it's not an outright short
+14:03
+and I talked about this in detail last we that if you are looking to short Bitcoin there's a very high probable
+14:10
+chance that you will be offside very quickly however I did raise my um
+14:15
+thoughts that this could be a local top and it wouldn't surprise me we went over
+14:21
+in detail don't be surprised if you see a 20 30% correction to the downside and
+14:27
+if Bitcoin ranges which I'll touch upon later in the Stream that we should see that continuation of the so-called alt
+14:35
+season okay so basically yeah I'm looking for we'll talk about it on Sunday stream is the the December
+14:41
+monthly open I'm looking for early lows of the month okay I think it's going to be fairly shallow because if we are in a
+14:48
+trendin market then what you generally find is that in a bullish Trend when you
+14:55
+have the monthly open price if it into a level of support then price trades below
+15:02
+the monthly open for a very very short shallow period of time the minute it
+15:07
+reclaims I think that then sets your inv validation at the low so let's just assume this is the monthly open and
+15:13
+let's just assume price opens trades above it spends a few days below again very shallow price action not pushing
+15:20
+away extensively and just assume that support is round about here what you
+15:26
+want to be looking for is acceptance back above stop at the low there's your long Trigger look for the trend
+15:31
+continuation momentum higher on altcoins that look relatively strong and perhaps
+15:37
+Bitcoin as well okay so that's in essence it's not rocket science the Simplicity of one how I trade monthly
+15:44
+opens it's not in isolation it's along with a demand zone or if I'm looking for the short side a supply Zone but the
+15:52
+overall context of price matters okay now let's just drop down into the lower time frames uh I think for me
+15:59
+look the fact is now that we've we're trading we've traded through this 95k
+16:05
+level which price was holding up as support you can see price holding up as support on on the 21st it reacted from
+16:12
+this level traded back up to 98 we've traded below it rejected on the inside and now we're sliding lower down okay so
+16:19
+I think there a fairly decent probable chance okay that if I am looking to
+16:25
+looking to close my short okay let's just talk about two levels that I I'm looking for price to trade into the
+16:31
+first real objective that I would love to see price trading into trade into is this level here it's that 85k level 86
+16:41
+85 call it whichever you like okay whether you want to take the candle bodies or whether you want to take the
+16:46
+wick it's this Zone that I'm looking for price to trade essentially to give me a
+16:53
+a reaction from this level for price to range and perhaps continue continue higher
+16:59
+the second level such that if this actually fails to hold okay let's just
+17:04
+say price pushes up and then we get a a significant move down into that 86k
+17:11
+level I wouldn't be afraid of that you know I I really would consider that as a
+17:17
+fantastic buying opportunity potentially on altcoins if altcoins pull back with a
+17:24
+a fairly reasonable drop on bitcoin and you have to expect this because look at where we where we have rallied from
+17:31
+we've rallied from the region of 68 69 all the way through to 99 that's a
+17:36
+$33,000 rally in a matter of week so you know even if you take the low to the
+17:44
+high you've got that 0.5 FIB level at 83,000 and that leads me on to the next
+17:50
+point of interest that I'm looking at here is that when you drop down onto the 1 hour time
+17:55
+frame oh sorry I should say 4H hour time frame there isn't another Zone
+18:01
+here just there that I'd be interested in okay because this was a consolidation
+18:06
+or the compression before we saw the expansion okay again when I when I talk about compression and expansion look at
+18:12
+the origin of the move the origin of the move was okay we we broke above
+18:19
+compression compression compression and then we get expansion pull back another
+18:24
+origin okay where prize found support before we saw continuation
+18:29
+higher so that's why these two levels are important for me or perhaps I should
+18:35
+say why if price is to trade into these two levels they're the two levels that I
+18:40
+would be looking for strength in the market looking for Price uh Bitcoin to
+18:45
+to show some stability and with that stability you will see an increased appetite on altcoins for as long as e
+18:52
+BTC moves on okay is that clear so the two levels that I've identified in terms
+18:58
+of where I would like to see Bitcoin show a reaction from is the 85 86k level
+19:05
+or alternatively the 82 81k level it's one of these two levels that I'd want a
+19:11
+reaction what I'm personally leaning towards and again I couldn't tell you what happens
+19:18
+next what I'm personally leaning towards is is more of a a 20 25% correction so if we take the
+19:27
+highs from here
+19:32
+that's 20% gets us to around about 880,000 okay when you look at
+19:38
+that and and again when you look at something like this let's just say 17% okay it
+19:45
+shouldn't come as a surprise because if you look at how Bitcoin
+19:50
+trades historically over the last four years you often get these fast moves
+19:56
+down and this is what I want to see if Bitcoin is going to pull back I want it to be fast and aggressive with a spring
+20:02
+and it may come back down to test the lows again but you will find a level of support where buyers are stepping into
+20:09
+the market and price is very shortlived in this demand Zone okay so you get one
+20:14
+test bounce lower high second test lower low rounded retest and then you get continuation higher alternatively you
+20:22
+could see something like this compression compression compression expansion pulls back into the origin of
+20:28
+the mo move at the lows okay that's where you want to see one 2 3 days of
+20:34
+trading shortlived before we see price spring even higher again so it's it's I feel as it's going to be one of these
+20:41
+two environments that we may okay I'm not saying we will that we may or or
+20:46
+what I would be looking for to to Really uh be aggressive in taking on Longs again is this type of these two types of
+20:53
+structures all right and again if you look back at um
+21:02
+the third scenario is this whereby Bitcoin actually doesn't do
+21:08
+anything it's followed a similar trajectory you've got this compression
+21:14
+of price okay into a trend line and then finally you get the expansion you get a
+21:20
+top for 3 4 days and then you get a pull back but it's kind of in no man's land
+21:26
+and then it ranges for the best part of December through to February for two
+21:32
+months you've got a run of the highs you've got a run of the lows price comes back into balance what does balance mean
+21:38
+where you have an equilibrium of demand in in a Range okay and sellers stepping
+21:44
+into the market at the local Highs but pric is essentially oscillating between these two zones with the extremes which
+21:52
+mean revert back inside and I think this is not a bad scenario either if we do
+21:57
+get something like this for for 6 seven weeks I think that really really gives
+22:02
+altcoins the ultimate environment along with e BTC to excel significantly to the
+22:09
+upside okay but then my question would be well if Bitcoin is truly in a trending environment does it really need
+22:15
+to range Bound for two months I'm not so sure evening Charlie hope you're well
+22:21
+good to see you so that they're kind of the three structures I'd be looking for but I
+22:26
+think my my PR reference is something like this if we truly are going to go
+22:33
+higher on bitcoin then it's it's more so the fact that if we are already in a strong
+22:41
+trending environment which we should be because we've just broken out of a 67 month range then I don't feel as though
+22:47
+there's really much need to to kind of form this two-month consolidation period I'd been much
+22:53
+more um pleased to see this type of environment price pushes down to the to
+22:59
+the lows very very quickly bounces this was from January through to February so you have a period of 28 days 3 four
+23:07
+weeks of range by Price action and when price establishes support this is when
+23:12
+altcoins really picked up momentum back in 2021 so this is one environment this is my second preferred environment it
+23:19
+it's it's a sharp uh flush down strong reversal backup altcoins and Bitcoins
+23:24
+run together um in this environment Bitcoin ranges and ALT coins run and
+23:29
+then the third environment that I gave you which I really wouldn't want to see this but Bitcoin kind of trading
+23:36
+sideways in range for two months yes altcoins will do well but then I'm like okay well why is Bitcoin spending
+23:42
+another two months having just broken out of a range uh and and then we just remain range bound here for two months
+23:48
+I'm I'm not so sure how that would play out okay so that's kind of the scenario that I'm looking for now let's talk about my short okay ultimately it's a
+23:55
+hedge that's all it is it's not an outright short and if I'm looking to long from these
+24:01
+levels here then I'm looking to scale out my shorts here okay I'm not bothered about price trading into 883s and I've
+24:08
+closed on my short [ __ ] I've missed out on a bit of a move the fact is I've captured the majority of the game I've been long from
+24:15
+$554,000 I've not closed out uh any of my spot in fact what I've done and I
+24:20
+tweeted about this and I talked about this on stream last week is that I'm really looking for buying opportunities underneath BTC for the first time in a
+24:27
+very long time time so this is the Zone where I want to close my shorts in that 84 85 if it goes deeper and this fails
+24:35
+to hold then fine I'll probably look to close it out at the 83 level but I need to see a reaction I'm not blindly
+24:41
+closing out my shorts I need to see some form of reaction to suggest to me right okay this is held up nicely it's time to
+24:49
+cut my shorts and start looking for Longs on bitcoin okay I'm not just going to blindly close my shorts because hey guess what it's Trad into that level
+24:55
+it's all about the reaction and and and and even if we do get a reaction and it's shortlived and it rolls over then
+25:01
+fine I'll just wait until I get a strong enough reaction from the 83k level I'm not trying to nail the absolute bottom
+25:08
+I'm trying to give myself downside protection from this up move where I've locked in the gains and then step into
+25:14
+the market when I see enough strength to start looking for Longs again where I'm I wouldn't say wrong on the short idea
+25:22
+but where I where I would be looking to cut this short okay because like I said I'm just delta neutral at the moment
+25:28
+moment it's all right fine there's enough strength in the market to suggest this is just a shallow pullback and
+25:34
+Bitcoin pops back up so right now if I'm short from 99 my stop is over here and
+25:40
+so what if I get stopped out you know I haven't lost anything the point is that I'm playing the probability of of of of
+25:47
+giving myself downside protection such that the market pulls back and I can close the shorts in profit I've locked
+25:54
+in the gains managed my draw down and now I can flip long that's all is okay
+25:59
+so that's all the really is to it now moving moving out onto the the the
+26:04
+higher time frame just give me a second why am
+26:10
+I leaning towards continue downside well if you look at the EXO Trend scanner
+26:15
+coded by my good friend Charlie so if you want access to this indicator please deposit $10,000 into his account he'll
+26:22
+give you access to this otherwise you can search for it in trading view for free uh it's under X so uh
+26:29
+and I probably I probably um TR EXO mro TR scanner there you go BTC Charlie tra
+26:36
+XO microt TR scanner liked by 5,150 people okay so again when you look at
+26:43
+this on the 4 Hour we've just crossed the 12 and the 25 to the
+26:48
+downside when you look at what happens generally when Bitcoin crosses the 12
+26:55
+and the 25 in a trended market you can back test this you do get continued selling off
+27:01
+okay same again happened here it does sell off but this is more of a rangeb environment perhaps in the trend it's
+27:08
+slightly more shallower and shortlived let's go back to um 2021 let's see what happened
+27:16
+there you can see that Bitcoin topped at the highs crossed down we flipped beish
+27:22
+on the 4 Hour but it traded into a level of demand uh a demand Zone okay but when
+27:28
+you look at the so the point is I think for now it wouldn't surprise me if we do see further correction to the downside
+27:35
+on bitcoin um but like I said I think that presents opportunity it's not
+27:40
+something to be afraid of if you are sidelined on altcoins and we do get a flush lower down then that should give
+27:46
+you some buying opportunities over the coming weeks okay if you look at the daily the daily is fine there's a the
+27:52
+the 12 EMA the 25 is trading at $86,000 so don't be surprised if price
+28:00
+does drop lower down okay does drop lower down actually Springs un under the 12 and 25s trades
+28:09
+into that 83 84 level but it's very remember what I talked about in last week's streams about price remaining
+28:16
+under the bands in a bullish environment very very shallow price action below the bands the minute it flips that's a
+28:22
+momentum higher so don't be surprised if we see price trading below the bands the minute it pops back up that's your
+28:28
+continuation higher or at least back to range highs or a lower high and price
+28:34
+establishes that rangeb environment before we may see continuation higher okay this is not distrib this is not
+28:41
+distributive yet it's just a trended market trends don't become distribution in a matter of days and then break down
+28:47
+and fall down to $50,000 that is a very low probabilistic scenario and it's not
+28:53
+even one that I'm contemplating or on one that I certainly don't see coming to
+28:58
+fruition so for me this is just going to if it is going if we do see uh a stalling of the trend then this will be
+29:04
+somewhat of a consolidation corrective Range man environment and if that is the case then we will see momentum on
+29:10
+altcoins the final aspect that I want to touch about uh and I'm not going to delve into this too much but for those
+29:17
+of you who have watched my streams you you'll understand how I time bottoms with the stock RSI so again the key
+29:24
+concept is how can I increase the probability of being right using a
+29:29
+momentum or momentum based oscillators you've only got to look back on the
+29:35
+daily and you've only got to look back on how Bitcoin performs in trending environments when the stock RSI is at
+29:41
+the low so I think give or take another 3 four five six days this will probably
+29:47
+bottom up and we'll start see an oscillation maybe in December back to the highs okay it does take a few days
+29:53
+it can be extended for several days like this or it can be short and shallow like
+29:58
+this bottom bottom bottom bottom okay the lows again you got the lows lows
+30:06
+again and you've got the lows okay so you can see the Confluence notice that I'm not even talking about the tops why
+30:13
+am I not talking about the tops here because the fact is I'm looking for contextual
+30:18
+Longs I'm looking for inflection points and how to time the stock RSI
+30:24
+oscillating at the lows into a level of demand that's going to be a really good setup I feel okay even if it tags into
+30:32
+this mid-range that I've defined even if it Wicks below it gets back above stop at the low trigger back to the the local
+30:39
+Range High from 83 to 96 with some Confluence of
+30:45
+this the only time I pay attention to the tops is if we are really in a
+30:51
+downtrending or bearish environment or I'm looking to hedge off some risk okay which in this instance you can see the
+30:59
+RSI topped on the 12th of November but where is Price it's over here that was
+31:04
+not a reason to go short because you don't fade the trend when price has
+31:09
+broken out of a six-month range oscillators can remain overbought or
+31:15
+oversold right in Trends and if you look at this example the RSI the stock RSI
+31:21
+was trending lower as prices going higher but you will get those divergences where eventually momentum
+31:26
+will stall and eventually you will get a corrective move back down again okay so that's that and again if you look at the
+31:32
+macd I believe on The Daily that was um signaling yeah you're getting a level of
+31:37
+compression so whether we if we get a reset I'm not sure we'll have to wait and see but um just signs that we we
+31:45
+could see a correction for at least several days more okay or at least price ranges within this within this zone for
+31:53
+the next several days at least okay that's all there is to it
+32:06
+any questions I'm just looking at the chat but I'm just taking it really slow trying to explain my thoughts you know
+32:13
+just stay calm stay composed it's just another trade okay and um the best
+32:19
+trades are when price comes into those fantastic buying opportunities where you
+32:24
+see many people who have chased this rally to the upside for very little gay now okay there's a there's a real chance
+32:31
+that anybody who's just bought or longed you know 97 98 right telling you
+32:38
+that price is going to go to 120 with a stop at 94 what do you think is going to happen to them they're going
+32:43
+to get rattled they're going to piss their pants and and price will probably Cascade lower
+32:52
+down so like I said there was really no reason to Long Bitcoin I clearly stated
+32:57
+this on the timeline last uh on on stream last week that instead you want to be identifying buying
+33:04
+opportunities all right mate Charlie have a good one
+33:11
+buddy right let's move on eth BTC um like I said I I think this is going to
+33:16
+play out for a few more days we'll see where we are come Sunday now the next chart e BTC
+33:33
+what did we talk about on last week's
+33:43
+stream we said that price is into a monthly demand
+33:52
+Zone brilliant okay fantastic we said
+33:58
+price is also not just into a monthly demand Zone but also into a weekly
+34:04
+demand Zone and it's traded into that zone we
+34:09
+also said that look out for a bullish pin bar as a potential reversal on E BTC
+34:17
+you want to see a bullish pin bar close into a weekly monthly demand Zone that is probably some of the best risk reward
+34:23
+setup that you can get instead you could argue whether this this was a spinning
+34:28
+top candle or whether this is a dogee candle whichever you want to call it the
+34:34
+point is that for me I do believe that a there's a very good chance that if the
+34:40
+lows aren't in already then we're very close to a a significant reversal on eth
+34:45
+BTC whether this gives one more pullback but I do feel that we will see a a a
+34:51
+face ripping candle 1 2 3 4 5 6 7 8 9 10
+34:57
+11 12 12 13 14 14 weeks of price action could very well be a raised in a
+35:04
+matter of weeks that's the risk that you face if
+35:09
+you're trying to show eth usdt which I've seen many people do on the timeline that's fine I personally
+35:16
+wouldn't be shorting e us C knowing that when Bitcoin if Bitcoin is to slowly
+35:22
+bleed lower down and E BTC show strength what do you think is going to happen
+35:27
+when bitco and find support and E has already showed significant dominance in
+35:32
+today's market where Bitcoin has rolled over for 67% but yet ether's caught a
+35:39
+bid tells you a lot about the market the current state of the market where
+35:44
+capital is rotating into eth okay and the strength on E BTC you don't want to fade this this is not the time to fade
+35:50
+it after one and a half years you're now thinking [ __ ] e BTC is bearish that's the wrong mindset this is opportunity or
+35:57
+you want to be identifying probable opportunity in the chart that's all there is that's literally all there is
+36:03
+to it I I could keep going on and on and on about e BTC but that's literally all there is to it and then when you look at
+36:08
+Bitcoin dominance right what's this telling you is it any
+36:13
+surprise that if BTC is moving up and Bitcoin dominance is moving
+36:19
+down okay so I really like the opportunity that we had have ahead of us on altcoins
+36:27
+and such that if Bitcoin does give you that rapid expansion to the downside now a fast cascading move into
+36:32
+8283 I think you will see some significant red days and alts maybe 10
+36:38
+20% moves down on altcoins but I do sense that they will be bought up very
+36:44
+very quickly they'll consolidate at the lows for two three days and then they will Spring higher as will as far as
+36:51
+long as ebtc continues to show that strength and you want to be observant of
+36:57
+what Bitcoin dominance is doing as well okay so just the two charts that I would
+37:03
+look at for understanding the contextual environment of altcoins is eth BTC we
+37:09
+know that when eth BTC performs to the upside that's generally a positive
+37:14
+environment for allcoins to perform to the upside as well and Bitcoin often remains range bound doesn't really do a
+37:20
+great deal so you've got to go for where the opportunity is where the volatility is where you're going to see those
+37:26
+higher beta players and that's alt coins right now okay for me so that's another point now let's
+37:32
+move on to Total two in fact let's look at total do not be surprised again very
+37:39
+confluent with Bitcoin total market cap has made new all-time highs do not be surprised if Bitcoin trades into that
+37:46
+83k level okay this is again you can't trade these charts but what these charts serve right I don't give a flying [ __ ]
+37:52
+what anybody else says I've been trading these markets for 7 years I know what works well for me I've nailed alt
+37:59
+markets every season every time I've played alt I've done very very well I've done well performed exceptionally well
+38:05
+to the upside and exceptionally well to the downside so I don't really care what other people have to say all I'm
+38:11
+concerned about is do I have a system which tells me when to be aggressive when to be defensive yes has that system
+38:17
+served my purpose over the years yes I don't need to be looking over my shoulder or looking over other people's
+38:23
+shoulder to see what their opinions are the chart tells me everything I need to know now and when you come to a point in
+38:30
+your trading career where you can make your own informed decisions that's when you're in full control of your own
+38:36
+actions you're accountable for your own actions you don't need to be looking at other people to find to figure out what
+38:41
+they're talking about you all you're only going to improve right honestly trust me on this you're only going to improve the day you switch off Twitter
+38:48
+you put your head down look at the screens look at the charts follow your own plans follow your own actions
+38:53
+understand your own validation points understand why you're looking to get into a trade that's when you're going to start seeing a real shift and
+38:59
+development of yourself as a Trader and you have to go through that process if you're currently in the market looking
+39:05
+for calls or signals from other people you're not going to make it it's as simple as that until you get that wakeup
+39:10
+call that reality check then fine and I'm not talking about buying a mem coin and hitting 200x that is not trading
+39:17
+that's just pure luck being in the right place at the right time and you've managed to throw $5,000 into a shitcoin
+39:24
+and in three weeks time it's probably worth a million dollars okay try doing that 100 times and see how far you get
+39:29
+the reality is it's not going to happen it's not a repeatable actionable event
+39:35
+that you can do for the next 10,000 trades okay so that's rant over but that's my point be self-sufficient
+39:43
+self-sufficient and be accountable for your own actions and the only way you're going to do that is understand uh price
+39:49
+action the charts what you're looking for what you're anticipating be realistic and secondly your mindset when
+39:55
+price comes to that level are you now going to have fear because you think price is going to break another 10 20 30% lower down okay or are you going to
+40:02
+start chasing tops where I saw last week people started to Long 97 98
+40:09
+99 okay ludicrous craziness to short long these levels up here when this was
+40:15
+looking fairly exhaustive okay so again looking at a total um if Bitcoin is to
+40:23
+pull into that 82 83 84k level you want to see this trade into this level maybe
+40:28
+it goes under and and flips back above maybe it doesn't maybe it just holds a support but again you're looking for
+40:34
+factors of Confluence you want to see price pushing away from this level whether it trades below it and then gets
+40:39
+back above or whether it trades into it and pushes away you want to chase that momentum back to the
+40:47
+upside so that's why it's a fact a factor of Confluence and then when you
+40:53
+look at total two again I'm looking for something very similar I already have this mapped out I
+40:59
+I shared this on the chart this is an Sr Zone okay let's just clear the chart clear
+41:05
+the shot whichever way you look at it where was the origin of this move down
+41:11
+it was here when price traded back into this
+41:16
+Zone what did what did price do sell off this is a massive inflection point
+41:24
+the fact that for the first time since this bull market we are now trading
+41:30
+considerably above that level the fact is that you should now if
+41:36
+you look at this this is a supply Zone price sold off retest of Supply sold off
+41:42
+aggressively retest of Supply sold off aggressively so this zone now is that
+41:48
+such that if Bitcoin and altcoins and ethereum do give a pullback this is the zone or the pocket
+41:55
+that you want to see acting as support support starts pushing away whether you want to buy this or it starts pushing
+42:00
+away you are now essentially trading the upper bound of this
+42:09
+range so look at the bigger look at the high time frame context ahead of
+42:14
+you secondly what's the trend scan say on the weekly we've just literally flipped
+42:21
+bullish the bands are training at 1.07 and 1.01 trillion if
+42:27
+this consolidates into here and these bands pushes up here you've got to buy that until it
+42:35
+fails go with the trends to the upside okay the trend the momentum is to the upside we've just had a corrective move
+42:42
+for seven months this is the expansion pullback continuation higher into these
+42:48
+highs look at what salana did
+42:56
+okay weekly pulls into the bands expansion shallow pullback continuation
+43:18
+higher now let's look at total three so the point I'm trying to make is that
+43:23
+contextually there are so many good setups out there so many very very very good
+43:29
+setups so again looking at this this is total three very similar to to what I showed on total and to well total two
+43:37
+there's your mid of this range here okay Supply Zone Supply Zone probably pull it down a bit there
+43:44
+we go okay we've just traded into that mid so any corrections now into month
+43:50
+end and early December with the let's just assume the December monthly opening is around here next week whilst prices
+43:56
+down down here that's a beautiful Pivot Point with the stop at the low first Target second Target in terms of high
+44:03
+time frame context again you can't trade total two total three but it it should
+44:10
+serve as the foundations of what the market is telling
+44:18
+you okay and then we've got others which I believe is fairly similar into that
+44:23
+Supply Zone but I suspect this will eventually CR Kaya we've seen a flow of capital into
+44:30
+cardano into xlm into xrp that Capital will rotate out of
+44:37
+there and come into midcaps and eventually low caps at some
+44:45
+point my stock RSI settings are standard there there's nothing different about what I
+44:50
+use rather than I've just ch change the color scheme
+44:59
+but again look at the monthly the monthly starting to point to the upside that looks fine you
+45:06
+know I I I really do like how this is shaping up so yeah overall look I I I
+45:12
+think opportunity is what I'm calling for continued opportunity we're just going to quickly cycle through some
+45:17
+altcoins now but I will start sharing trade setups again on Sunday stream when we have the monthly open um I think
+45:24
+that's really going to be a nice pivotal point but I'm just going to wh through look it's been a very very good week for me uh I think I've shared so many setups
+45:31
+on the timeline which have played out phenomenally well um we'll start off on tier a lot of
+45:38
+people are asking me EXO are you still in tier why is it not moving should I cut my position some of you just need to
+45:44
+learn patience and understand what bottom instructors look like and why they can take time and why I've always
+45:51
+said that you want to be buying the tail side of accumulation you don't want to be buying this [ __ ] here and then sit on
+45:56
+it for 6 months right this is where I want to do my I've been I've been talking about buying TI
+46:01
+here all the way through from uh September October November and then finally we get the pop out okay I do
+46:07
+believe that this will inevitably give a pullback will shift into a trend that's my target $12 take profit it might pull
+46:16
+back if it flips above back back above the $12 level guess what you now you've got this this entire Zone to trade so
+46:22
+I'm not just going to bag hole this all the way up and watch it come all the way back down I'll probably take
+46:28
+profit I've already taken 10% here just to pay myself something okay just to do
+46:34
+risk a slight amount but inevitably I'm looking to start playing futures of PS
+46:39
+over the next week or so because we've just broken out of the high time frame range any pullbacks into here I'll be
+46:47
+looking for leverage lungs up into $12 low leverage lungs okay uh if you look at Dime it's another
+46:53
+one that I've talked so many times look at that sideways you've had ample opportunity to
+47:00
+buy the lows every single time from this point ignore this that defined the lows
+47:06
+but you've had one two three opportunities to buy the lows and
+47:12
+literally trade the move up for 100% and this isn't this is not even finished
+47:18
+this in my opinion will comfortably get to
+47:23
+$360 and if you do get a sh pull back and look how strong altcoins are just look at this if you look at what Bitcoin
+47:29
+has done but get altcoins are holding up very very well look at e BTC
+47:36
+again is that something that you want to fade on a daily candle e BTC is breaking down e BTC is trading
+47:43
+quite okay let's look at e usct remember the um the chart that I
+47:50
+shared on on on on the timeline that where I'm looking for a pullback on ethereum and where it should trade next
+47:56
+next well we just smashed into our Target there long I close my hedges longed off 3100 straight into 35 I I'm
+48:04
+not looking to take profit on this if I do get a pullback fine as long
+48:11
+as I'm my stop is below here I'm looking for these highs up at
+48:22
+4,000 so whichever way you look at it
+48:28
+I shared my plans ahead of time um on the stream on the timeline and it's been a very very good
+48:34
+week very good
+48:43
+week there you go this was the uh the tweet that I shared on the 15th of
+48:52
+December basically I said I don't mind price wicking into 20 but ideally I want
+48:58
+to see 293,000 hold flip the mid into the highs there okay and that's essentially what we got
+49:06
+there's there's the lows there there's a level that was a swing from over here at 3,400 straight into 3,500 just below 36
+49:15
+just below 36 why we'll look left Supply Zone that's where price sold
+49:21
+off pullback aggressive sell off okay so we're into that Supply zone now so if if
+49:26
+there are any pullbacks it's because Bitcoin is trading lower down it's going to drag the market slightly lower but
+49:32
+what you're looking for and please pay attention to this strengthen altcoins okay Bitcoin can trade 83,000 it's just
+49:39
+dropped from let's just assume it goes to 83 right and it's traded 999,000 it's
+49:45
+just dropped $166,000 to 83,000 and all eth all eth
+49:51
+can do is just pull back into 3200 or maybe 3,000
+49:57
+that's strength in the market on altcoins especially eth which you should see continuation higher and if we do we
+50:04
+should get that compression and then pop into expansion into the highs okay that's what I'd be looking
+50:11
+for is that
+50:23
+clear all right well let's move on to some other alt coins say
+50:29
+no surprises it's I don't know what to say to you guys it's you
+50:35
+know I'm not going to sound like a broken record but it is what it is okay you've got to recognize that we've been
+50:41
+in a downtrend we're we're at the cycle lows here this was buying opportunity this was the higher low you've got to
+50:47
+buy these pullbacks it's Trend continuation high if you're asking me now EXO where can I get on and say I
+50:52
+don't know what to tell you the fact is you know I was vocally adamantly clear
+51:00
+that I'm buying say at these levels I've said it on stream all the way far back at September I've said it numerous times
+51:07
+on the timeline I'm looking for Price action to trade significantly higher I'm bullish on the market I'm bullish on
+51:13
+altcoins this is opportunity in the market okay this is not opportunity this
+51:18
+is where people get euphoric this is where people are fearing or alts are never going to run again you saw it in
+51:23
+the timeline July August altcoins are cooked they're not going to run again
+51:29
+bitcoin's going to take off but altcoins are going to perform it's the same [ __ ] every cycle same [ __ ] happened in November 2020 when I said it's going to
+51:35
+be another alt season and it was a month later all I saw was was comments no alts aren't going to roam they're not going
+51:41
+to perform very well Bitcoin is just going to tear away you know tear away well well what's happening now in the
+51:47
+market Bitcoin is going through a range of consolidation a correction and altcoins are showing strength in the
+51:53
+market any pullbacks are very very shortlived okay we've got that correction moved down at 700 p.m. UTC
+52:00
+into 59 cents and already it's
+52:07
+bouncing so I do suspect this will continue pushing higher I think Tia pushes higher um let's go over some of
+52:14
+the the charts that I shared last week desync hit the target is pulling back
+52:24
+okay it's right to 37 cents yep you're going to get a correction and
+52:30
+inevitably whether that's a high or low into this zone I'm looking for continuation into a trend we've been
+52:36
+range bound since May seven months May June July August September October
+52:43
+November 7 eight months of range bound price action in in a base building environment and and you think this is
+52:49
+just going to trade a range I'm looking for this to trade a trend into 64 cents using a range projection uh I talked
+52:56
+about Tai that's that's another one that I gave at down here I said uh to look for
+53:03
+the pullback 12 13 cents right you could have got in and where's it gone straight to 31
+53:11
+cents within 1 2 3 4 5 days six days um another one was vanry which was
+53:18
+at the cycle LS brilliant buying opportunity it's it's one that I like I said I invested
+53:24
+in 2020 I was in the pr sale when it used to be Terra virtu it it went from 4 cents to $120 obviously I took profit
+53:32
+and you know it's a project that I will continue to back every time it comes towards these buying opportunities just
+53:39
+because I'm I I I'm a backer of vanry doesn't mean that hey guess what guys when vanry goes all the way up here I'm
+53:44
+going to hold it and watch it come all the way back down if you think I'm going to do that and you think if that's how
+53:50
+the game is then I'm going to tell you no that's wrong that's [ __ ] of course I'm going to take profit but that doesn't stop me from
+53:56
+from from looking for opportunities to long this okay which again I covered on
+54:02
+last week's stream that look for pullbacks into the 87 cents looking for price to continue higher at least into
+54:09
+24 over the next several weeks that's what I'm looking
+54:15
+for um anyone is another
+54:21
+one literally shared it down here at $1 and it's at 160 that's the 60% gain
+54:27
+and I still feel as though this again look how I've identified look at the type of Trades I'm going for I'm not
+54:34
+talking about popart or Simon I'm talking about these price structures that have been range Bound for many many
+54:41
+months that you inevitably if the fundamentals are good enough right and it's why I've put my money into these
+54:48
+plays my own money because I'm backing one the fundamentals in a bull market to
+54:53
+push price higher okay you can have EXP exposure to these utility plays when
+54:58
+ethereum starts catching a bit these are going to catch a bit okay if you look at GTO um another
+55:04
+one that I'm in that I shared that's now hit 2/3 of the range we've been in since
+55:10
+the lower bounds over here literally where I've been sharing the setup
+55:15
+pushing away now this the objective here we pull back into the mid it might get below it back above monthly open
+55:22
+straight into $5 that's what I'd be looking for all this to get filled then we'll see what
+55:28
+happens
+55:33
+Jupiter slightly slower but inevitably I do believe it will get there you know
+55:39
+you've got to have patience in some of these playes there's your mid level give or
+55:46
+take into a corrective higher low you don't really don't want to see it break
+55:52
+structure uh higher low higher high in in comparison to this Wing higher low
+55:58
+higher high another higher low as long as this is respected that's an opportunity to go along into another
+56:04
+higher high pal I mean despite the [ __ ] show
+56:12
+that they that they went through this this really needs to get above 20 cents I feel as though this was a horrific
+56:19
+[ __ ] up by the team it was an awful um P [ __ ] up if I'm really honest but
+56:27
+look you know I haven't sold any I'm still holding I want to see AI kicking
+56:33
+and once it does I think pile can go above 20 cents trade back into this range here that's where I'd be looking
+56:39
+for a December so just because you know this happened doesn't mean that the
+56:44
+project is flat on its hor the team's made an announcement they're doing BuyBacks so you know I'm glad they've
+56:51
+kind of put that in the past now with with with with with the uh awful community Comm unication and hopefully
+56:57
+we we will see strength now along with the AI narrative on on pal so talking
+57:02
+about AI coins we can look at to to's another one okay so just kind of
+57:07
+going sideways and a range again I think this is a corrective pattern it's been
+57:12
+in this range for the best part of September October November so nearly uh two
+57:20
+months I think inevitably when this is
+57:25
+ready I'm looking for prices to continue trading
+57:30
+higher uh let's look at fetch fetch is another one so you can see these uh AI coins are not quite
+57:37
+ready they are still range bounds okay but inevitably you want to see price
+57:43
+fetch you want to see trading into 260s it needs to get above 180 to open the floodgates to go to 240 250 but this is
+57:51
+just corrective you know they'll have their run I'm sure they will
+58:00
+E usct I I I think goes to 4,000 I like I said there's my chart on E I'm looking
+58:06
+for price to trade back into here and then we can talk about alltime
+58:17
+highs I do want to suggest one thing that you guys should start
+58:22
+doing we have been looking at the e or alt us pairs any ideas what suggestion
+58:29
+I'm going to make next to gauge Market strength on an altcoin I've talked about this so many
+58:34
+times on stream and on the timeline and I think it's just such a simple little trick that people forget and I I don't
+58:42
+see many people talking about it on the timeline yet again but if you really want to identify strength and ALT coins
+58:49
+what do you think that might be
+58:56
+correct well done well done
+59:02
+belint alt btz paers yep well done Ken you really want to look look let me show
+59:08
+you something right we talked about t okay I've talked
+59:13
+about how I've been positioning into this I'm looking for price to trade higher I've built my spot position I've been sat in here for many many weeks
+59:20
+four five weeks it's just made almost 100% move from my entry One Trade four weeks and people
+59:29
+lack patience but the key to this look at what the uh tier BTC chart
+59:36
+was telling you bottom here started to reclaim above
+59:42
+and what happens when we got the reclaim pushed up higher okay short live deviation this was the
+59:49
+SR level over here there you go
+59:57
+pushes above the minute look at that the minute it pushes above 1 2 3 4 shakes
+1:00:02
+people out on a few uh several days ago and then it pops higher now if you look
+1:00:08
+at the tier usdt chart it would it would have been this
+1:00:14
+move here yet this is a higher low and then it takes off so notice how how some
+1:00:20
+real strength can kick into the market but notice how you can use the confidence of all BTC pairs
+1:00:27
+um even if you look at something like dying BTC
+1:00:33
+again it printed a lower low below here it was very very short lived two days
+1:00:41
+two days right that one two days 3 days
+1:00:46
+that in itself the minute you see this probable reclaim is a reason to go along so look for these structures and ALT
+1:00:52
+coins seriously you'll you'll find a lot of success with
+1:01:02
+these NL all right I mean this is one I invested in so disclaimer but yeah I
+1:01:08
+mean not great you know it's Fallen all the way from 283 down to 12 cent so I'm
+1:01:15
+not going to say much more than this other than that I am an investor um I invested in the Ico round or private
+1:01:22
+sale round my tokens are still locked investing and they probably will be locked out I'm not sure for how long but
+1:01:28
+I guess at least one of the few few months maybe five six months so you know it is what it is that's the people think
+1:01:35
+that getting into private seals is easy money it's not you look at this [ __ ] and
+1:01:41
+yet my tokens are still locked so I could still potentially miss if price goes higher I could still miss this
+1:01:47
+upside and I'm still kind sell my tokens because I don't have them they locked in the vesting
+1:01:53
+schedule uh tensor tensor is another one that look great I agree yeah it looks good honestly I I
+1:02:00
+really do think tenser has every possibility or feeling in this up to
+1:02:08
+here if things get silly it they will get very very silly right um I'm going
+1:02:14
+to spend five more minutes on the stream can't believe an hour and 10 is already pass
+1:02:20
+by um I want to talk about one aspect and I think this is a nice seg way into
+1:02:26
+Sunday stream about distribution taking profits I want you guys to be realistic
+1:02:33
+okay I don't know what's going to happen but what I can tell you
+1:02:39
+is look back at any altcoin chart okay look back at altcoins in February March
+1:02:46
+in
+1:02:52
+2021 you have the stealth phase you have thew wance phase you have the Mania phase you have the blow
+1:02:59
+phase my first question to you is guys I just really want you to pay
+1:03:04
+attention this because this I feel the next four to six weeks is either going to make you or break
+1:03:10
+you right and my question to you guys is of these four
+1:03:18
+phases which looks to be the shortest in a bull market
+1:03:47
+all right look in my point in my opinion I feel as though we're here media attention people are talking about
+1:03:52
+Bitcoin there's enthusiasm in the market now right would you agree I'm not talking about Bitcoin I'm
+1:03:57
+talking about altcoins here not Bitcoin um would you agree that there's media retention there's enthusiasm the public
+1:04:04
+is starting to get evolved you seen people talk about memes on Tik toks Tik Tok memes coming into crypto right so
+1:04:12
+look the point I'm trying to make is that this is the most aggressive fastive
+1:04:17
+uh fastest expansion phase in the market and it generally is for like four to 6
+1:04:24
+weeks where you get the me 80% of the move is likely to happen in 4 to 6 weeks
+1:04:30
+on on a given altcoin if you look
+1:04:37
+at
+1:04:43
+tier starting from here one two three four five pullback six seven
+1:04:50
+weeks and then multiple weeks of selling
+1:04:59
+you see that yeah you look at
+1:05:05
+op consolidation one this was back in
+1:05:10
+uh December January one two
+1:05:15
+three four weeks right why four weeks why why am I not
+1:05:22
+including these here why am I only including the four just just from one 2
+1:05:27
+3 4 because if you look at the peak the peak was here and then it did nothing
+1:05:33
+for one 2 3 4 five 6 7 8 nine weeks back
+1:05:38
+to the range highs is it fair to call this or fair to assume this is an up thrust after distribution yes because
+1:05:47
+it's shortlived gets back inside and it bleeds so what can you what's what's the takeaway from all of this look at the
+1:05:52
+previous uh cycle one okay this this is the base breaks out the base 1 2 3 4
+1:06:00
+weeks has it done anything since thereafter for the next several weeks no
+1:06:05
+it hasn't so the point is those aggressive
+1:06:12
+moves that I just covered in the Mania phase happens fast happens relentlessly
+1:06:18
+quick and it doesn't waste any time and I'll give you another example I know this for a fact look at pal
+1:06:26
+one two let me just start
+1:06:32
+again there's the Bas one two 3 four weeks aggressive price
+1:06:38
+action price went from 11 cents to nearly 90 cents in four
+1:06:44
+weeks and then weeks and weeks and weeks and weeks and weeks of
+1:06:50
+bleeding so the reality is and you can go back to December 2017 January 2018 go
+1:06:58
+back and look at altcoins look at Neo for example right for those of you who traded Neo back then
+1:07:06
+um it's the same [ __ ] every time it's the same [ __ ] every
+1:07:14
+time I traded this from I think $11 to 180 and I sold I literally sold 180 and
+1:07:21
+and back then I I I really wasn't clued up about ta I just thought yeah this is up a lot I'm just going to take some
+1:07:27
+profit on this pure luck I did not know it was going to be the top of the market but again when you look at
+1:07:33
+this this is your base for seven months right this is August 2017 this is November the 27th breaks
+1:07:42
+out in December right there's the first break out of the range first week of
+1:07:48
+December one 2 3 4 five
+1:07:54
+weeks the top was in that sixth week and then you get
+1:07:59
+the slow bleed down again hence why I keep iterating the point that I don't know what's going to happen
+1:08:06
+but if we get explosive moves in December into January over four to six
+1:08:11
+weeks just remain cognizant of the inefficient moves to
+1:08:16
+the upside and how often they get retraced to the downside okay manage your risk know when to cash out if you
+1:08:23
+can do that you will not be one of those people is going to hold it all the way back down again go back do the charts
+1:08:29
+that's your homework you'll figure it out but understand when you start seeing these types of mania phases and I feel
+1:08:35
+as though like many altcoins are literally here still in
+1:08:40
+this Zone about to break out some are starting to push up okay but that's kind of where I feel where we
+1:08:46
+are if you look at this this was the cycle in 2021 again I I just feel on
+1:08:52
+some of the utility coins we're kind of in this Zone here now pushing away and we're gonna get Silly Season hopefully
+1:08:59
+we get Silly Season I'm not saying we will do because I shouldn't be speaking in absolutes uncertainties but this is
+1:09:04
+the opportunity ahead of you don't be afraid of opportunity um cuz you don't look back
+1:09:11
+in four five weeks and start buying these highs because you know what it's too late you should have been buying
+1:09:16
+these lows and positioning into alt coins then okay um let's look at Shido cardano
+1:09:24
+because that's interesting one um what's this P of crap doing was did any any of you guys ever
+1:09:32
+watch my streams when I short this about nearly $3 and I was being told it's going to go to 10 I don't know if
+1:09:38
+anybody was watching my streams in in in the summer of 2021 um that was a
+1:09:43
+beautiful sh all the way back it was such an easy short it really was I shouldn't I shouldn't laugh but it
+1:09:49
+really was it was just um it just too much of Ane efficient I mean come on let just be realistic look at this [ __ ]
+1:09:56
+right when you see this type of stuff on the charts all this is thinner all this is
+1:10:03
+thinner Look At That Swing fail get us back inside you can just whack us up
+1:10:08
+there short this first Target is filling all this inefficiency at least down into
+1:10:13
+this level here doesn't matter about the time
+1:10:19
+frame price is fractal whichever way you look at it
+1:10:26
+it's just painful to hold because it is a slow bleed down it takes multiple weeks but eventually it gets there so
+1:10:33
+what is like a couple of weeks on the way up it takes forever in a day to just get all the way back down again you
+1:10:38
+you'll see this again in next year once once this Al alt cycle or alt season plays out and it's over you're going to
+1:10:45
+see the same [ __ ] happen over and over and over again okay so my my next stream
+1:10:51
+will be talking about how I identify ways to exit markets uh looking for
+1:10:56
+pattern of distribution and I think it's it's quite good to do because I want you guys to be equipped or tooled or have
+1:11:03
+the knowledge or the insights to recognize risk downside risk when to capitalize on profit when to get out the
+1:11:09
+market and and you'll be one of the few people actually does well um having captured the upside capturing the upside
+1:11:16
+and having unrealized profits doesn't mean anything you then have to convert those unrealized profits into realized
+1:11:21
+profits and avoid this type of significant draw down all right so I'm going to leave you out that folks I think that's good enough for today uh
+1:11:28
+just a reminder on Sunday's stream we'll be covering altcoin trade setups in
+1:11:33
+further detail um I just feel as though altcoins are in a position
+1:11:39
+where I just want to see slightly more of a pullback if there is going to be a pullback that I'd want to share with you the last thing I want to do is start
+1:11:45
+sharing altcoin trade setups that are that are into resistance or tops and then price pulls back 20 30% you're like
+1:11:52
+hey EXO you should the top you [ __ ] [ __ ] so I want to give you the higher
+1:11:57
+probability plays maybe we get something set up very early in December with the December monthly open maybe Bitcoin
+1:12:03
+trades into 83k perhaps then I probably will feel comfortable sharing uh altcoin
+1:12:09
+trade setups so we'll look at patterns of distribution how to exit Market looking for top signals some of the strategies that I use and then how to
+1:12:15
+switch context from longs to shorts outright shorts okay apart from that have a great uh week ahead uh stay
+1:12:21
+blessed in your trading just be cognizant of any downside on bitco Co but again like I said with that will
+1:12:27
+that should present buying opportunities in the chart uh and identify which which which markets you want to trade on
+1:12:33
+essentially let's just hope fingers crossed that ethereum continues showing strength all right so that's it for me
+1:12:39
+God bless I'll catch you on Sunday Sunday evening stream where we will uh talk about
+1:12:44
+December the monthly open trade setups and all of the other topics that I've just listed here God bless take care
+1:12:50
+peace out for

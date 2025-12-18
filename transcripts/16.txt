@@ -1,0 +1,1985 @@
+All right, we should be live. Everybody, if you can just give me a quick confirmation in the chat that you can
+0:09
+hear my voice and that you can see my screen.
+0:14
+It's the 15th of October. The time is well 15th of October 2020
+0:22
+45.
+0:28
+Yeah. bit rusty. Haven't streamed on the public stream in quite some time. I think the last stream was what, back in
+0:34
+August or September? August. I think the time is just after um
+0:40
+8:00 p.m. in the UK. 7:00 p.m. UTC. Apologies in advance if uh I have some
+0:46
+um intermittent internet issues. I probably would have been better off
+0:52
+connecting to the internet using my mother's dialup 56k broadband as opposed to the current bag of [ __ ] that I have.
+0:58
+So, um, if this fails, then I'll probably migrate to Afghanistan and
+1:03
+probably use the Taliban's Wi-Fi for future streams. But anyway, let's kick
+1:08
+off. So, in today's session, um, primarily going to be talking about
+1:15
+Bitcoin. And as always, anything said in today's stream is not financial advice.
+1:21
+It's just my view of the markets. Secondly, this stream is sponsored by nobody, but thanks to Cyber Spartan, who
+1:29
+will be coming on as a guest to talk about trading in the trenches, something that I'm not familiar with. I prefer to
+1:34
+lose my money using leverage. Thankfully, I didn't blow out on Friday.
+1:39
+So, um I think also one last thing, obviously Cyber's going to be covering the people app, which we'll start off
+1:46
+with first. spend about 15 20 minutes on for those of you who want to learn more about trading the trenches in a slightly
+1:52
+more systematic not systematic way but a a slightly better process as opposed to chasing any dog [ __ ] coin out there. So,
+1:59
+it's um should be good fun and then we'll we'll talk about the serious stuff on uh how you can follow me and lose
+2:05
+some money trading Bitcoin. Um but we'll go over some of the uh the the the charts, my thoughts about the market,
+2:11
+and some of the areas that I'm looking to trade. Okay. Overall, looking at the
+2:16
+market cap, you can see it's down today, 1.3%. It was hovering at that four
+2:24
+x amount, but it's pretty much dropped off. Same trading volume, not being great. Bitcoin trading at 111s, the
+2:30
+highs of 125s, you know, from a week or two ago. Not ideal. Ethereum just hovering at that 3,900 level. We'll talk
+2:38
+about Ethereum in today's stream as well. But before we do that, uh, let me
+2:43
+find my bearings. Get rid of this screen here. Let me bring the other screen that I was
+2:50
+supposed to bring up. Just bear with me.
+2:56
+And with us is today's guest, Cyber. Are you there, brother? I'm here. Thanks for having me.
+3:02
+Awesome. Can you guys hear Cyber? Okay. Cyber Spartan, I should say, but I just
+3:08
+call him Cyber. Yeah, you can just call me Cyber. Waiting for a confirmation if people can
+3:14
+hear me. Yeah, I'll just uh waiting for the chat to confirm that you can they can hear your uh your voice. Okay.
+3:24
+I think there's like a 10 seconds delay. Oh yeah, people are saying yes. Yeah, folks. This is his first time
+3:30
+Cyber's ever appearing on a YouTube stream. He's slightly nervous. He's done some star jumps and press ups just to join the stream ahead of talking. So,
+3:37
+he's pumped up. Um, I don't think your coins are pumping very well, Cyber, but it's uh I I guess
+3:43
+I guess as long as you got the pump in your arms and your legs, you you can get rid of those nerves, right? Yeah, it's feeling good.
+3:50
+So, hey guys, I'm Cyber. Uh, hope you guys are having a very nice day. Like I'm do like I'm uh I'm 25
+3:58
+years old. I've been trading in the markets since 2020 in November. That's
+4:04
+when I first started. And uh 6 months after that my bas basically my main
+4:10
+source of income became crypto. I was doing various like projects and finding
+4:16
+coins early to invest in cyber cyber. Cut the crap. Just tell them that you [ __ ] caught Astra at 7 cents. That's
+4:22
+what they want to know. Yeah. Tell tell them about your uh your trade of the quarter or the trade of Q3 so
+4:30
+far. You caught Astro at 7 cents. I saw you talking about it in your timeline. I really didn't pay attention, did I? And
+4:36
+I kind of uh suffered I missed out on the early stages of a of an easy 10, 15, 20x move bit. Now, just
+4:44
+before Cyber continues, please give him a follow. I've really got to know Cyber over the last several weeks. Great guy.
+4:50
+Uh probably one of the best um fundamentalists that I've come across of recent times. You know, it's the whole
+4:57
+low cap shitcoin memecoin space is is oblivious to me. I don't really get involved like I once used to. Like I
+5:04
+said, I'm I'm far more happier losing money on leverage trades. So, I prefer my pain in that shape or way as opposed
+5:10
+to getting rugged, but give him a follow. It's uh he's he's a top guy. Comes out with some great stuff. Does a
+5:16
+bit leverage trading as well. So, he's he's not shy to put his balls on the line and share some good trades. But, um
+5:22
+yeah, Cyber, sorry, Karen. So, tell us a little bit more about about your journey. You've you've been in the space for several years and your ASA trade was
+5:28
+a great pickup, wasn't it? That was a great Yeah, it was. Thank you so much for the kind words, man, and for the shout out.
+5:34
+So, yeah, I've been trading for a long time and as I said, this is my main income at this point. I'm every day
+5:41
+active in the trenches, if you can say that. Always trying to find new opportunities, always trying to make it
+5:47
+in the market. And I'm just basically sharing everything that I find on
+5:52
+Twitter or on just groups that I'm in with just with people that I know. And
+5:58
+that's what I did with Aster. As soon as I found it, it was like screaming by at me because like I knew that CZ was going
+6:06
+to do like a hyperl competition or something like that. And he did launch uh Aster and I was like, "Bro, this this
+6:12
+this goes to like to the moon. It's a no-brainer." So, I just decided to buy it and share it with everyone. And it
+6:20
+turned out great. Yeah. Brilliant. So, I think in today's session, what we're doing is again, this
+6:25
+isn't a sponsored treat stream or paid or anything like that. I think this is um camel's project a good friend of mine
+6:30
+who I chat to and uh you know I see real value in in the tools that they've been
+6:35
+building um and cyber is somebody who uses the tools on a daily basis. I remember uh when we were talking about
+6:43
+um some of the um features and the functionality there's a there was a coin that kept coming up you know like for
+6:50
+about two two three days it was dude wasn't it? Yeah it was we saw it together. Yeah, we
+6:56
+were looking at it. I thought, what's this bag of [ __ ] And uh lo and behold, 3 4 days later, it just it just took off
+7:01
+and it it went up by 150% in a matter of days. Uh and that really caught my attention like hang on a minute this is
+7:06
+actually a really good way of like picking out coins that come to your attention that could potentially run
+7:13
+because you see all you know the whale activity the buying volume increase and it's like all right this is actually
+7:18
+really interesting that the tools are already built for you to kind of like okay keep tracking on on some some of
+7:24
+the uh coins are surfacing. Um, so people app is is is a project. Uh, I
+7:32
+think it's a very interesting project and the main things that we're probably going to cover in the next 20 minutes
+7:37
+very quickly. It's going to be a um if I completely switch the screen somehow
+7:43
+it's going to be a case of um talking about the various features of the project essentially which if I can just
+7:49
+bring up my screen it's going to be a case of there's something called searcher whor lapour portfolio and I
+7:57
+think these are really beneficial having played around with them I the one thing I like about searches so you know from a
+8:02
+security aspect right how often do you see people talking about the fact that they've clicked on the wrong link or the
+8:07
+or the or the wrong URL and uh they've had their coins or wallets strained. So, one of the good things about searcher is
+8:14
+the fact that um when you're looking to browse to a certain
+8:20
+deck or certain wallet or certain URL link, you can be assured that the the
+8:26
+sanitization, let's just call it that, of the of these links are legit. So, you
+8:31
+know, instead of just clicking on some random [ __ ] that's going to destroy your wallets, well, you can come into the app
+8:37
+under searcher and essentially find, you know, the links that you feel safe to
+8:42
+click knowing that these have been vetted and verified and they're good to go. And then obviously you've got Wher.
+8:48
+You can see what big wallets are buying in real time. You can copy trades, counter trades, and that's what I was
+8:54
+talking about earlier where I saw some random coin that I've never heard of called dude and it went from what 30 40
+9:01
+50 million to something in something silly like I think it was 150 200 million market cap
+9:06
+like that. Yeah. Yeah. So that was really interesting. It really made me start observing. All
+9:12
+right, this is really interesting. Maybe I can throw, you know, a couple of dollars at some [ __ ] coins and just do it quietly and lose some money again.
+9:19
+But um and then there's Lapour which again Cyber you can talk about that I'm not too familiar with um the aspects of
+9:26
+liquidity provisioning farming and all that type of stuff and then portfolio and there's a couple of the features
+9:31
+which uh we we'll talk about towards the the back end of the stream. So, if you just want to go ahead and tell us more
+9:37
+about searcher, I think this is really important because like I said, if you're afraid of getting drained or clicking on
+9:43
+some dodgy links, um, then this is probably one place where you can come to verify that you are clicking on the
+9:50
+correct link to a given project or wallet or decks, whatever it is. So, do you want to quickly give us a deep dive
+9:56
+into this? Yeah, that's that's basically the main thing that I'm doing with it because when you are using like
+10:03
+everything cryptoreated, everything can be a scam, bro. Everything can be like a wallet drainer when you collect your
+10:08
+wallet. But if you're using this, you can basically find whatever you want and you can be sure that the link that the
+10:15
+link is safe. And also another another thing you can use it is for basically if
+10:22
+you see like a coin going off and you're trying to trade meme coins on it or
+10:27
+something like that like the recent XPL. Uh I think I think the first point to start
+10:33
+is how how does one find the actual application? Um that's going to be a good starting point and then show I think obviously you have
+10:39
+to connect with your wallet right that's yeah you you first have to connect your wallet. Yeah, you also need a referral code for this.
+10:46
+Otherwise, it's not going to work. So, yeah, you connect your wallet, you put on the referral code, and this is what you are greeted with. And then you've
+10:52
+got everything here. You've got the ecosystems, the project, and the jobs and grants. If you are in crypto and you're looking for jobs and grants,
+11:00
+click on the tabs if you just want to click ecosystems. Um, yep. So, there's your ecosystem in various projects.
+11:05
+Yep. Um, yeah. If even if you just go back to projects and you click on unis swap is that the link to the uh unis swap
+11:12
+project or is that the link to their um yeah so you can see you can even go to the app from here uh there is that
+11:18
+option u so you've got this you've got the correct link that you know that you you definitely are clicking on the right
+11:23
+place at the right time and you're safe to connect your wallet and everything. Yeah. Okay. Uh if you just step back out
+11:30
+I think another another aspect of this obviously is a jobs board. If you're looking for jobs in crypto web 3, then
+11:36
+you know where to come. If you're looking at what grants are available, whether whether you're a builder or you're looking to build projects, uh
+11:42
+that's also interesting as well. So, it's just really a great utility. I I
+11:48
+feel that, you know, if you are looking for certain things within this space, like I said, I'm not paid to say any of
+11:53
+this, but I just think it's really valuable for, you know, people out there to find a safe place where they can browse from.
+11:59
+Yep. Exactly. And it's very like beginner friendly, so you can you have everything in one place.
+12:05
+Yeah, absolutely. What's on the job board? Let's have a quick look just in case I uh decide I need to uh quit
+12:11
+trading. You got various jobs in various
+12:18
+projects. Yeah, sure. Awesome. Sounds good. All right. Should we uh skip on to Wher?
+12:24
+That's the next one. Uh let me just put on full screen. All
+12:30
+right. Uh this is the example that I already showed you.
+12:36
+So this is Wher. This is basically my main uh thing that I'm using in people
+12:42
+and this is basically a tool that gives you the market sentiment of uh traders
+12:48
+on the Solana ecosystem. like you can watch every memecoin and every like what
+12:54
+what every whale is doing on on the chain and uh to this is very good because you
+13:03
+can find opportunities like this like the same way we did with dude like you already talked about this like we were
+13:09
+doing a meeting with EXO and we were just watching that dude was go we're getting bought a lot and then it did
+13:17
+like a very big green candle like you can see the shift in money by doing
+13:22
+this. And this is some couple of examples that I've uh just go full screen or F11 just to zoom.
+13:29
+Uh yep. Yep. Sorry. Yeah. Yeah. So basically this is the example
+13:35
+you can predict price action of coins. So this is uh the telegram summary of
+13:42
+whaler uh where it summarizes every hour what has happened. So here if you see like
+13:48
+lots of people are interested in one coin and this this was basically where the summary was sent and this means that
+13:55
+these guys are buying it for a reason. So you have to go into the chart and look what's happening like try to
+14:01
+understand why they are buying and here as you can see you guys are traders so maybe you'll understand that this had a
+14:07
+like bullish movement and like the chart was looking good and
+14:12
+you've got the convictions that well are buying it and this is the result like you've got the big green candle
+14:17
+and then you've got sustained oil accumulation as well more than three buys. So the key thing to note here is
+14:22
+that when you're using the telegram bot is is you're just looking for pattern recognition like which projects or which
+14:29
+coin do you see consistently popping up out of nowhere with with buy by by and
+14:36
+then as a result you can see what happened I think what so that was on the fourth when initial signal came in when you and I jumped on a call and then on
+14:42
+the 7th you can see it's gone from 57 million market cap to up to 140 150 and that's
+14:48
+when it started really appearing on coin gecko. So, you know, it that's what caught my attention initially. I was
+14:54
+like, "Holy [ __ ] okay, this is actually really interesting." Um, and it's probably worth playing around with or just observing to see what else
+15:02
+surfaces. So, it's not something that you can just jump into straight away. I think with a bit of practice, with a bit
+15:07
+of screen time, with a bit of tracking on the Telegram, observe just, you know, which calls or what are the number of
+15:13
+calls that work out versus I wouldn't even call them calls, but in terms of where buys and then how long does it take for an actual coin or set of coins
+15:21
+to move. So maybe you can track that on a spreadsheet. That's how I how I would do it. Here's a list of coins that have
+15:26
+surfaced on the app or the Telegram. Yeah. Uh here's the number of whale buyers on this date. This is what happened on this date. This is what this
+15:33
+is what happened on the nth day. Yeah, at the time it probably went it went far significantly higher. So just just kind
+15:39
+of um yeah, I basically call it like a sentiment monitor because you can see what the
+15:45
+trader sentiment is. And I've got another example here that it can even predict whenever a
+15:50
+correction is coming like longterm because as you can see here in the screenshot, lots of people were buying
+15:55
+USDT like it was screaming that everyone is buying USDT and this is what's shown over here. And if you had also done the
+16:04
+same as these guys, you would have been in profit or if you you or if you shorted Ethereum here in this case or
+16:10
+just followed the sentiment, you would have been good. Yeah, that that's an interesting one.
+16:16
+Basically, you know, when you see USDT being purchased um consistently, it's
+16:24
+not speaking in absolutes, but there's a fairly decent chance that there's there's a good chance of a local top
+16:30
+being in across a given project or various projects. So if you see whales are now swapping back into USDT, that's
+16:37
+potentially a sign that well big money is going back into stable coins again and maybe the d-risking and as a result
+16:44
+of that it's it's like you're tracking flows to to observe okay maybe I need to take profit or maybe I just want to
+16:51
+scale some off or maybe I need to just watch out for some downside risk in the market. And you can see that happened right at the top on this given project
+16:58
+which was what project was that? That was Ethereum, wasn't it? That this is Ethereum. Yeah, top of Ethereum and those cells came in
+17:04
+essentially. So that that's also interesting. To wrap it up, I was just going to say this is what the main app is look is
+17:11
+looking like and the examples I gave are with the summaries and this is what the summary is like. So this is uh the the
+17:20
+wher summary and this is all actually uh a new coin pinger. So whenever a new
+17:26
+coin appears in the platform over here, it gets pinged over here. So, if you're into new new launches and stuff like
+17:33
+that, this is kind of gambling, but this is your place if you want to test it out. So, yeah, this is the link to to
+17:41
+join the channel or you can join I was going to say you can join via the Discord as well, I guess. I guess so. If anybody's
+17:47
+interested in joining a free trading group, if that's what you want to call it, um I've left the uh description the
+17:53
+link in the description to join the um the uh trading group. There are some fairly um cool guys in there, you know,
+18:00
+who who are who have been around for quite some time trading. So, it's probably, you know, sometimes it helps
+18:06
+being part of a part of a group or part of a community where you're all kind of collabing and scanning, searching for
+18:12
+plays or setups. Uh but you can certainly find the links in the uh Discord group as well.
+18:17
+Yep. It's very good. There's lots of good traders in there. Yep.
+18:23
+Okay. So, and what was that dashboard that you showed us? Can you just go over that? Um the the real time dashboard
+18:29
+this one. So that this is wher isn't it? Yeah. Yeah. This this is initially the the
+18:35
+normal form of wher if you can call that. This basically shows you the the buys and sales in real time. And if you
+18:41
+hover over it you can pause the updates. Yep. Yep. And you you've got the swapper here
+18:46
+which is uh zero slippage. So if you want to copy trade and counter trade them you can just do it over here. I
+18:53
+think that's one of the key features that you said, wasn't it, about the project that in terms of swapping, you're almost zero slippage. Is that
+19:00
+correct? Yeah, they have an option for zero slipage to tolerance. As you can see, if I type zero here, the slippage tolerance
+19:06
+becomes zero. Yeah. Yeah. This is very good. They're going to make a tool about this in the future as well.
+19:12
+Yeah. Like featuring only this. And then there's a T the TWAP option as well, I guess. And the various um buying
+19:19
+or selling options there. the TWAP time weighted average price at the bottom. Yep.
+19:24
+So the uh Okay. And then there's a Telegram group as well, isn't there? Which which pings alerts. So that
+19:30
+there's the two Telegram groups. So again, I think one of the key things about being a good trader or finding good trading opportunities, right, is
+19:38
+putting this project aside, if if you want to succeed at trading, you know,
+19:43
+one of the biggest mistakes that traders make is that they're trying to scan the market for what's a good trading
+19:49
+opportunity. They're in the trenches looking at everywhere that they listen to their friends giving them calls. But
+19:56
+in all honesty, the smartest traders allow trades to find them. Okay, so
+20:03
+basically what does that mean? Well, if you've got a good process in place, if you've got a good scanner or an alert
+20:08
+system, you're looking for trades to pop up on your radar which catches your
+20:13
+attention and once it's caught your attention, then you want to view, all right, okay, you know what? This could be a good trade. So I think that's where
+20:21
+you know if you are fairly new to the trading space and you feel as though like you're chasing anything and
+20:26
+everything well you really need to work on your process and part of your process is however it however that looks like in
+20:34
+terms of scanning for coins. You need to have something that's going to alert you or bubble up amongst thousands of coins
+20:40
+to tell you, hey look, you know this has got some very large volume coming in. You might want to pay attention to this.
+20:47
+And if you're fairly new to this, like I said, when you when you're beginning, whether it's, you know, trading pips or
+20:52
+shitcoins or whatever it is, ju you just want to do some forward testing for a good few weeks to figure out, okay, what
+20:58
+actually works? How many false signals did you get? How many positive signals did you get? So, you know, I think this
+21:04
+is one of those tools where if I haven't got time to build my own screener, then I would be relying upon
+21:11
+something like this if I am trading the trenches. Um, so you know, I think this is where it helps.
+21:17
+Exactly. Yeah. That's why I call it a market sentiment watcher. Yeah. Great stuff.
+21:23
+You can see which coins are uh whales are interested in basically.
+21:29
+Good stuff. All right. Should we move on to the next one? Yep. Let me just do full screen.
+21:35
+Yeah. So, this is uh leour. This is basically providing LP, but it's
+21:40
+automated. Like if you guys have been doing this or if you don't know what liquidity providing is, it's basically
+21:48
+in order in order the swap to happen between this coin and that coin, you need to have a liquidity pool for it.
+21:53
+And you can do this and the platform you are doing it on, it basically rewards
+21:59
+you. But the tighter the range you do, the more rewards you can get. So
+22:04
+basically uh if your position goes out of this range, it gets it gets closed.
+22:11
+You're no longer generating fees. But by using this tool, it automatically rebalances your liquidity pool. So if
+22:18
+you you can have a tight range basically forever. Just leave it there and it's
+22:23
+working. It's not quite ready yet. It's uh coming very soon, but this is what
+22:29
+it's going to be. Yeah. Yeah. Yeah. So basically from from an LP perspective, not that I do this, but
+22:35
+basically it dynamically adjusts your the range that you're trading in and you can define what range to trade and when
+22:42
+price breaks out of the range or breaks below it, it automatically recalibrates the trading range for you. So you don't
+22:49
+have to manually do it. It automatically automates it for you. Uh and if you want to continuously do LP, that's what it
+22:55
+is. But I'm not a LP type of guy. I'm I'm I'm a simple person in that respect. But
+23:02
+yeah, this is what it's going to look like. Basically, it's still a work in progress. So, yeah,
+23:11
+I think they're doing some of this on it as we speak. Sure. Should we Should we move on um to
+23:18
+the portfolio and then Yeah. So, uh so this is the fourth tool. It's
+23:24
+basically uh called portfolio. It's great for tracking your all of the assets everywhere in in crypto,
+23:31
+including in centralized exchanges. So, if you're like me, you've always had
+23:36
+the headache of always calculating how much funds you have here, how much funds you have there. And this basically
+23:41
+solves your problem because you can you can go to it and you can add all of your wallets, everything,
+23:49
+and you can see your performance, the total stats of your portfolio and everything.
+23:55
+Yeah. Great. This is Yeah, this is the accounts. You can click add account and everything. Yeah, it's pretty self-explanatory.
+24:01
+Yeah. Yeah. Yeah. That's Yeah, we don't Yeah. Yeah. Yeah. I I think I think it's just a nice
+24:06
+way of um tracking your coins and and your portfolio. Um and then two more
+24:11
+features which which I'm probably excited about which aren't coming which haven't been released yet. There's swapo
+24:17
+and there's screen. I'm obviously very big on screener so that's the one that I'm really looking forward to. But uh if
+24:24
+you can just quickly talk about this very briefly. So swapper is basically zero slippage
+24:30
+swapping as I showed in whaler that's uh going to be basically it. And screener
+24:37
+is uh like basically like desk screener. If you've been uh
+24:42
+trading meme coins and now you know what the screener is and this is going to be a competitor to it and except it's not
+24:49
+going to have all the the scam advertisements like the screener does. Yeah. So I think it's going to be better.
+24:56
+Yeah, that sounds good. Yeah. Oh, so hopefully um that's pretty much it from
+25:02
+an app point of view and then the project members are right in front of
+25:07
+you. So it's good stuff. Yep. So, Pentacle and Azoth here are the
+25:12
+two main devs. There are other people now, but uh Al camel is the co-founder
+25:19
+along with Cryptome Duck. They're get great guys. They have lots of experience. Camel is a very good trader.
+25:25
+You XO knows him. Yeah. Yeah. Great trader. Solid.
+25:31
+Yeah. You can find them on Twitter. This is their their handles. Yeah. And then the utility is the people coin,
+25:37
+isn't it? So, you know, from a from a speculative point of view, not financial advice, obviously I own I own a very
+25:43
+small amount. It's it it's for me it's just one of those things where I I I own a bunch of coins, a bunch of meme coins,
+25:50
+but um you know, I'll let you take it away. Yeah. So, lots of people say uh people
+25:56
+is a memecoin, which it does appear so, but it's not really a memecoin. It's
+26:02
+main focus is to provide tools like we just uh saw and
+26:09
+it's its main goal is to just make life easier for traders overall and provide
+26:15
+good tools and utilities for everyone. If you'd like, I can uh show the chart.
+26:20
+Yeah, go for it. You're a low cap guy. I'm not a low cap guy. So, I'll let you This is your This is your domain. Let
+26:27
+you take over. This is basically what the chart looks like at the moment. this every joint you see is where I' I've been buying it.
+26:35
+Yeah, that that's how that's a DJ way to keep a track of everything.
+26:40
+Yeah, fair enough. My I I bought mine a while ago and that was it. I've just left it in some cold storage somewhere
+26:47
+on a on a ledger probably probably my ledger gets hacked by the Ledger team. But there you go. What can I do?
+26:54
+Yeah, there goes my [ __ ] coins. Thanks, Ledger. But yeah, great stuff.
+27:01
+No, thank you for that. Um, so yeah, great stuff. Thank you, Cyber Spartan. U like I said folks, if you want to join
+27:06
+the Discord group, it's free to join. It's the tools are all free. The app is pretty decent. You're going to find some
+27:14
+very good opportunities. If you're looking for those two, three, 4x plays in the trenches, which I haven't got a [ __ ] clue what I'm doing. Uh if if I
+27:21
+was to start then it would probably be starting along somewhere along the lines of using the uh the whaw and the uh the
+27:29
+telegram groups the the the alerts that pop off and just keep tracking those really uh and if you can collab with a
+27:35
+few friends or maybe collab in the discord group then hopefully you'll you'll catch on to a few good plays.
+27:41
+Lots of good traders in the Discord. They're mostly trading uh perpetuals and futures. So yeah, I think your audience
+27:48
+is mostly into this. So, it's a good idea to check it out. Yeah. All right. Thank you very much, Cyber. Really appreciate you. That's
+27:55
+been a solid 20 25 minutes into the uh the functionality for people to use.
+28:00
+It's free to use and I think it's a very uh good tool tool set to use for people
+28:06
+who maybe don't have anything. But thank you very much. Thank you very much for having me.
+28:11
+Honored to represent this and thank you all for your patience and have a nice day.
+28:17
+Cheers, man. Have a good one. Take care. Thank you. All right. So, thanks to
+28:22
+Cyber and the the rest of the team. Like I said, nothing was paid sponsored. It's just off my own accord. I thought it's a
+28:29
+very good app. It's a very good utility. Uh and I think it's there for, you know, just just a change of scenery really.
+28:35
+Instead of me always talking about per if you wish to, you know, be in the trenches more efficiently or
+28:41
+effectively, then that's certainly one of the tools out there that uh you can use. Okay. Uh just let me just quickly
+28:49
+um this. All right. So, Bitcoin, let's get
+28:55
+into business. My first the very first thing that I want to do with Bitcoin, I think we are
+29:01
+at this very interesting point. Um, and just starting with the top down approach
+29:08
+is when you look at the Bitcoin chart, one of the key things that I've been doing with the uh the Exo Charity
+29:15
+mentorship members that I I was running a mentorship for what was supposed to be four weeks and it's um gone to six six
+29:22
+months now, but that's kind of typical of me. I just let things keep running, you know, for the sake of it. Um, but so
+29:28
+far one of the key things that I talked about uh with with the uh the charity mentorship group that I've been running
+29:34
+and thank you for everybody who took part in that is when you look at the Bitcoin monthly chart here, one of the
+29:40
+key things that I've always talked about on every stream or most streams when we look at the monthly chart is take note
+29:47
+of the key inflection points. Okay? When you see monthly candle closes with some
+29:52
+level of elongated wicks, it's often an inflection point on the chart. Okay,
+29:57
+that's one example there. If you go to the November,
+30:02
+September, October, November highs, the same thing happened there. And even to the downside, you get a a collection of
+30:09
+wicks, whether it's one, two, or three consecutive wicks where you you see these inflection points. The same thing
+30:15
+happens here. If you look at the uh the summer range of 2024, 1 2 3 times the market tried to sell off
+30:22
+in what I define as a rangebound environment and the market pushes a higher but then again
+30:30
+January well December January what do you see? You see two weeks at the highs and price holds off then look at the
+30:36
+lows. So what's really um standing out to me in this instance is the fact that
+30:43
+well what is the level that this is coming in at? What is the highest monthly candle close that we've had or
+30:49
+the monthly? Yeah, the monthly candle close and it is at that one 115.7 let's just call it 16k level. Okay, for
+30:56
+for the sake of simplicity and and for me now when people talk about higher prices, you know, you have
+31:02
+to be open to the possibility that yes, there could be higher prices, right, moving forward. But what do you
+31:08
+ultimately need to see? You have to see the fact that price reclaims back above 116. I think that
+31:16
+for me is a line in the sand as I look at the markets. And even when you drop down onto the market profile and you
+31:23
+kind of map out the market, you know, which if I do very quickly over here, I'll bring up the market profile chart.
+31:29
+And what I've essentially done is each one of these profiles is one week. Okay?
+31:35
+And what I've done here is is is merged five weeks of market profile into what
+31:40
+is a fiveweek composite value area. Okay. So we'll just label that as the um
+31:48
+composite value area for 5 weeks. Okay. Just give me a second. Lost my text there. Do that again.
+32:01
+Fivewe comp. Okay. system in capitals.
+32:07
+And basically what that is, it's a merge of overlapping value for five weeks. And you can see where the composite value
+32:14
+area high is, it's at where it's at this key level of 120. Okay? And then the
+32:20
+composite value area low, which is at 116.2. And what's key for me is that if you
+32:27
+look at where Bitcoin was in terms of trading the highs, one of the key things that I even talked about in the timeline
+32:32
+is that this 120 level is going to be key because if price tests this level
+32:38
+here, okay, and it bounces off, but if we come back for a second time, there's a very high probability that we're going
+32:44
+to rotate to the other side of the composite value area low. Now, this is
+32:50
+the weekly profile. So, if I switch this to a daily profile, you you'll essentially see that playing out.
+33:04
+And when I zoom into the into the profiles, okay, you you can see what's essentially happened there. Let me just
+33:09
+get rid of these arrows. But essentially, when we sold off after
+33:14
+swinging failing 125s, we took out the high. We traded almost into the 120
+33:20
+level. Okay, just stopped short of it, pushed away, traded into that level. If this was bullish at this point, this low
+33:27
+should have held. We have no reason to come back inside of this 5WE composite
+33:34
+value area high. Now, I ob was obviously positioned from the 125s
+33:40
+anticipating uh the fact that we were going to get a a move back into 120s and held the short
+33:47
+in anticipation that we're going to see a move down to 116s. Now what gave me the belief that you know that the high
+33:54
+of 125 126 was likely to be in? Well, essentially it was a result of a a
+34:01
+combination of shorts being stopped out becoming forced buyers into a bunch of
+34:06
+stacked asks and nobody else was willing to lift the offer. And that's why we it
+34:12
+was essentially a swing fail back below the level. One, two, three days tested the lows. This was the key aspect for
+34:18
+me. the fact that we traded into this level, right? Opened up the following day,
+34:24
+pushed up, took out the previous value area high into this thin area. The minute we started gravitating back down,
+34:30
+you can see what happened. We sat above the 120.5 level. And the minute we broke through, look how thin the profile is
+34:39
+before it trades to the other side of the range. Okay? Then we got the consolidation Friday evening. Okay? Then
+34:45
+we broke below the range. Once that happens, that was a cause for concern. Price consolidated and then we got the
+34:51
+big deleveraging event, flush off all the way down to the lows. Now, what's key, if you recall what I've just
+34:58
+pointed out to you is that when you look at this monthly chart, what's the key SR level that we have here? It's 116, isn't
+35:05
+it? Right? 116.2 116.1 depending on which chart you look at.
+35:10
+First of all, the the significance of this level is very very important. The second point
+35:18
+that I want to make is that again when you look at the market profile and this is a daily profile. Well, look
+35:25
+at what the market did. It sold off okay consolidated and then expanded where
+35:31
+straight back in to the single prints over here just below the composite value
+35:36
+area low. So generally what happens as a rule of thumb is that when you have a
+35:42
+composite value area, okay, generally if price is rotating between value area
+35:48
+low, value area high, value area low, that's just your rotations that you're looking to play. But when you have
+35:54
+something in the shape or form where price has been within the value area and you get a break out of balance, okay,
+36:00
+all this is bracketed rangebound price action. when price breaks out aggressively. Normally what I've
+36:08
+observed is that you get a bunch of single prints because you've got one liquidations
+36:13
+and stops being run or stops getting taken which further accelerates the move down. So that's why you have like a
+36:20
+level of thin inefficiency or what ICT fanboys called a fair value gap. Now
+36:25
+what I'm what I was looking for was for the okay fine price is selling off. What's key is that when price eventually
+36:31
+comes back to test the level, do we reject from here? Are sellers stepping into the market? And the second point
+36:38
+that you want to note is that well, what was the origin of the cascade move down
+36:44
+the the liquidation move? And again, when you look at the time frame, when you go to the 4hour chart on the 4hour
+36:50
+candle, this was the 4hour candle which led to the liquidation. And what has price done
+36:56
+is come all the way back to the origin of that move down. Even when you look at it on the 1 hour time frame where even
+37:03
+on the 1 hour, you've got price selling off, selling off, selling off, trades back up and then gets pushed lower down.
+37:09
+Okay? Leading to that liquidation event. So what has price done? You can see that level of inefficiency on the on the on a
+37:15
+naked PA chart, a price action chart. You can see that this was the last low pre-break, okay? And this was the local
+37:23
+high. So all this is again that fair value gap or what I prefer as prefer to
+37:28
+call inefficiencies or single prints. And if you look at where it is, it's this monthly SR level is confluent with
+37:35
+the 5we composite value area low. So for those who are wondering why did I short 115s? Well, that's your answer right
+37:42
+there because we couldn't reclaim back inside the 116. And had we reclaimed
+37:47
+back inside 116s whereby this is how I would normally trade it whereby when
+37:53
+price does eventually if it had reclaimed back inside then if you get a a retest of the lows consolidation then
+38:00
+you have to look for the trade back towards 120s. That would be the long scenario for me. Okay. The fact is that
+38:06
+we we we tested the level once, twice, rejected, stop at the high, took the
+38:12
+short, back down into the significant lows of 110s, 109s, and that's why I
+38:17
+took profit on the uh the screenshot that I shared. And this was the trade setup that I shared with members on on
+38:23
+on Sunday's stream that I don't believe that we're going to veer reverse up. I think we're just going to be in a
+38:29
+bracketed rangebound environment because generally when you see these liquidation events occur, it takes the the the
+38:35
+spread thin out. The book is very thin on the on the bid and the offer. Uh and it takes a a fair few days, sometimes
+38:41
+weeks for price to recalibrate within a rangeband environment where the book depth thickens out again. So again, when
+38:48
+you look at everything across the line, across the board with that 116 116 level, what did price do? Well,
+38:55
+essentially I'm just going to quickly delete everything and redraw everything. Th this is our value area low. Okay, at
+39:02
+that 116.2 level. So you can see if I zoom in on the daily profile. The reason why I'm doing this just from an
+39:08
+educational point of view that you understood the context of the trade, the context of the market. So you you can
+39:14
+select better trade locations for areas that you are interested in. And like I said,
+39:21
+the price action chart is all well and good. Candlestick charts are fine. For me, that's more of a high time frame
+39:27
+compass like zones that I'm interested in. Whereas the context that a market profile chart gives you is far more
+39:33
+granular. It can really, really zone in and identify the levels that are of
+39:39
+interest as to where you want to see a reaction. Again, none of this is to be predictive. You're not supposed to use a
+39:44
+market profile tool and say, "Oh, look, there's a single print. It's going to reject every time." You're looking for
+39:49
+points of inflection. You're looking for points of reaction. You're not trying to predict what's going to happen and you
+39:56
+react upon those points of inflection. So notice how we traded up into those
+40:01
+single prints right on the edge. Okay. And what did we then do the next day?
+40:07
+Look at the IB range. First hour of the trading session, we took out the previous day's high, got acceptance back
+40:14
+inside. That was for me a signal to start thinking about, all right, we could see value shift lower down. We're
+40:21
+seeing a level of exhaustion. If you looked at the heat maps, asks were
+40:26
+stacked across this level here. Okay. So, somebody had to lift the offers to really get price back into that 5we
+40:32
+composite value area. But when I saw weakness, okay, and my short was from 15.1. The next day, we open inside
+40:39
+value. Stop at the high. Where did we oscillate to? Look at this thin inefficiency. Price trades through
+40:45
+through that level fairly fairly quickly into the lows. Okay. and then it closes
+40:51
+back out, ends the day around here, being capped by this value area high.
+40:57
+Okay. Now, as you can see over here, because we've had the breakdown from yesterday, it's left behind a couple of
+41:02
+single prints. One, two, three areas. So, again, this for me now, this 113 to
+41:09
+115 level, 113.9 to 114 or 115 is is going to be a
+41:16
+challenging area to trade through the first time. Um, and then also looking across the profile, you can see that
+41:22
+we've still got this poor low from the 109.5s. So, what I'm looking for is all right,
+41:28
+is price going to find a way to trade now down into these lows to to take out
+41:34
+these poles or to to to trade these pool lows. But not this isn't the only one because again, if you go far back to
+41:39
+this price action here, this was the move from 108 to 126s. Okay, that was
+41:47
+that aggressive move up that we saw. Well, look what we have here. We have another poor low down here on the 27th
+41:56
+and we have I think we traded this. So, that's been repaired. So, again, this area around 108 is going to be key. Now,
+42:03
+you've got an inside day. Okay, price sells off, price consolidates, inside day. That's your
+42:09
+shift in value. Look at the IV range there. I range high. Once it gets back above there, look at the trend extension
+42:15
+to the upside. So, so this area of 109 to 108s is going to be key for me that
+42:20
+if we trade into there and we find acceptance back above the uh the level,
+42:25
+then I probably will be entertaining longs. But if we find price trading
+42:31
+below that level with acceptance, then there's no way that I'm going to be entertaining the long. And one of the
+42:36
+key aspects about trading is looking at areas that you wish to trade. But just
+42:42
+because you have a thought process that all right I'm looking for a reaction to trade this area on the long side doesn't
+42:49
+necessarily mean that you have to take it. You need to see reasons for stepping
+42:55
+into the trade. Okay. So again 109 to 108 is the immediate area. I've kind of
+43:00
+gone over the context what price did where it sold off from how it traveled through the composite value areas and
+43:06
+and again so so really what you should be able to infer now is that this 116
+43:12
+level is key for me if we are going to see higher prices and into new alltime
+43:18
+highs then this for me is a line in the sand okay but just because this is a line in the sand for me doesn't mean
+43:24
+that I'm not going to be still looking for long opportunities of course I am but for me to be of the opinion that
+43:31
+there's going to be a very good chance that we're going to take out the all-time highs. Well, this is the level
+43:36
+that it's going to get back above. So, you've got these lows here at 109's. Okay? You've also got this structure here with with with a poor low at 108.
+43:43
+So, when you look across the line, this is the region that if we see price pushing down into here, okay, and you
+43:51
+see aggressive selling. Now, what does aggressive selling mean? Anybody want to
+43:57
+answer that question? What does aggressive selling mean? Does that necessarily mean that shorts are
+44:02
+piling in at the lows? No, it doesn't. Okay, aggressive selling
+44:07
+can come in two forms. You either have people who are long, okay, from lower
+44:13
+down here. Let me just um get my color scheme back up somehow.
+44:19
+Just give me one second.
+44:34
+All right, I'm back again. So, basically the point I want to make is that um looking at that reaction, you know, if
+44:40
+you see aggressive selling, it doesn't necessarily mean shorts are opening. Obviously, you can look at the CVD and you can you can look at the open
+44:46
+interest to gauge uh what's actually happening under the surface, but really
+44:52
+what I'm looking for is okay, when it comes to aggressive selling, it could essentially be something as simple as
+44:58
+like all right, so if longs have built up here and over here, where are they going to place their stops?
+45:04
+If you're look if you're long this market from the last day or so, are you going to place your stop down here or are you going to place your stop here?
+45:10
+That's the question. And quite likely there's going to be traders that have their stops just some of these lows. So
+45:15
+what happens is when price pushes down into there, that's where you see a pickup in tape speed, a pickup in volume
+45:22
+being traded. And what really matters then? Okay. If you've understood
+45:27
+anything that's happened on Friday, if you've understood anything that's happened on Friday,
+45:37
+if you've understood it, sorry. If you've understood anything that happened on Friday, if there's no bids in the book, right,
+45:43
+what do you think is going to happen to price? If you have a ton of aggressive selling that isn't being absorbed or
+45:49
+there's no demand there, then all that aggressive effort should really push price further lower down. Okay? But if
+45:55
+there are if there is genuine demand, they should be able to absorb all that
+46:00
+aggressive selling combined with any late short sellers jumping in here. And and generally, if
+46:07
+there are late short sellers, well, they're going to get trapped. The minute price reclaims back above that level, I think that then gives you a good chance
+46:13
+that we could see price trading back up into that 114 level, 115 level where
+46:18
+those single prints are. Acceptance back above there, then you're back into value. Then you can think about 116s to
+46:25
+120s. But that for me is the long scenario. Currently there isn't a short scenario for me because given the
+46:30
+context of where price is the time to short for me was from the highs at 125s
+46:35
+and I took a an intraday short down from 115s to 110s. Now I'm flat. I don't have
+46:41
+any positions open but uh hopefully that's the the long scenario if there is
+46:47
+a long scenario that that I want to see set up. All right, any questions so far?
+46:52
+Is that clear?
+47:04
+So really when you look at price across the line
+47:09
+if you want to trade this as a local range then then for me taking the range highs and then you've got this
+47:16
+consolidation of the range lows this is the key level for me again. So you can see how much context I I've really put
+47:23
+into this being the zone because essentially what what I'm saying is that
+47:29
+if we are going to push down if there's no demand here um and sellers are in control passively selling selling
+47:35
+selling okay any buying is absorbed by sellers and then push lower down once these guys are offside what you need to
+47:42
+see is absorption okay large selling volume being absorbed we
+47:47
+might obviously we we've got anomaly of a wick, but taking this key SR level out
+47:53
+is going to be key and partially filling in most of this wick. We'd have to take out the low, but if we see buyers into
+48:01
+the market now, pushing price back inside the range, I think that gives enough of an invalidation to warrant a
+48:08
+trade setup that you've you've broken structure here. Higher low, higher high, local m local micro structure. And where
+48:15
+are you looking to trade this? You're looking to take this back into the 116s. Okay, 116.2 was essentially classical
+48:22
+range trading range low back into the mid-range take profit. If we see acceptance back inside value, then you
+48:29
+can go for it again to the highs. Okay, keeping it very very simple.
+48:43
+Now, let's just zoom out onto the higher time frame. I should have really focused upon the higher time frame first. But
+48:51
+here's what's key for me. When I zoom out and look at the chart here, um,
+48:57
+just give me one second.
+49:05
+So, let's just talk macro now. the that the higher time frame the higher time frame levels when you look at Bitcoin
+49:12
+from obviously we've talked about the the monthly aspects okay you can see the
+49:18
+rejection that we're getting from these highs now for those of you again who have been watching my streams this was the range projection that I had from
+49:25
+2024 when we were down here you can see what I've done I've essentially duplicated this range and it projected
+49:31
+it higher okay so for me 125s 120 125 130
+49:37
+isn't a top, but it's it's an area where I sus suspected there's going to be a level of resistance coming into the
+49:44
+market. And again, when you fast forward, what happened? Obviously, you know where we're trading now, right?
+49:50
+Given that how the market has played out over time.
+49:57
+But what I don't like about this is is the way in which price has rejected from
+50:02
+these highs over here. Okay, that's that's what gives me
+50:09
+a level of belief that we could see a slightly deeper correction into where
+50:14
+I'm not too sure. But when I'm looking at this from a weekly perspective, well, the first immediate level that stands
+50:20
+out to me is that if we can't find a bit at that 108 level, then that opens the
+50:26
+gateway to where to 98 99 that 100 level and it brings this range into play.
+50:34
+Okay, given that we have to see a reaction from this level. So the the whole point of this is that look, you
+50:41
+have to be aware of the downside. Okay, you have to pay attention to the downside risk. And I'm never going to be
+50:46
+one of these guys who shouts, you know, we're in a [ __ ] bull trend.
+50:52
+[ __ ] theirs long with size, right? I I think you're asking for trouble. You have to respect
+50:58
+the market. We've just seen what what the market has done on Friday, how it's
+51:03
+taken out a lot of traders out of their positions. Okay? It's unfortunate, but
+51:08
+this is the game that we play. All right? And you have to accept that the market dictates. The market doesn't give
+51:14
+a flying [ __ ] who you are or what positions you're running or what your beliefs are or what Exo thinks or what
+51:20
+SC thinks. Okay? The market will do what it wants to do. Your job first and foremost is to manage risk to survive
+51:29
+being offside to survive being liquidated. All right? And so that's why I I have to caution the fact that look,
+51:35
+if we can't get above 116 and we start pushing below 108 and there's no reaction, then I really do think there's
+51:41
+a decent chance that we trade into this 104 uh 198 level. And that's why I said
+51:49
+although I might be looking for a long, I have to see how price trades at this
+51:55
+level. Okay, if we can take out the level and it's aggressive selling being absorbed and we see price pushing back
+52:01
+up, great. I can take the long knowing where my invalidation is looking for
+52:06
+price to push back up into 116 and then we'll take it from there. Otherwise, if I've taken the long, we push up. I don't
+52:13
+want to see price come back below because the minute it starts doing this, there's a chance that all this is just trend continuation lower down in terms
+52:20
+of this being the higher time frame range from 100 to 125s with a mid level
+52:27
+at this 112 to 113 level. Okay, you can see it's a very clean inflection point. Resistance, resistance, resistance turns
+52:34
+support, support, support. Okay, and now we're just chopping around in almost no
+52:39
+man's land on the higher time frame. So again, you know, do we come lower down before
+52:45
+we make another another stab? Whether it's whether it's something like this, I I don't know. Okay, I have no certainty
+52:53
+that price is going to come back into 98 and is it going to be another lower high or is it going to be a higher high?
+52:59
+We'll have to wait and see. Okay, but this structure has played out many times on Bitcoin. You can see as far back as
+53:06
+every time we've had a series of lower low, lower high, lower low, lower high.
+53:11
+If a real flush out of positioning, higher low, higher high, there's your
+53:17
+shift and that's trend continuation hierarchy. So the question is, do we remain rangebound for longer? And if so,
+53:24
+then what is that higher time range that we should be looking to play? Uh, and for me, anybody who's talking about, you
+53:30
+know, we could go to 85K, we could go to 75K, that's all well and good saying that,
+53:37
+but is it actionable? No, it's not. Okay. Can you How are you going to formulate a trade to think about taking
+53:44
+it now from here to down there? You can't because you've got this area to contend with. Then you've got this level
+53:49
+to contend with. So just taking it from one level to the next and keeping it
+53:55
+very very very simple because you're looking to trade the high time frame
+54:00
+inflection points. And for me this was a high time frame inflection point. This is a high time frame inflection point.
+54:06
+Okay. From a swing perspective, if I want to do business, I would love to do business down here at this 98 102 level
+54:14
+and and then drop onto the the daily, the 4 hour, the 1 hour to really refine my levels, bring in the market profile
+54:20
+to figure out, all right, what's the trade location going to be? How can I get into this trade? What do I need to
+54:26
+see from a an orderflow perspective? Am I seeing signs of absorption? Am I
+54:31
+seeing signs of seller exhaustion? Okay, just like we saw signs of buyer exhaustion up at the highs. Why? Because
+54:39
+the the market couldn't lift the offers. Okay, and and a lot of this drive up, a
+54:45
+lot of these moves up were just shorts getting squeezed. The same happened here last week. Okay, every time if you
+54:52
+looked at the open interest in CVD, every time price pushed up, it wasn't
+54:57
+necessarily longs opening. It was just passive bids supporting price driving higher and shorts unwinding until there
+55:04
+was a liquidation and then price rolled over again. Shorts piled in, open interest increased. Same [ __ ] happened
+55:09
+again. Open interest was dropping. CVD was rising. That's shorts getting squeezed out their position. Certainly
+55:16
+late shorts getting squeezed out their position. And then what happened? Shorts pile in again. Open interest rises.
+55:21
+Final um final push up. some shorts got liquidated there and then price dropped
+55:28
+off. Okay. So when we talk about this, this for me is all a sign of
+55:34
+redistribution in terms of the local context. I'm not talking about redistribution from a higher time frame
+55:40
+point of view, but from a local time frame point of view. Okay? And it's
+55:45
+those subtleties that you have to observe and watch in the flow that if this market was really going to go higher, right? And if shorts are really
+55:52
+going to get trapped, well, what do we normally see in an uptrend? Well, we often see that when shorts are piling in
+55:58
+and trying to push the market lower down. So, say for example, if I'm shorting this, shorting this, and shorting this, and all this aggressive
+56:05
+selling and high selling volume is coming in. So, there's a large amount of effort taking place, but the market, why
+56:12
+is the market not going lower down? That's telling you that passive players
+56:18
+are absorbing any aggressive selling. So all this selling is really selling
+56:23
+into a brick wall that they can't break down. So what do you think is going to happen to all this positioning over
+56:28
+here? Well, the minute they're offside, they're going to puke their position and become aggressive. They're going to be forced buyers, aren't they? And by
+56:34
+becoming a forced buyer, is it any surprise that you have a candle, a
+56:40
+breakout candle like this, and then trend continuation higher? Okay.
+56:46
+Whereas in this instance, you've got buyers absorbing and then that's it. The market's chasing high. In this instance,
+56:53
+if the market wanted to go higher, where were the buyers? Okay, they vanished. They disappeared. Nobody's willing to
+56:59
+lift the offers. Secondly, asks were absorbing,
+57:04
+getting filled, and pushing the market down. Okay, so what happens is large players get their positions filled.
+57:10
+Okay, price trades up, fill, fill, filled. What do you think these guys are going to do when they're waiting for their asks to get filled and they don't
+57:16
+get filled and price is rolling over? What would you do? Okay, you can start
+57:21
+chasing price. So, more market the more price is moving away from the level, participants are going to start
+57:28
+jumping in because they didn't get filled. And that's what causes that level of aggression in the market
+57:33
+pushing price lower down. And there's not enough demand to counteract that
+57:38
+supply coming into the market. Makes sense? And it's the same on the way down. Like the same on the way up.
+57:44
+Think about it, right? If if you're because so many of you are used to trading spot and buying a spot position.
+57:49
+If you've got a level of support here and your bids are here, here, and down here, price does this
+57:57
+and you know it's already come off like 30 40% and there's a good chance it's going to bounce 10 20 30%. You don't get
+58:04
+filled. What are you going to do? What's your natural emotional instinct is like, oh [ __ ] I've missed the low. I'm not going to get I'm I'm going to miss a
+58:10
+trade. So what do you start doing? You start piling in here, don't you? And some people get too tight where they get
+58:16
+stopped out their position and price goes higher again and then they jump back in again. Okay? So that's just the
+58:21
+dynamics of of the markets. And so all these bids that you had
+58:26
+resting here, well, you've canceled them to piling out the market at a higher price because you still believe that
+58:32
+this is this is discount. This is um at value because you perceive that value is
+58:37
+going to be higher and you don't want to miss the move. So it's just it's just exactly the way on it's exactly the same
+58:43
+on the way down where price is coming up into resistance. You've got all these asks at at this 120 level 122 price does
+58:51
+just just fills this and moves away. So what do you think these guys are going to do? If anybody wants to aggressively sell the market, they're going to step
+58:56
+in, aren't they? Because price is now pushing away adding further fuel to the downside. And then what happens is that
+59:03
+you know just say you come to a level support you've got passive buyers who are interested and you got aggressive
+59:08
+shorts. now piling in at these lows, but they couldn't price push price lower down. Well, guess what? There's a chance
+59:14
+that they're going to get squeezed out of position. And that's why you get these limp rallies where open interest
+59:19
+is um going down and CVD is going up. Generally, I don't think CVD is the best
+59:26
+measure of these, but sometimes it can be used. But generally, CVD going up and
+59:32
+open interest going down, that's just shorts closing out that position. Not necessarily buyers piling in. Okay?
+59:38
+Because if buyers were piling, you'd also want to see open interest going up with uh CVD and price going up. That's
+59:44
+far more bullish. But when it's shorts getting squeezed out and then you get a pop and you see a spike in liquidations,
+59:50
+well, those liquidations are being absorbed by some passive ass. They've got their positions filled now. They will they're willing to take it lower
+59:56
+down. And I'm going to leave you with one thing here which um I covered on Sunday stream with the members is is
+1:00:03
+understanding that in future markets when you have a bigger phase of redistribution
+1:00:10
+how can you identify that. Okay.
+1:00:15
+And and and I wonder how many people who were actually short last week. I wonder how many people who
+1:00:21
+probably shorted this or this or even here saw this move up and just puked
+1:00:27
+their position, thought, "Fuck it." You know, price is going to go higher. I'm going to get out of my position because they're not understanding what's
+1:00:32
+actually happening under the hood here. Okay, the flaws will tell you what's actually happening. Uh some people would
+1:00:38
+have taken profit. You know, price comes here, it's pushing away, you know, oh [ __ ] I should have taken profit down
+1:00:43
+here. In fact, I'll just close out my short that I've had from 124s. I'm going to take profit at 122s now because I
+1:00:49
+think it's going to go higher. But when you understand the dynamics and why I had the conviction to hold that the
+1:00:54
+short from 125s down into 116s is because I understood what's actually
+1:01:00
+happening under the hood in terms of price action. Um, and that really brings me on to
+1:01:06
+a key important text that I've shared in the past, which is
+1:01:17
+which is this here redistribution. What What does that mean?
+1:01:23
+And I think the key the key thing ju just skipping all of this. You can read this if you want to in your in your spare time. But a short covering rally
+1:01:32
+is the beginning of the redistribution trading range. Okay. Short covering rally. Short covering rally. Another
+1:01:38
+short covering rally. Okay. It's the beginning of the redistribution phase.
+1:01:51
+Begin of the redistribution trading range. A sharply rising stock price will drive nervous short sellers out of their
+1:01:57
+position. What do you think was happening here? Okay.
+1:02:03
+What happens during redistribution is that a series of rallies and declines will occur with a general tendency for
+1:02:10
+the rallies to be sharp and volatile and then the reactions to be less. So these rallies and reactions jam the shorts and
+1:02:18
+repeat until the less resolute among them have relinquished their positions. That's basically squeezing shorts out,
+1:02:25
+squeezing late shorts out or squeezing anybody who's in a short position and they've kind of bottled it. Okay, only
+1:02:31
+then can the downtrend resume. So the key thing here is these rallies and reactions jam the shorts. Okay, every
+1:02:38
+time squeezing up, squeezing up. And if you want to study this price action then just go look at you know your platform
+1:02:44
+of choice whether it's trading light whether it's market monkey terminal whether it's you know whatever terminal
+1:02:50
+it is out there vel data go have a look at how the open interest in CVD was behaving on pers during this price
+1:02:56
+action take a screenshot make it into a journal so that in future
+1:03:01
+instances when you see you got to remember price is fractal when you see price exhibit this type of behavior okay
+1:03:08
+and sellers are stepping into the market every time and eventually you get the break the breakdown. Okay, this was even
+1:03:14
+before the liquidation with my target was 116.2. That's how you can identify what's
+1:03:22
+actually happening under the hoods and how you can hold your position or conviction longer. And you know there's
+1:03:28
+going to be nuances where you see this in a downtrend, not necessarily an uptrend. The behavior of price is
+1:03:33
+completely different on the way up versus on the way down. All right.
+1:03:45
+So, I think back to where I was earlier, um really
+1:03:51
+when I'm looking at price here now is I just want to wrap up on a few more
+1:03:56
+things is that I am looking to I am looking for a long
+1:04:02
+opportunity. What gives me reservation is if we just look at the exo trend scanner that I've put together which is
+1:04:08
+the 1221 EMAs. I sometimes use the 1225. And one of the key things about markets
+1:04:16
+that you really need to think about, okay, is look at the the trajectory. I've said
+1:04:23
+it so many times on stream. Look at the trajectory of the 1221. Okay. when you
+1:04:29
+are. So, really the best way to think about this, and I'm not sure if anybody's ever covered this, but if
+1:04:34
+you've got a a y-axis and an x-axis, okay, that's a 90 angle degree, 45 being
+1:04:40
+at the mid. When you have an elevation that's around about 10, 15, 20, 25,
+1:04:46
+okay, that's just a very slow gradual trend. Not the best of trends, but a slow gradual trend. Whether it's on the
+1:04:52
+way up, whether it's on the way down. Okay, when you're at 45, that's fairly decent. When you're at 60 70% that's a
+1:04:59
+very aggressive trend. You want to stay on the right side of the trend. You want to stay on the right side of the market.
+1:05:04
+You don't want to get caught offside. You don't want to do the mean reversion play. The mean reversion play comes when
+1:05:10
+you believe that price is likely to trade at the extreme of a range. Okay,
+1:05:15
+look at the velocity and look how price extends away from the bands. It's like
+1:05:20
+an elastic band. When you pull it and you let go, it comes back together again. That's essentially what price is doing. pushes away, comes back into the
+1:05:27
+mean. Okay, that's where your mean reversion trades take place. But what's key here is that when you think about
+1:05:34
+what's happening here, look at the drop off in the momentum of the bands. Isn't
+1:05:39
+price now trading above, under, back above, and back under. And what does
+1:05:44
+this exhibit? It exhibits a rangebound environment. Now, what happens if we
+1:05:49
+start seeing acceptance below the bands with continuation lower down? The pressure now is on the downside. Okay.
+1:05:55
+So, another reason why that 116 level is key for me, not only is it is it a
+1:06:01
+monthly SR level, not only is it a 5we composite value area low level, but you
+1:06:06
+now also have the 1221 moving average hovering at that 115.8
+1:06:13
+115 level. I I suspect by tomorrow it's going to be at 115. So, we already know that there's a bunch of single prints.
+1:06:19
+If we push up into there and reject, there's a fair chance we could see continuation lower down. Okay, so we
+1:06:24
+really need to see acceptance something like this over the coming days. Now, now
+1:06:29
+the problem that I have is that we've just crossed under. Okay, so if it's shallow, there's a good chance we can
+1:06:35
+revert back up. If it's continued, look at that rally into the band, sell off, rally into the band, sell off. Almost
+1:06:42
+like a one, two, three drives move. Do we get something similar? We'll have to wait and see.
+1:06:47
+Okay. So, that that's kind of the uh the daily time frame and that's why I'm I'm
+1:06:54
+reluctant. Okay. Keyword. I'm not aggressively looking for longs. I'm reluctant to look for longs because I
+1:07:01
+need to see my setup take place to give me the belief that this is a high probable long scenario. And that's going
+1:07:07
+to be like I said trading into here filling in some of this wick and then
+1:07:12
+show me acceptance back above this level. Then I can think about, all right, we can trade it back into 116. Above 116, there's a good chance we're
+1:07:19
+going to go to alltime highs. Okay, that's how I would perceive what's happening here.
+1:07:26
+Now, let me show you something where I [ __ ] up. Okay, I nailed the trade from
+1:07:32
+125 to 116, but I [ __ ] up. Now, for those who watch this on this stream will understand where I messed up. And this
+1:07:40
+is where you've got to have a level of fluidity in the market. my excuses. In my mind, 116 was my take-profit level. I
+1:07:48
+did not see the uh the cascading deleveraging event and liquidation event happening on a Friday night at 10 10 10
+1:07:55
+p.m. in the UK time. Okay, I've got better things to do on a Friday night, not the start of the desk, but that's
+1:08:00
+it. But what could I have done better to have held that conviction that this is
+1:08:06
+actually really falling off a cliff? Well, if you look at the um if you look at the 4hour time frame, all right, one
+1:08:13
+of the first things and I think I talked about this on the timeline that look, we have just lost the 4hour
+1:08:21
+12:21. This is now pressure on the downside. Okay, you can see we we start trading under the bands. Look at this
+1:08:28
+beautiful uptrend. There was no reason to fade this until we came into where
+1:08:34
+into the range high. So notice that when you're looking to fade, you're not trying to mean revert this [ __ ] here or
+1:08:40
+this [ __ ] here. Why? Because the bands are telling you to stay on side of the market. You don't want to be fading this
+1:08:45
+just yet. Number one, you're fading in no man's land. There's your support and you've got all this thin level of
+1:08:52
+inefficiency to an extent, a thin volume profile that we could trade into here or
+1:08:58
+take out the high. Well, guess what we did? We had a one, two, three drives, exhaustion at the highs, price trades
+1:09:03
+under that's my short. Okay, trades through the bands, pushes up and closes
+1:09:08
+back inside. First point of weakness there. That's another reason that gave me conviction to hold the trade. Now,
+1:09:15
+what's key here is that my my objective or my target was what 116. It was the
+1:09:21
+value area low. Okay, that was the objective that if price once price trades from the this was the fiveweek
+1:09:28
+composite. Once we get below the composite value area high, we should go straight to the composite value area
+1:09:33
+low. Well, if I replay the chart, let me just show you something here.
+1:09:40
+So, here here's an example of of of the work that I do. This is what I did on a Saturday. I reviewed the trade and I was
+1:09:46
+asking myself, look, what could I have done better? I really [ __ ] up there because having had a very and I was
+1:09:52
+pretty well sized up from 125s that I I closed at 116s giving away a good chunk of the move
+1:09:58
+when it went lower down. So, you know, it was a winning trade, but I could have done better. And that's what you've got to get into
+1:10:04
+when you want to improve as a trader. You got to look at what did the trade then go on to do? What could I have done better? And to keep it really simple,
+1:10:12
+this is the 4hour chart. If I go to the 1 hour chart, you can already see one of the key things that I've preached is
+1:10:19
+that when you see a shift in momentum on the uh the indicator that I've put together, it's fairly box standard,
+1:10:26
+right? Thanks to Charlie as well. Um look at the period of green, but look at the period of red that we start seeing
+1:10:31
+and a very shortlived period of green. More red. This is now telling you that there's a shift in momentum in the
+1:10:36
+market that the long opportunity down here isn't really there. And the fact
+1:10:42
+that we tested the value area once, traded above it, what are we doing back
+1:10:48
+inside? If this is bullish, this is not where you want to be buying. This is where you want to be thinking, [ __ ]
+1:10:54
+there's a good chance we could gravitate to 116.2s. And if you look at the way in in the the
+1:11:01
+way in which price gets there, okay, that's me taking profit. Taking
+1:11:07
+take taking profit. I did not I did not want that other candle to print because I'm trying to make a point here. Um so
+1:11:14
+let me just stop that and show you what I could have done better and and how you
+1:11:19
+can use sometimes a very simple system to improve or stay on side with the
+1:11:26
+trade. Okay.
+1:11:32
+So when you look at this and this is on the 1 hour and and this is what I did with my trade from 115s to 109s
+1:11:39
+yesterday. If you now go to the 30 minute at any
+1:11:44
+point. Okay, now now remember you got to go top down. The 4 hour is already bearish breaking down. You want to flow
+1:11:51
+with a high time frame context. And when the momentum picks up,
+1:11:56
+when the momentum picks up, what's key for me here is that look at the trajectory to the upside is is this when
+1:12:02
+you when you think about the the angle of elevation, look at the traction. This is almost at a 70 70° 80°. You don't
+1:12:09
+want to fade this. But then look at the drop off in momentum. That's where you want to be paying attention to turning points in the market. Now the key thing
+1:12:15
+for me is you know when I look at this on the 1 hour time frame
+1:12:21
+breakdown sideways breakdown okay look at the bands here all right we've pushed quite significantly away let me drop to
+1:12:28
+the 30 the 30 look at the angle of elevation it's not drifting it's breaking down we are in trend mode right
+1:12:36
+now okay from consolidation breakdown into trend down all right let's go to the 15-minute has at any point price
+1:12:43
+crossed back above the 12 EMA on the downside. No, it hasn't. If I go to the five minute, has price crossed above the
+1:12:50
+12 EMA or shown compression of the bands? Compression of the bands being
+1:12:56
+this. Okay, that's where you're going to get rangebound price action. This is a clear trend. Even on the 5m minute, it's
+1:13:02
+trailing the bands. Even on the 3minut, has the bands at any point apart from
+1:13:07
+this traded above it? But has it crossed? No, it hasn't. Trend continuation lower down. Watch this. go
+1:13:13
+back onto the fives. I've taken profit there. What I really
+1:13:21
+should have done is waited for price to develop a range, okay, and the bands to compress and push up. Then I'm looking
+1:13:28
+to get out. Fine, I'll get out on the higher low or a higher high. Okay, I I'll accept that. I'm not looking to
+1:13:33
+bottom tick the market. But by being hast and and eager to take profit from this move down and then
+1:13:40
+thinking about all right I I really want to look for longs now I'll come back on Monday and look for longs in the market that's where I tweeted that all right
+1:13:46
+short closed happy with the trade you know I'll come back to the market I'm going to start looking for long opportunities
+1:13:53
+well had I waited and just let the trend play out what do you think happens next okay
+1:14:00
+price trades into the bands did we get a crossover of the bands is price consolidating in a range
+1:14:08
+straight down again. Okay, if this was bullish, we should have had a rounded retest and
+1:14:13
+held. Okay, or a higher low or a higher high. What happens? Rolls over. 5 minute, nothing there to tell me to get
+1:14:20
+out the trade. 15-minute, nothing there. Look at the trajectory of the bands. There's absolutely nothing there that
+1:14:26
+was telling me to get out of the trade. And the 30 minute is pointless because at that point the extension of price and
+1:14:33
+you see the spike in relative volume you now know that you're at a bottom a local bottom. Large liquidations look at the
+1:14:40
+relative volume bigger and higher than anything that we've seen over quite a period of time. When you see this coming
+1:14:46
+on the 5minute chart, you know you're very close to a bottom at this phase. Okay. Then there's the drop off in
+1:14:53
+relative volume. This was a big cascade. That's the bottom right there. Okay. You can see that on the relative volume bar
+1:14:59
+there. So again, use my experience as a way to build this and bake this into
+1:15:06
+your system to identify, all right, this is how I can really stay into a trend.
+1:15:12
+You know, you can use something very similar like EMAs aren't the only option. You can use wherever you want.
+1:15:18
+Ballinger bands. You can even use the um Hulsweite by Incilico, right, which is
+1:15:23
+is one of my favorite um bands that I like to use. But even this on the lower time frame
+1:15:30
+would have had you back into the trade here because of the price rolling over even on the 5m minute I should say, even
+1:15:36
+on the 15minut slightly lagging. Okay, in this instance in the sense where where price is short,
+1:15:42
+but try to use some sort of momentum based filter that will keep you in the trade. but also keep you out of bad
+1:15:49
+trades as well. All right, that's that's the key thing. Not only will it help you stay in the trade, it's going to help
+1:15:54
+you stay out of bad trades. And and that's why for me when I look at the um the
+1:16:02
+moving average system that I use, I don't use it as a uh as a trigger or a
+1:16:08
+or a or a way that I identify trades. For me, it's more of a all right, do I want to get into this trade? Which way
+1:16:14
+is the momentum? Am I seeing reasons to get into price? Because you have to remember the moving averages are a
+1:16:19
+derivative of price. It is a lagging indicator. It is based upon price. Okay?
+1:16:25
+Whereas the whole moving average is is zero lag. So that's something for you to think about moving forward. But
+1:16:32
+ultimately, you know, long story short, when I when I look at everything now, I I think the key thing for me, what
+1:16:37
+stands out? Why do I at what point do I think that we're going to see 100 or 98s? All for me it's a case of if I
+1:16:45
+bring on the exot trend scanner and where I'd be looking to shift context if you look at what this has done it's is
+1:16:52
+flag bullish from the lows of February 2023. Okay. And at no point
+1:17:00
+has when price has lost the bands has it ever developed into a trend down like it did here. Like it did here. Okay. It's
+1:17:07
+been very shortlived. Price trades under the bands. The minute it gets back above, guess what? You want to go long.
+1:17:13
+Look at this. Trades under the bands. The key thing is this is a rangebound environment. Remember how everybody was
+1:17:19
+saying this is bearish because we've got lower lows, lower highs, lower lows, lower highs. Yeah, that that's that's
+1:17:26
+micro structure or that structure within a range. Structure within a range doesn't really matter. Structure within
+1:17:32
+a trend is what matters. This is structure within trend. You got the high, you break structure into a lower
+1:17:38
+low, lower high into a lower low. Okay? Until you get a period of sideways price
+1:17:44
+action. And then again, I I've pointed this out on previous streams that when this was
+1:17:51
+happening, I I I specifically made a tweet about this that I don't understand why people are getting bearish or why
+1:17:56
+they're trying to call the top on Bitcoin because this could be distribution. But the fact
+1:18:02
+is that we are in a rangebound environment. And one of the key things about ranges is that you will get lower
+1:18:08
+lows and lower highs in a bullish market. It's almost like it's one of these channels or flags that's taking
+1:18:14
+place before you get a breakout. You saw that happen over here again. So many people [ __ ] up in 2021. Why? Because
+1:18:22
+oh look, we've got we've got a higher high, a higher low, a higher high. This is really bullish for Bitcoin. Well,
+1:18:27
+sorry, it isn't. It's a range. You're going to get these fluctuations of lower lows and lower highs within the context
+1:18:33
+of a range. What would have given me conviction is break up, pull back into the range high trend mode. Okay, that's
+1:18:41
+conviction in terms of trend. This is not a shift in structure. It's a
+1:18:48
+rangebound environment. Now what's key is that if we run it forward to where we
+1:18:54
+are today, what I'm really looking for in terms of
+1:18:59
+to suggest that where we are unlike this where we spent
+1:19:06
+a large amount of time 6 months within the range well we've spent August, July,
+1:19:12
+August, September 3 months within a range here. The problem that I have here is that if we start trading below the 21
+1:19:19
+weekly moving average, we've got problems. Okay, problems down to 9798.
+1:19:28
+And even to the point where
+1:19:33
+you don't have to use a moving average, you can use a Ballinger band system. Look at where the wick traded into the
+1:19:40
+Ballinger band low into these lows here. So if we are going to break down over
+1:19:46
+the coming weeks, if we fail to hold this level here, this key level of 108s,
+1:19:51
+109s, that opens the possibility and the probability that it's quite likely that we're going to see that 98 to 102 level.
+1:19:58
+So that's just something that you honestly objectively, okay, have to
+1:20:04
+think about. One, it's opportunity to consider longs or potentially buying into Bitcoin if the level holds. two,
+1:20:12
+you've got downside risk to contend with. Three, I've already covered what the long scenario might be if it sets
+1:20:18
+up. Now, in terms of the short scenario, again, I'm not sure what that quite
+1:20:23
+looks like yet, but for me, again, I vaguely touched upon it whereby if you
+1:20:29
+look at the market profile chart that we've got a bunch of single prints here under the value area
+1:20:36
+under the value area composite value area low.
+1:20:44
+Here we are. Okay, let me just clear the chart. Here's the current profile. So, in terms
+1:20:49
+of profile, you've got, look, you've got one day, two day. This is your two-day composite. You can merge these two days
+1:20:56
+together. And you've also got a composite here
+1:21:01
+forming. So, really, when I'm looking at this, I'm thinking, all right, 113 is
+1:21:06
+going to be a key level now. And then we've got this value area low. So, if you look at how price is trading,
+1:21:13
+look at where the value is. The value area high, the value area low. It's within this 2-day composite. So, what's
+1:21:18
+key for me is that if we push up into 114s, 115s, pull back into this 113
+1:21:26
+level and it holds. Well, what do you have? You have a shift in structure. You've got a higher low, a higher high,
+1:21:32
+another higher low, local structure for a trade back up into 116 117s. Okay?
+1:21:37
+taking out these poor highs and then you got this single print to contend with which is back inside value that fiveweek
+1:21:43
+composite value and that fiveweek composite value area lows here. Let me just do that again that if we push up
+1:21:49
+into 117s and pull back into 116s and that holds we're back into value you can
+1:21:54
+look for 120. a trade location, another trade location. Caveat is if we reject
+1:22:00
+off 114 115 and guess what? If we then be come back inside what I believe is
+1:22:06
+going to be another composite, we get back inside here, we're probably going to go to the other side of the range. All right, so that's going to be the
+1:22:12
+short scenario or the rejection point or the point of weakness. The point and strength is that if we can hold this
+1:22:19
+high, then that opens the possibility of trading up into 117s. That's all I can do as a trader. My job is not to
+1:22:24
+predict. My job is to identify good trading opportunities in the market that
+1:22:31
+make contextually sense to me according to my system, according to the way that I trade and the strategies that I trade.
+1:22:38
+And then that's all I can do is journal those. Okay? Journal the pre-trade, the post trade, what was the results, what
+1:22:44
+did I learn, what can I do better. And the only way the only way you're going to get good at this game, it truly is a
+1:22:52
+form of pattern recognition. If you see the same patterns playing out over and over and over again,
+1:22:59
+how many of you right can honestly say that
+1:23:04
+you know what you can name one of your trading strategies and you can write it on a piece of paper or on a word
+1:23:10
+document and give it to your friend and say here trade this strategy. This is what I trade in detail. How many of you
+1:23:16
+can do that? And that includes everything from trade location, trade
+1:23:21
+context, position sizing, is it an A setup, B setup, C setup? Then you've got to grade how much position you're going
+1:23:27
+to how much size you're going to risk on that trade. What percentage of your portfolio are you going to is it 0.2%,
+1:23:33
+0.5, 1%, have you even graded that into your strategy?
+1:23:39
+Okay. And then your your pre-trade write up. These are the levels that I'm looking at. This is what I want to see.
+1:23:45
+Here's a reaction. if else you've taken the trade. Now, whilst you're in the trade, what did you observe with your
+1:23:52
+emotions? Were you were you scared to pull the trigger? Were you scared because you think you're oversizing? Did
+1:23:58
+you hesitate or did you fail to take the trade because you were distracted? And then what happened after that? What did
+1:24:03
+the trade do? What did you do well on the trade? Yep, I executed really well, but I fluffed it because I cut my
+1:24:09
+position um because I was up I was up 1K, but I never let it go to target. I [ __ ] my pants. Why did you do that?
+1:24:15
+Well, that was because you it's a fear of losing, isn't it? So, you've got to really have a level of self-awareness.
+1:24:23
+But even before all of that, do you know what you're trading or are you just trading levels on the chart for the sake
+1:24:29
+of I think this is resistance. I think this is support and that's it. Whereas something that I've done is why do I
+1:24:36
+nail my trades more often than ever before? because I've put in the hard work of I know on order flow on the dom
+1:24:43
+on the ladder on the footprint what absorption looks like. Okay, I identify
+1:24:48
+that I've seen that play out over 50 times. I've put it in my um Evernote.
+1:24:53
+Okay, I've got a 50 sampleam 50 samples of this example playing out over and
+1:25:00
+over and over again. I've replayed the charts in Exo Charts to look at what happens in this instance. What does the
+1:25:07
+what does the open interest do? What does a CVD do? What does the front foot footprint show me? What's the positioning like?
+1:25:13
+Only then do I build up that confidence. Ah, do you know what? I've seen this play out 30, 40 times.
+1:25:20
+I know what I'm looking for. Therefore, I know what what and how I'm
+1:25:26
+going to structure this trade. And I know exactly where I'm wrong if
+1:25:32
+conditions change in the market. And if you don't put that level of work
+1:25:37
+in, then what are you doing different
+1:25:42
+to what the majority are doing? There's a 90% failure rate when it comes to futures trading. Why is that? What are
+1:25:49
+you doing to get into that 10% of traders who can actually do this for
+1:25:55
+a living and have put in the hard work, who have put in time and effort and have
+1:26:00
+a process, have a system,
+1:26:11
+you have to go into a level of detail to understand your game.
+1:26:19
+[Music]
+1:26:27
+This is Exo Charts. This is the orderflow platform that I use. If I just um
+1:26:33
+load this up on a 30-day look back,
+1:26:40
+that's the dom and the ladder. You can see how thin the books are right now. Okay, there's not really much in the books there both on the ask and the uh
+1:26:47
+on the bid side. But putting that aside, um if if you look at this very very
+1:26:53
+carefully here, just give me a second. Let me just
+1:26:59
+reload this
+1:27:09
+so far. Is everything making sense?
+1:27:20
+relatively sensor. I mean, it is what it is, isn't it? It's it's it's it's not so much
+1:27:26
+Yes, you've got to have a level of verification about the data, but it's
+1:27:32
+more about the signs that I'm looking for. Um, you know, it's obviously
+1:27:37
+difficult to prove that is the data accurate. I I don't have that ability to
+1:27:43
+tell you the answer, okay? I'm not going to dig deep into that. But again, when
+1:27:48
+you look at the delta, okay, delta candles are my favorite. And when you look at the delta here up at the highs,
+1:27:55
+two things that I talked about on the timeline, there's a there's a tweet that I shared about volume tapering off.
+1:28:02
+What do you see here? You see volume tapering off. Look at this trade. Okay, look at this daily candle. Price trades
+1:28:09
+up, wicks into that level, rejects. Look at the thinness of how much volume
+1:28:14
+traded. Very little volume. But what did you observe? Look at all that aggressive buying up at the highs. Okay, look at
+1:28:20
+that. 85 million, 31, 37, 29, 25, 36, 15, 25. Large buying at the highs, okay?
+1:28:28
+Not necessarily longs opening. It could be a combination of these shorts with
+1:28:33
+their stop over here puking their position and then what does price do? comes all the way back down. Look at all
+1:28:39
+this aggressive buying. Lifting, lifting, lifting. Probably somebody puking because no more buying was
+1:28:44
+sustained. And look at how volume tapers off at the end. Really nice selling tail
+1:28:49
+there. Price trades back inside. Okay, rejection wick swing fill. Look at the
+1:28:55
+next day. Aggressive selling at these lows. Price pushing up. But again, what do you see? Volume tapering off.
+1:29:02
+Aggressive buying. 25 million up top. 7 19 18 41 34 22 7.3 All this aggressive
+1:29:11
+buying. Why wasn't price significantly higher? Because it's been met with a level of
+1:29:18
+asks in the book, soaking all this aggressive buying possibly as a result
+1:29:24
+of positions puking. Okay. Early shorts being shaken out their position, late longs piling in. What does price do?
+1:29:31
+Look at where it closes. Okay.
+1:29:40
+Look at where it closes right back inside. Okay, then the rest, this is what was key for me here.
+1:29:49
+The key for me here in this instance was the fact that
+1:29:54
+when you look at price, let me just get rid of all this.
+1:30:05
+What's key here is if I go to let's just say 400 ticks.
+1:30:11
+What's interesting here is that look at this aggressive high volume area of
+1:30:18
+price. Okay, sellers are stepping into the market very aggressively here. They're in control at this point. Why?
+1:30:24
+Because these sellers have managed to push push price lower down. Look at where it closes. That's where price
+1:30:30
+closes. Well, guess what's capping price now to the upside? Sellers once again passively absorbing any aggressive
+1:30:37
+buying, pushing the market lower down the next day. Okay, look at that. And then what you find is that all these
+1:30:44
+late buyers up top, well, what are they doing? They become false sellers. And you get that aggressive unwind all the
+1:30:51
+way down into 120s. Okay, this is what the delta candles show you that you will
+1:30:57
+not see on a standard candlestick chart. It really gives you an insight as to
+1:31:03
+where volume is trading and and and what the delta is at each price point in the
+1:31:08
+chart. And that's how you can observe that hang on a minute, all this aggressive buying, if there's no more
+1:31:14
+buying to continue this, this is [ __ ] It could roll over. Well, that's exactly what happens. Okay? And then the next
+1:31:20
+day again aggressive buying. Look at the delta. Pretty heavy on the on the positive side. Okay. Price pushes up
+1:31:28
+into this thin low volume node. Rejects. Next day selling comes in.
+1:31:34
+Then you get the big unwind. Okay. Deleveraging positions puking all the way down. What do you find? Look at that
+1:31:40
+thin tapering of volume. Can you see how thin the volume is? Very good point or candidate for a reversal in the market.
+1:31:47
+Back to the mean. Okay. And that's essentially what happened. Now we're in a bracketed environment. And even just
+1:31:53
+by eyeballing the delta, you can see that sellers are pretty much in control in this
+1:31:59
+market. Look at the red delta here. Now, this is interesting by the way because I'll tell you what's interesting about
+1:32:05
+this candle here. What do you understand? What? Well, what can you see? All this aggressive selling
+1:32:12
+15 74 47 64 24 3.7 22 39 13. Right? For
+1:32:19
+all this aggressive selling, why is it that when you zoom out, all
+1:32:25
+price could do was clo was trade this zone from 113 to 118s and yet close
+1:32:32
+bullish on the day. What have you understood by this concept
+1:32:39
+that all this aggressive selling was what? It was being absorbed. Whoever was
+1:32:44
+trying to smash the market lower down was met with a level of demands. Okay,
+1:32:49
+positions being filled. Why did we close higher on a very negative selling day?
+1:32:54
+Okay, on a on a on a red delta day, heavily red delta. Why is price not significantly lower down? Well, you've
+1:33:00
+got a level of demand soaking up any aggressive selling. Somebody's probably filling their positions and the next day
+1:33:06
+the market tries to sell again. Well, guess what? If you've been a a passive buyer in all of this, where do you think
+1:33:12
+you're invalidated? You're invalidated below this low. Look at where the volume comes in. Right there.
+1:33:18
+Okay. So, if you can understand, you don't have to understand this, but it
+1:33:23
+certainly helps to understand actually what what is price actually doing at
+1:33:29
+this level? Who's in control here? And so it's no coincidence that
+1:33:35
+if this is our if this was the low where there's been a level of absorption, well well look exactly where we've we're
+1:33:41
+pretty much puking rolling over from aggressive selling volume kicks in again.
+1:33:50
+That's what this is now in an uptrend, right? This is the beauty of the market.
+1:33:55
+you know that in in an uptrend that when you see aggressive selling like this, okay, and price can't push lower down,
+1:34:02
+it's making higher highs. These guys if price pushes up and trades above there,
+1:34:07
+well, guess what's going to happen? They've got all the stops resting here. Okay, that just imagine the next day they're
+1:34:14
+selling, selling, selling aggressively and price can only come this low. All this effort and this is all they can
+1:34:20
+push price. Well, guess what? The minute it gets back above there, that's where you get the big candle up because all
+1:34:25
+these positions are going to get taken out. They now become forced buyers because they're having to buy back into their position to close out their
+1:34:32
+shorts. Okay, that's what causes those aggressive moves up. In this instance, all this aggressive selling was being
+1:34:38
+absorbed, but there was nobody thereafter to take the pri to take price higher and that such that once these
+1:34:44
+were offside, that's where you get the thin move down again. very thin books. Like I said on Sunday or whenever it was yesterday that the
+1:34:52
+books are actually very thin. You you can expect price to zip around 5k rotations. That's essentially what we've
+1:34:57
+had since Sunday. 109 to 116s, 116s back to 109's, 109 to 113s, 113s back to 109.
+1:35:05
+Really good rotational ranges, okay? Where you want to manage your risk
+1:35:11
+according to volatility. So using something as simple as an ATR, understand what the volatility is in the
+1:35:18
+market and how you're looking to play that. All right, so I think that's it for today's stream.
+1:35:24
+I hope you found that educational. I've pretty much shared my views and I think really everything hinges
+1:35:31
+upon trades, what equities does, what NASDAQ does, what Bitcoin does. There's no point in looking at a shitcoin
+1:35:38
+thinking that you can go long on a shitcoin when Bitcoin is likely to break down. it's not going to work out for you. So understand what Bitcoin is doing
+1:35:44
+first and by doing so you'll have a better understanding that where risk is
+1:35:51
+skewed to is risk you to the downside shortterm or is risk skewed to the upside now and even looking at this
+1:35:58
+looking at the book I've got the tick size to a th00and you know there's this bid resting at this 111 but look at this
+1:36:05
+the sell side the slightly more stacked asks now all of this is irrelevant what really matters is the uh the the the the
+1:36:12
+nearest bid to ask. Okay? Because these are buyers and sellers with intents. Okay?
+1:36:18
+Anybody who's got their asks stacked up here, that could get pulled away. Okay? Anybody who's got a large bid down here
+1:36:24
+like this 46 mil, he can pull that away at any time. Not a problem. Okay? It
+1:36:30
+could also be somebody's take profit, somebody looking to close out a short into 107s. So, don't get too caught up
+1:36:37
+on heat maps and price being, you know, 10% away from a level and all there's
+1:36:44
+there's a big level of demand here. Well, you should have know learned any if anything from Friday that all those
+1:36:49
+heat maps that everybody was posting earlier in the day, well, they went to ship once liquidity got pulled. So, what
+1:36:54
+really matters is not what the heat map is doing or what the heat map is telling you. What actually matters is when price
+1:37:00
+hits the heat map, what activity of buying and selling are you seeing or are those bids and offers
+1:37:07
+being pulled? That's what matters. Okay? The actual transactional volume at a level, not the fact that you've got some
+1:37:13
+fancy heat map with some lines here and you think it's going to hold, but you can't tell if it's actually being traded
+1:37:20
+into and holding. Whereas the do and the ladder and footprint will actually tell you the transactional activity at each
+1:37:27
+price level depending upon your tick size. Okay. So that's the level of granularity that you can see with the
+1:37:34
+footprint that the heat map won't necessarily give you. You don't have to use this but it for me I prefer to use
+1:37:41
+the dominant ladder. If there's one tool that I could trade with it would it would be this because one it gives me the volume profile.
+1:37:48
+Uh it gives me the delta profile. Okay. And I can also see the running delta
+1:37:54
+as to who's in control. Okay, bids uh bids versus asks and then the delta of this. There's my volume profile. Okay,
+1:38:02
+so you can see it's a fairly conventional day. We've got tails at either side. So if we trade, you know,
+1:38:09
+earlier on trade the tail low, probably get a mean reversion back up, vice versa. Okay, it's a fairly balanced day
+1:38:16
+today to some extent in terms of this range. So when you look at the range here,
+1:38:22
+you can see from the last two three days that we are in a bracketed environment, a rangebound environment. Okay, that's that's what you can ascertain by looking
+1:38:30
+at the chart, the candles, the profiles that what really matters now going
+1:38:35
+forward is this here. This is the zone that that
+1:38:41
+really matters. Okay, do we get acceptance below it and trade
+1:38:46
+lower down? Can we get back above 116s and trade into 120s? Okay,
+1:38:52
+right now we're in no man's land. There's nothing for me to action here.
+1:39:01
+All right, I think that's it, folks. I would I I would I would have uh covered Ethereum, but I think for me the scenario is very simple and Ethereum
+1:39:07
+below 39, not good. It doesn't get any simpler than that. Um
+1:39:14
+below 39 for me is very key. Why? Because like I said,
+1:39:19
+high time frame, one single level. Where did the market sell off each and
+1:39:24
+every time? Well, it's fairly evident to see. Look, price wicks the highs. Where
+1:39:30
+does it sell off from? Here. Wicks the high. Well, not wicks high. Trades into this level. Sells off to 26s. From 39
+1:39:36
+into 26s. What does price do? Tries to hold the level. Underside retest. Sell
+1:39:42
+off where 23s. Okay. And again price trades 39s sell off to 28s trades 39s
+1:39:50
+sell off to 21 price again trades where 39s sell off to where uh 15s. Okay price
+1:40:00
+trading below that level again this whole area is massive as far as I'm
+1:40:05
+concerned that if we start getting acceptance below here I think there's a very good case that we probably trade
+1:40:11
+into this 3,000 level. Okay. And if you really want to take this further, for me
+1:40:16
+it's it's as simple as, well, look, we clearly know where we've got a defined range high. We clearly know where we've
+1:40:22
+got a fine defined level of a range low. We take the mid of this zone. Well, what's that going to what what is that
+1:40:28
+going to look like? That is essentially where
+1:40:35
+right there. Okay. And what do we have here? We have a level of inefficiency right here. Okay.
+1:40:41
+So, there will be a bunch of single prints on the market profile chart between 3350
+1:40:48
+to 3,50 somewhere in there. Um, well, not somewhere in there, but I I'd be looking
+1:40:54
+for this level to get traded if we're going to roll over the coming days. Acceptance back above 4500 is key for
+1:41:01
+me. Look at the monthly chart. It's very, very simple. 4500. You get above that level and I'll
+1:41:08
+tell you that we're probably going to go to new alltime highs. Until then, they're the two big levels that I'm
+1:41:14
+looking at. Okay? But until then, contextually, even using the moving averages, do I
+1:41:21
+want to be on the wrong side of the market? No, I don't. Okay? If you just flip the chart, why would you short this
+1:41:28
+down into support? Would you not be thinking, "All right, look. We've had a low, lower low,
+1:41:36
+lower high, higher low, higher high, equal highs, a higher low into a higher
+1:41:41
+high." So now there's that shift in context.
+1:41:47
+And so if we start pushing higher, then you know the next objective is what? 3,400, right? Fine. 3,400. Do we
+1:41:55
+get an over? Under back inside, trade down. Fine. Cool. That's going to be the bullish setup. Or is it going to push
+1:42:01
+all the way back into that mid level? Then I'll take the long. Okay, backside long into the range quarter, take
+1:42:08
+profit. Why is it any different? Whichever way you look at the chart, you know,
+1:42:15
+I don't want to fade against this momentum here. For the first time
+1:42:21
+since May, we we have started to establish what could be the beginning. Okay, key
+1:42:28
+word. We we we might establish what could be the beginning. I'm not saying
+1:42:34
+it is, but what could be the turning point in the market for the next few
+1:42:39
+weeks. Okay, where am I wrong? Well, if we just like we did on Bitcoin in summer 2024, you come down and take that take
+1:42:45
+out this low. Give me that. I might even take a long there. Okay, so it's just the inverse of
+1:42:51
+what I've just showed you. and I can trade it back into the bands
+1:42:56
+long from 3231 straight into 4,000. I'll take that trade nine times out of 10. It
+1:43:02
+is a mean reversion trade because I'm looking to trade it back into the bands. Okay, if the bands are going to be here, we've taken out this low. I'm interested
+1:43:08
+in doing business somewhere in here. We've got an area of single prints here as well. So again, that that whole area
+1:43:14
+that I keep talking about this zone, when you look at the weekly, it's it's it's around here somewhere that I would
+1:43:20
+love to do um some business when it comes to the long side. But again, when
+1:43:25
+you look at the weekly, um breach this and we've got problems
+1:43:30
+again, you know. So just something to really think about.
+1:43:37
+I it's it's a level of indecision this week for me, but I think over the next
+1:43:42
+two weeks we're probably going to get a clear direction if it's not rangebound.
+1:43:50
+All right, so I'm going to leave you at that. I think that's it for today's stream. Hello, Doc. Hope you're well.
+1:43:56
+And uh that's all there is to it. Okay, so wish you all the best for the week
+1:44:01
+ahead, the month ahead. The next stream will be in November. Um, but as always,
+1:44:07
+I've tried to cater to those of you who wish to learn about profile, delta,
+1:44:12
+candles, you know, charts, levels, moving averages, filters, how you can
+1:44:18
+apply this to your trading to keep it very simple on staying on the right side of the trade, right side of the trend.
+1:44:25
+You know, you don't want to be counter trading the trend. And right now I don't really see a reason to be rushing into
+1:44:32
+longs unless we can really get above that 45 46k level. Then I think yeah
+1:44:38
+there's a very good chance we can go to highs then. All right, God bless. Take care and I shall stay blessed and I
+1:44:45
+shall see you in November. Peace out.

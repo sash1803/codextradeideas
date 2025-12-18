@@ -1,0 +1,7 @@
+[theme]
+base = "dark"
+# Optional (uncomment to customize):
+# primaryColor = "#10b981"
+# backgroundColor = "#0E1117"
+# secondaryBackgroundColor = "#111827"
+# textColor = "#EAECEE"
