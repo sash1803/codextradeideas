@@ -23,6 +23,7 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib.dates import AutoDateLocator, ConciseDateFormatter
 
 import math
+import os
 from typing import List, Dict, Any, Tuple, Optional
 
 import numpy as np
@@ -30,7 +31,11 @@ import pandas as pd
 import streamlit as st
 import html as _html
 
-st.set_page_config(page_title="Level Mapping Strategy — XO", layout="wide")
+try:
+    st.set_page_config(page_title="Level Mapping Strategy — XO", layout="wide")
+except Exception:
+    # Allow module import in headless/unit-test contexts where Streamlit isn't running
+    pass
 
 # Optional third-party dependency (safe import)
 try:
@@ -311,6 +316,42 @@ class RetestTriggerState:
                 self.reset()
 
         return False
+
+
+def _run_trigger_self_tests() -> None:
+    """Lightweight, in-module verification for hold + retest sequencing."""
+
+    def _assert_triggers(side: str, closes, highs, lows, level: float, expect_index: int):
+        stg = RetestTriggerState(side=side, hold_bars=2, retest_window=3, tolerance=0.001)
+        hits = []
+        for i, (c, h, l) in enumerate(zip(closes, highs, lows)):
+            if stg.update(close=c, high=h, low=l, level=level):
+                hits.append(i)
+        assert hits == ([expect_index] if expect_index is not None else []), f"Unexpected hits: {hits}"
+
+    # Long: two-bar hold above level (100.2/100.3), then wick retest and close acceptance triggers entry
+    closes_up = [99.5, 100.2, 100.3, 100.15, 100.4]
+    highs_up  = [99.9, 100.5, 100.6, 100.5, 100.8]
+    lows_up   = [99.3, 99.9, 100.0, 99.92, 100.1]
+    _assert_triggers("up", closes_up, highs_up, lows_up, level=100.0, expect_index=3)
+
+    # Short: two-bar hold below level, but no retest within window → no trigger
+    closes_dn = [100.5, 99.8, 99.6, 99.4, 99.2]
+    highs_dn  = [100.7, 100.0, 99.9, 99.7, 99.5]
+    lows_dn   = [100.2, 99.5, 99.3, 99.1, 98.9]
+    _assert_triggers("down", closes_dn, highs_dn, lows_dn, level=100.0, expect_index=None)
+
+    # Short: hold then retest into tolerance band within window triggers
+    closes_dn_ok = [100.5, 99.8, 99.6, 99.85, 99.4]
+    highs_dn_ok  = [100.7, 100.0, 99.9, 100.02, 99.6]
+    lows_dn_ok   = [100.2, 99.5, 99.3, 99.55, 99.1]
+    _assert_triggers("down", closes_dn_ok, highs_dn_ok, lows_dn_ok, level=100.0, expect_index=3)
+
+
+SELF_TEST = os.environ.get("XO_SELFTEST", "0") == "1"
+if SELF_TEST:
+    _run_trigger_self_tests()
+    raise SystemExit(0)
 
 
 class LevelTriggerCfg:
