@@ -1731,8 +1731,8 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
         if have is None or have != want:
             df = resample_ohlcv(raw, tf)
 
-        if drop_last_incomplete:
-            df = drop_incomplete_bar(df, tf)
+    if drop_last_incomplete:
+        df = drop_incomplete_bar(df, tf)
 
     comp = composite_profile(df, days=lookback_days, n_bins=n_bins, va_cov=va_cov)
     rng = rolling_swing_range(df, lookback= max(150, n_bins//2))
