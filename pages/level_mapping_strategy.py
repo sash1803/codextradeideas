@@ -257,29 +257,38 @@ def breakout_or_deviation(df: pd.DataFrame, level: float, side: str, retest: int
     return None
 
 
-def crossed_and_held(df: pd.DataFrame, level: float, side: str, cfg: LevelTriggerCfg) -> List[pd.Timestamp]:
-    """Return timestamps where close crossed & held for `hold_bars`, then retest within `retest_window`."""
-    if not np.isfinite(level):
-        return []
-    closes = df["close"].values
-    highs = df["high"].values
-    lows  = df["low"].values
+def crossed_and_held_stateful(df: pd.DataFrame, level: float, side: str, cfg: LevelTriggerCfg) -> Dict[pd.Timestamp, bool]:
+    """
+    Incremental, no-lookahead detector for "cross + hold N bars, then retest within M bars".
+
+    Returns a mapping from timestamp -> True when the *retest bar* satisfies the trigger.
+    """
+    out: Dict[pd.Timestamp, bool] = {}
+    if not np.isfinite(level) or df.empty:
+        return out
+
     eps = level * cfg.tolerance
-    out: List[pd.Timestamp] = []
+    accept_run = 0  # consecutive closes beyond the level
+    wait_retest = 0  # countdown once accepted
 
-    def ok_retest(i0: int) -> bool:
-        w = slice(i0, min(i0+cfg.retest_window, len(df)))
-        if side=='up':
-            return np.any(lows[w] >= level - eps)
-        else:
-            return np.any(highs[w] <= level + eps)
+    for ts, row in df.iterrows():
+        close_ok = (row["close"] > level) if side == "up" else (row["close"] < level)
+        accept_run = accept_run + 1 if close_ok else 0
 
-    run_len = 0
-    cond = (closes > level) if side=='up' else (closes < level)
-    for i, c in enumerate(cond):
-        run_len = run_len+1 if c else 0
-        if run_len == cfg.hold_bars and ok_retest(i+1):
-            out.append(df.index[i])
+        # Arm the retest window once we have the required acceptance bars
+        if accept_run >= cfg.hold_bars and wait_retest == 0:
+            wait_retest = cfg.retest_window
+
+        if wait_retest > 0:
+            wait_retest -= 1
+            if side == "up":
+                retest_ok = float(row["low"]) >= (level - eps)
+            else:
+                retest_ok = float(row["high"]) <= (level + eps)
+            if retest_ok:
+                out[ts] = True
+                wait_retest = 0  # consume trigger; require a fresh acceptance
+                accept_run = cfg.hold_bars  # keep acceptance context if it persists
     return out
 
 def cvd_proxy(df: pd.DataFrame) -> pd.Series:
@@ -343,10 +352,46 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str,Any], params: Dict[str,An
     open_pos: Optional[Dict[str,Any]] = None
     pending_order: Optional[Dict[str,Any]] = None
 
-    VAL, POC, VAH = comp["VAL"], comp["POC"], comp["VAH"]
+    comp_days = int(params.get("comp_days", 35))
+    comp_bins = int(params.get("comp_bins", 240))
+
+    def _rolling_comp(df_in: pd.DataFrame, days: int, bins: int) -> pd.DataFrame:
+        records = []
+        for ts, _ in df_in.iterrows():
+            window = df_in[df_in.index <= ts]
+            window = window[window.index >= (ts - pd.Timedelta(days=days))]
+            comp_now = composite_profile(window, days=days, n_bins=bins)
+            records.append({"ts": ts, "VAL": comp_now.get("VAL", np.nan), "POC": comp_now.get("POC", np.nan), "VAH": comp_now.get("VAH", np.nan)})
+        out = pd.DataFrame(records).set_index("ts")
+        return out
+
+    comp_series = _rolling_comp(df, comp_days, comp_bins)
+
     trig_cfg = LevelTriggerCfg(params["hold_bars"], params["retest_bars"], params["tol"])
-    val_reclaims = set(crossed_and_held(df, VAL, "up", trig_cfg)) if params["use_val_reclaim"] else set()
-    vah_breaks   = set(crossed_and_held(df, VAH, "down", trig_cfg)) if params["use_vah_break"] else set()
+    val_state = {"accept": 0, "wait": 0}
+    vah_state = {"accept": 0, "wait": 0}
+
+    def _tick_trigger(level_val: float, side: str, state: Dict[str, int]) -> bool:
+        if not np.isfinite(level_val):
+            state["accept"] = state.get("accept", 0) * 0
+            state["wait"] = 0
+            return False
+        eps = level_val * trig_cfg.tolerance
+        close_ok = (row["close"] > level_val) if side == "up" else (row["close"] < level_val)
+        state["accept"] = state.get("accept", 0) + 1 if close_ok else 0
+        if state["accept"] >= trig_cfg.hold_bars and state.get("wait", 0) == 0:
+            state["wait"] = trig_cfg.retest_window
+        hit = False
+        if state.get("wait", 0) > 0:
+            state["wait"] -= 1
+            if side == "up":
+                hit = float(row["low"]) >= (level_val - eps)
+            else:
+                hit = float(row["high"]) <= (level_val + eps)
+            if hit:
+                state["wait"] = 0
+                state["accept"] = trig_cfg.hold_bars
+        return hit
     sp_bands = params.get("sp_bands", []) or []
 
     atr_mult     = float(params["atr_mult"])
@@ -367,6 +412,11 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str,Any], params: Dict[str,An
         px = float(row["close"])
         atrv = float(row["atr"]) if np.isfinite(row["atr"]) else np.nan
         regime = row["regime"]
+        cur_comp = comp_series.loc[ts]
+        VAL, POC, VAH = float(cur_comp.get("VAL", np.nan)), float(cur_comp.get("POC", np.nan)), float(cur_comp.get("VAH", np.nan))
+
+        val_trigger = _tick_trigger(VAL, "up", val_state) if params["use_val_reclaim"] else False
+        vah_trigger = _tick_trigger(VAH, "down", vah_state) if params["use_vah_break"] else False
 
         # Try to fill pending on later bars
         if pending_order and open_pos is None and ts > pending_order["created_ts"]:
@@ -388,7 +438,7 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str,Any], params: Dict[str,An
         # If flat & no pending, evaluate triggers
         if open_pos is None and pending_order is None and np.isfinite(atrv):
             # VAL reclaim → Long
-            if params["use_val_reclaim"] and (ts in val_reclaims) and np.isfinite(VAL):
+            if params["use_val_reclaim"] and val_trigger and np.isfinite(VAL):
                 if entry_style == "Stop-through":
                     entry_target = float(VAL * (1 + params["tol"]))  # stop-buy above
                     plan = level_to_level_plan_safe(entry_target, "long", [POC, VAH], atrv, atr_mult, min_stop_bps, min_tp1_bps)
@@ -427,7 +477,7 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str,Any], params: Dict[str,An
                                     "reason":"VAL_reclaim_market"}
 
             # VAH breakdown → Short
-            elif params["use_vah_break"] and (ts in vah_breaks) and np.isfinite(VAH):
+            elif params["use_vah_break"] and vah_trigger and np.isfinite(VAH):
                 if entry_style == "Stop-through":
                     entry_target = float(VAH * (1 - params["tol"]))  # stop-sell below
                     plan = level_to_level_plan_safe(entry_target, "short", [POC, VAL], atrv, atr_mult, min_stop_bps, min_tp1_bps)
