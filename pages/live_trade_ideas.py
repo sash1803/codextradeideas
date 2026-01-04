@@ -812,6 +812,7 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
         row = df.iloc[i]
         hi_cur, lo_cur = float(row["high"]), float(row["low"])
         o_cur = float(row["open"])
+        close_cur = float(row["close"])
 
         ts_prev  = idx[i-1]
         row_prev = df.iloc[i-1]
@@ -913,11 +914,26 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
             high_prev   = float(row_prev["high"])
             close_prev2 = float(df["close"].iloc[i-2])
 
+            eps_level = lambda lvl: abs(float(lvl)) * tol
+            def _held(side: str, lvl: float) -> bool:
+                if i < hold_bars:
+                    return False
+                window = df.iloc[i-hold_bars:i]
+                if side == "long":
+                    return bool((window["close"] > (lvl + eps_level(lvl))).all())
+                return bool((window["close"] < (lvl - eps_level(lvl))).all())
+
             # ---- LONG ----
             for level in support_levels:
                 level = float(level)
-                reclaim = (close_prev > level) and ((low_prev < level) or (close_prev2 <= level))
-                if not reclaim: continue
+                eps = eps_level(level)
+                reclaim = (close_prev > (level + eps)) and ((low_prev < (level - eps)) or (close_prev2 <= (level - eps)))
+                if not (reclaim and _held("long", level)):
+                    continue
+
+                retest_ok = (lo_cur <= (level + eps)) and (close_cur > (level - eps))
+                if not retest_ok:
+                    continue
 
                 structure_sl = sweep_cluster_low(df, level, end_idx=i-1, max_lookback=lookback_deviation)
                 if not np.isfinite(structure_sl): continue
@@ -1050,8 +1066,14 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
             if open_pos is None and pending_order is None:
                 for level in resistance_levels:
                     level = float(level)
-                    reclaim = (close_prev < level) and ((high_prev > level) or (close_prev2 >= level))
-                    if not reclaim: continue
+                    eps = eps_level(level)
+                    lost = (close_prev < (level - eps)) and ((high_prev > (level + eps)) or (close_prev2 >= (level + eps)))
+                    if not (lost and _held("short", level)):
+                        continue
+
+                    retest_ok = (hi_cur >= (level - eps)) and (close_cur < (level + eps))
+                    if not retest_ok:
+                        continue
 
                     structure_sl = sweep_cluster_high(df, level, end_idx=i-1, max_lookback=lookback_deviation)
                     if not np.isfinite(structure_sl): continue
