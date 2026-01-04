@@ -30,8 +30,6 @@ import pandas as pd
 import streamlit as st
 import html as _html
 
-st.set_page_config(page_title="Level Mapping Strategy — XO", layout="wide")
-
 # Optional third-party dependency (safe import)
 try:
     import requests
@@ -54,32 +52,14 @@ def _ema(series, span):
     return series.ewm(span=span, adjust=False).mean()
 
 def htf_ema_state(df: pd.DataFrame) -> dict:
-    def _state(x: pd.DataFrame) -> dict:
-        if x is None or x.empty:
-            return {"bull_ok": False, "bear_cross": True}
-
-        e12 = _ema(x["close"], 12)
-        e25 = _ema(x["close"], 25)
-
+    w = resample_ohlcv(df, "1W")
+    d3 = df.resample("3D").agg({"open":"first","high":"max","low":"min","close":"last","volume":"sum"})
+    def _state(x):
+        if x.empty: return {"bull_ok": False, "bear_cross": True}
+        e12, e25 = _ema(x["close"], 12), _ema(x["close"], 25)
         bull_ok = (x["close"].iloc[-1] > e12.iloc[-1]) and (x["close"].iloc[-1] > e25.iloc[-1])
-
-        # bearish cross event on the last bar (needs at least 2 points)
-        bear_cross = False
-        if len(x) >= 2:
-            bear_cross = (e12.iloc[-2] > e25.iloc[-2]) and (e12.iloc[-1] <= e25.iloc[-1])
-
-        return {"bull_ok": bool(bull_ok), "bear_cross": bool(bear_cross)}
-
-    # Ensure resample-safe index (cheap)
-    g = df.copy()
-    if not isinstance(g.index, pd.DatetimeIndex):
-        g.index = pd.to_datetime(g.index, utc=True)
-    else:
-        g.index = pd.to_datetime(g.index, utc=True)
-
-    w  = _resample_ohlc(g, "7D")  # or "W-SUN" if you want calendar weeks
-    d3 = _resample_ohlc(g, "3D")
-
+        bear_cross = (e12.shift(1).iloc[-1] > e25.shift(1).iloc[-1]) and (e12.iloc[-1] <= e25.iloc[-1])
+        return {"bull_ok": bull_ok, "bear_cross": bear_cross}
     return {"weekly": _state(w), "d3": _state(d3)}
 
 
@@ -134,6 +114,9 @@ def ema_regime(df: pd.DataFrame, fast: int = 12, slow: int = 21) -> pd.DataFrame
     out["ema_angle_deg"], out["regime"] = angle, regime
     return out
 
+# --- HTF EMA 12/25 state (weekly & 3-day) ---
+def _ema(series, span): 
+    return series.ewm(span=span, adjust=False).mean()
 
 def _resample_ohlc(df: pd.DataFrame, rule: str) -> pd.DataFrame:
     o = df["open"].resample(rule, label="right", closed="right").first()
@@ -143,7 +126,25 @@ def _resample_ohlc(df: pd.DataFrame, rule: str) -> pd.DataFrame:
     v = df["volume"].resample(rule, label="right", closed="right").sum()
     return pd.DataFrame({"open":o,"high":h,"low":l,"close":c,"volume":v}).dropna()
 
+def htf_ema_state(df: pd.DataFrame) -> dict:
+    # Weekly
+    w = _resample_ohlc(df, "7D")
+    w["ema12"], w["ema25"] = _ema(w["close"],12), _ema(w["close"],25)
+    w["bull_ok"] = (w["close"] > w["ema12"]) & (w["close"] > w["ema25"])
+    w["bear_cross"] = (w["ema12"].shift(1) > w["ema25"].shift(1)) & (w["ema12"] <= w["ema25"])
 
+    # 3-Day
+    d3 = _resample_ohlc(df, "3D")
+    d3["ema12"], d3["ema25"] = _ema(d3["close"],12), _ema(d3["close"],25)
+    d3["bull_ok"] = (d3["close"] > d3["ema12"]) & (d3["close"] > d3["ema25"])
+    d3["bear_cross"] = (d3["ema12"].shift(1) > d3["ema25"].shift(1)) & (d3["ema12"] <= d3["ema25"])
+
+    return {
+        "weekly":  {"bull_ok": bool(w["bull_ok"].iloc[-1]) if len(w) else False,
+                    "bear_cross": bool(w["bear_cross"].iloc[-1]) if len(w) else True},
+        "d3":      {"bull_ok": bool(d3["bull_ok"].iloc[-1]) if len(d3) else False,
+                    "bear_cross": bool(d3["bear_cross"].iloc[-1]) if len(d3) else True},
+    }
 
 
 def volume_profile(df: pd.DataFrame, n_bins: int = 240) -> pd.DataFrame:
@@ -181,52 +182,13 @@ def value_area(vprof: pd.DataFrame, coverage: float = 0.70) -> Tuple[float, floa
     poc = vp["price"].iloc[poc_i]
     return val, poc, vah
 
-def composite_profile(df, days=35, n_bins=240, va_cov: float = 0.68) -> Dict[str, Any]:
+def composite_profile(df: pd.DataFrame, days: int = 35, n_bins: int = 240) -> Dict[str, Any]:
     window = df[df.index >= (df.index.max() - pd.Timedelta(days=days))].copy()
     if window.empty:
         return {"VAL": np.nan, "POC": np.nan, "VAH": np.nan, "hist": pd.DataFrame({"price":[],"vol":[]})}
     vp = volume_profile(window, n_bins=n_bins)
-    val, poc, vah = value_area(vp, va_cov)
+    val, poc, vah = value_area(vp, 0.70)
     return {"VAL": val, "POC": poc, "VAH": vah, "hist": vp}
-
-@st.cache_data(show_spinner=False)
-def rolling_composite_profile_cached(df, days, n_bins, min_bars, va_cov):
-    return rolling_composite_profile(df, days=days, n_bins=n_bins, min_bars=min_bars, va_cov=va_cov)
-
-
-def rolling_composite_profile(
-    df: pd.DataFrame,
-    days: int = 35,
-    n_bins: int = 240,
-    min_bars: int = 20,
-    va_cov: float = 0.68,
-) -> pd.DataFrame:
-    """
-    Per-bar composite profile using ONLY data up to each bar's timestamp.
-    Returns DataFrame with index == df.index and columns ['VAL','POC','VAH'].
-    """
-    out = pd.DataFrame(index=df.index, columns=["VAL", "POC", "VAH"], dtype=float)
-    if df.empty:
-        return out
-
-    idx = df.index
-    lookback = pd.Timedelta(days=days)
-
-    for i, ts in enumerate(idx):
-        start_ts = ts - lookback
-        j0 = idx.searchsorted(start_ts)
-        window = df.iloc[j0:i+1]
-        if len(window) < min_bars:
-            continue
-
-        vp = volume_profile(window, n_bins=n_bins)
-        val, poc, vah = value_area(vp, va_cov)
-        out.at[ts, "VAL"] = float(val)
-        out.at[ts, "POC"] = float(poc)
-        out.at[ts, "VAH"] = float(vah)
-
-    return out
-
 
 def single_prints(vprof: pd.DataFrame, q: float = 0.15) -> List[Tuple[float,float]]:
     if vprof.empty:
@@ -258,61 +220,6 @@ def atr(df: pd.DataFrame, period: int = 14) -> pd.Series:
 
 # ----------------- Trigger logic -----------------
 
-class RetestTriggerState:
-    def __init__(self, side: str, hold_bars: int, retest_window: int, tolerance: float):
-        self.side = side  # "up" or "down"
-        self.hold_bars = int(hold_bars)
-        self.retest_window = int(retest_window)
-        self.tol = float(tolerance)
-
-        self.run_len = 0
-        self.armed = False
-        self.window_left = 0
-        self.level_at_arm = np.nan
-
-    def reset(self):
-        self.run_len = 0
-        self.armed = False
-        self.window_left = 0
-        self.level_at_arm = np.nan
-
-    def update(self, close: float, high: float, low: float, level: float) -> bool:
-        """Return True only on the bar where the retest condition is actually observed."""
-        if not np.isfinite(level):
-            self.reset()
-            return False
-
-        # Hold condition (cross + hold)
-        cond = (close > level) if self.side == "up" else (close < level)
-        self.run_len = (self.run_len + 1) if cond else 0
-
-        just_armed = False
-        if (not self.armed) and (self.run_len == self.hold_bars):
-            self.armed = True
-            self.window_left = self.retest_window
-            self.level_at_arm = float(level)
-            just_armed = True  # retest window starts NEXT bar
-
-        if self.armed and (not just_armed):
-            eps = self.level_at_arm * self.tol
-
-            if self.side == "up":
-                ok = (low <= (self.level_at_arm + eps)) and (close > (self.level_at_arm - eps))
-            else:
-                ok = (high >= (self.level_at_arm - eps)) and (close < (self.level_at_arm + eps))
-
-            self.window_left -= 1
-            if ok:
-                # Trigger happens NOW (no lookahead)
-                self.reset()
-                return True
-
-            if self.window_left <= 0:
-                self.reset()
-
-        return False
-
-
 class LevelTriggerCfg:
     def __init__(self, hold_bars: int = 2, retest_window: int = 6, tolerance: float = 0.0005):
         self.hold_bars = int(hold_bars)
@@ -320,83 +227,74 @@ class LevelTriggerCfg:
         self.tolerance = float(tolerance)
 
 def breakout_or_deviation(df: pd.DataFrame, level: float, side: str, retest: int, tol_bps: float):
-    """Return 'continuation'|'deviation'|None; evaluated using ONLY bars available in df (no forward peeking)."""
-    if df is None or df.empty or (not np.isfinite(level)):
+    """Return 'continuation'|'deviation'|None; side='up' (range high) or 'down' (range low)."""
+    try:
+        closes = df["close"]
+        eps = (level * tol_bps / 1e4)
+        if side == "up":
+            broke = closes > (level + eps)
+            if not broke.any():
+                return None
+            i = int(broke.idxmax()==closes.index[0]) and 0 or list(broke).index(True)
+            win = df.iloc[i+1:i+1+max(1, int(retest))]
+            if not win.empty and (win["low"] >= (level - eps)).all():
+                return "continuation"
+            if (i+1 < len(df)) and (closes.iloc[i+1] < (level - eps)):
+                return "deviation"
+        else:
+            broke = closes < (level - eps)
+            if not broke.any():
+                return None
+            i = int(broke.idxmax()==closes.index[0]) and 0 or list(broke).index(True)
+            win = df.iloc[i+1:i+1+max(1, int(retest))]
+            if not win.empty and (win["high"] <= (level + eps)).all():
+                return "continuation"
+            if (i+1 < len(df)) and (closes.iloc[i+1] > (level + eps)):
+                return "deviation"
         return None
+    except Exception:
+        pass
+    return None
 
-    closes = df["close"].to_numpy()
-    highs  = df["high"].to_numpy()
-    lows   = df["low"].to_numpy()
 
-    eps = level * (float(tol_bps) / 1e4)
-    n = max(1, int(retest))
+def crossed_and_held(df: pd.DataFrame, level: float, side: str, cfg: LevelTriggerCfg) -> List[pd.Timestamp]:
+    """Return timestamps where close crossed & held for `hold_bars`, then retest within `retest_window`."""
+    if not np.isfinite(level):
+        return []
+    closes = df["close"].values
+    highs = df["high"].values
+    lows  = df["low"].values
+    eps = level * cfg.tolerance
+    out: List[pd.Timestamp] = []
 
-    if side == "up":
-        broke = closes > (level + eps)
-        # breakout EVENT = False -> True transition
-        events = broke & np.r_[False, ~broke[:-1]]
-        if not events.any():
-            return None
+    def ok_retest(i0: int) -> bool:
+        w = slice(i0, min(i0+cfg.retest_window, len(df)))
+        if side=='up':
+            return np.any(lows[w] >= level - eps)
+        else:
+            return np.any(highs[w] <= level + eps)
 
-        ib = int(np.flatnonzero(events)[-1])  # most recent breakout index
-        if ib + 1 >= len(df):
-            return None
-
-        post_closes = closes[ib+1:]
-        post_lows   = lows[ib+1:]
-
-        # Deviation only once it's actually happened (known now)
-        if post_closes[0] < (level - eps):
-            return "deviation"
-
-        # Continuation only once we have enough post-breakout bars
-        if len(post_lows) >= n and (post_lows[:n] >= (level - eps)).all():
-            return "continuation"
-
-        return None
-
-    else:  # side == "down"
-        broke = closes < (level - eps)
-        events = broke & np.r_[False, ~broke[:-1]]
-        if not events.any():
-            return None
-
-        ib = int(np.flatnonzero(events)[-1])
-        if ib + 1 >= len(df):
-            return None
-
-        post_closes = closes[ib+1:]
-        post_highs  = highs[ib+1:]
-
-        if post_closes[0] > (level + eps):
-            return "deviation"
-
-        if len(post_highs) >= n and (post_highs[:n] <= (level + eps)).all():
-            return "continuation"
-
-        return None
-
+    run_len = 0
+    cond = (closes > level) if side=='up' else (closes < level)
+    for i, c in enumerate(cond):
+        run_len = run_len+1 if c else 0
+        if run_len == cfg.hold_bars and ok_retest(i+1):
+            out.append(df.index[i])
+    return out
 
 def cvd_proxy(df: pd.DataFrame) -> pd.Series:
     sign = np.where(df["close"].diff().fillna(0)>=0, 1, -1)
     return pd.Series((sign * df["volume"].values).cumsum(), index=df.index, name="cvd_proxy")
 
-def level_to_level_plan_safe(
-    entry_px: float,
-    side: str,
-    targets: List[float],
-    atrv: float,
-    atr_mult_tp: float,
-    min_stop_bps: int,
-    min_tp1_bps: int,
-    atr_mult_sl: Optional[float] = None,
-) -> Dict[str, float]:
-    assert side in ("long", "short")
+def level_to_level_plan_safe(entry_px: float, side: str, targets: List[float],
+                             atrv: float, atr_mult: float,
+                             min_stop_bps: int, min_tp1_bps: int) -> Dict[str,float]:
+    assert side in ("long","short")
     sign = 1 if side == "long" else -1
 
-    atr_mult_sl = float(atr_mult_tp if atr_mult_sl is None else atr_mult_sl)
-
-    sl_raw = entry_px - sign * (atr_mult_sl * atrv)
+    sl_raw = entry_px - sign * (atr_mult * atrv)
+    extra_atr = float(params.get("_extra_atr_buffer", 0.0)) if "params" in globals() else 0.0
+    sl_raw = entry_px - sign * ((atr_mult + extra_atr) * atrv)
     min_stop_abs = entry_px * (min_stop_bps / 10000.0)
     sl = sl_raw if abs(entry_px - sl_raw) >= min_stop_abs else entry_px - sign * min_stop_abs
 
@@ -404,25 +302,21 @@ def level_to_level_plan_safe(
 
     def _first_far_enough(ts):
         for t in ts:
-            if (
-                np.isfinite(t)
-                and abs(t - entry_px) >= min_tp1_abs
-                and (sign * (t - entry_px) > 0)
-            ):
+            if np.isfinite(t) and abs(t - entry_px) >= min_tp1_abs and (sign*(t-entry_px) > 0):
                 return float(t)
         return None
 
     tp1 = _first_far_enough(targets)
     if tp1 is None:
-        tp1 = entry_px + sign * max(min_tp1_abs, atr_mult_tp * atrv)
+        tp1 = entry_px + sign * max(min_tp1_abs, atr_mult * atrv)
 
-    ts_same_side = [t for t in targets if np.isfinite(t) and sign * (t - entry_px) > 0]
+    ts_same_side = [t for t in targets if np.isfinite(t) and sign*(t-entry_px) > 0]
     if ts_same_side:
         tp2 = max(ts_same_side) if side == "long" else min(ts_same_side)
-        if sign * (tp2 - tp1) <= 0:
-             tp2 = tp1 + sign * max(min_tp1_abs, 2 * atr_mult_tp * atrv)
+        if sign*(tp2 - tp1) <= 0:
+            tp2 = tp1 + sign * max(min_tp1_abs, 2 * atr_mult * atrv)
     else:
-         tp2 = tp1 + sign * max(min_tp1_abs, 2 * atr_mult_tp * atrv)
+        tp2 = tp1 + sign * max(min_tp1_abs, 2 * atr_mult * atrv)
 
     return {"sl": float(sl), "tp1": float(tp1), "tp2": float(tp2)}
 
@@ -432,764 +326,295 @@ def _rr(entry: float, sl: float, tp: float) -> float:
 
 # ----------------- Backtest & live calculation -----------------
 
-def refresh_pending_order_pre_activation_xo(
-    pending_order: Dict[str, Any],
-    i_prev: int,
-    df: pd.DataFrame,
-    VAL_p: float, POC_p: float, VAH_p: float,
-    mon_h: float, mon_l: float,
-    lookback_deviation: int,
-    min_stop_bps: int,
-    min_tp1_bps: int,
-    atr_buf_x: float = 0.0,
-) -> Dict[str, Any]:
-
-    side = str(pending_order.get("side","")).lower()
-    if side not in ("long","short"):
-        return pending_order
-
-    level = float(pending_order.get("signal_level", np.nan))
-    if not np.isfinite(level):
-        return pending_order
-
-    entry = float(pending_order["entry"])
-
-    # structural SL from sweep (history-only)
-    if side == "long":
-        structure_sl = sweep_cluster_low(df, level, end_idx=i_prev, max_lookback=lookback_deviation)
-        if not np.isfinite(structure_sl):
-            return pending_order
-        # enforce min stop
-        min_stop_dist = entry * (min_stop_bps/10000.0)
-        if (entry - structure_sl) < min_stop_dist:
-            structure_sl = entry - min_stop_dist
-
-        min_tp_dist = entry * (min_tp1_bps / 10000.0)
-        tp1, tp2 = pick_targets_long(entry, [POC_p, VAH_p, mon_h], min_tp_dist)
-
-    else:
-        structure_sl = sweep_cluster_high(df, level, end_idx=i_prev, max_lookback=lookback_deviation)
-        if not np.isfinite(structure_sl):
-            return pending_order
-        min_stop_dist = entry * (min_stop_bps/10000.0)
-        if (structure_sl - entry) < min_stop_dist:
-            structure_sl = entry + min_stop_dist
-
-        min_tp_dist = entry * (min_tp1_bps / 10000.0)
-        tp1, tp2 = pick_targets_short(entry, [POC_p, VAL_p, mon_l], min_tp_dist)
-
-    atrv = float(df["atr"].iloc[i_prev]) if ("atr" in df.columns) else np.nan
-    if atr_buf_x > 0 and np.isfinite(atrv):
-        if side == "long":
-            structure_sl = float(structure_sl) - atr_buf_x * atrv
-        else:
-            structure_sl = float(structure_sl) + atr_buf_x * atrv
-
-    # fallback tp2
-    risk = abs(entry - structure_sl)
-    if np.isfinite(risk) and risk > 0 and not np.isfinite(tp2) and np.isfinite(tp1):
-        tp2 = (entry + 2*risk) if side=="long" else (entry - 2*risk)
-
-    # optional clamp to signal bar extreme (still history-only)
-    sig_low  = float(pending_order.get("signal_low",  np.nan))
-    sig_high = float(pending_order.get("signal_high", np.nan))
-    if side == "long" and np.isfinite(sig_low):
-        structure_sl = min(structure_sl, sig_low)
-    if side == "short" and np.isfinite(sig_high):
-        structure_sl = max(structure_sl, sig_high)
-
-    pending_order["sl"]  = float(structure_sl)
-    pending_order["tp1"] = float(tp1) if np.isfinite(tp1) else float("nan")
-    pending_order["tp2"] = float(tp2) if np.isfinite(tp2) else float("nan")
-    pending_order["last_refresh_ts"] = df.index[i_prev]
-    return pending_order
-
-
-def should_invalidate_pending(
-    ts: pd.Timestamp,
-    row_prev: pd.Series,
-    pending_order: Dict[str, Any],
-    df: pd.DataFrame,
-    params: Dict[str, Any],
-) -> bool:
+def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str,Any], params: Dict[str,Any], force_eod_close: bool = False):
     """
-    Called at the START of bar `ts` (before it can fill).
-    Must only use information available up to the CLOSE of `ts_prev`.
-    Pass row_prev = df.loc[ts_prev].
-    """
-
-    # --- 1) Time-out: pending too long without filling ---
-    max_pending_bars = int(params.get("max_pending_bars", 0))  # 0 = disabled
-    if max_pending_bars > 0:
-        try:
-            created_ts = pending_order.get("created_ts")
-            if created_ts is not None:
-                created_idx = df.index.get_loc(created_ts)
-                now_idx = df.index.get_loc(ts)
-                if (now_idx - created_idx) >= max_pending_bars:
-                    return True
-        except Exception:
-            pass
-
-    # --- 2) Optional: invalidate on EMA regime flip (use PREV bar regime only) ---
-    if params.get("invalidate_on_regime_flip", False):
-        try:
-            regime_prev = row_prev.get("regime", None)
-        except Exception:
-            regime_prev = None
-
-        side = str(pending_order.get("side", "")).lower()
-        if regime_prev is not None:
-            if side == "long" and regime_prev == "downtrend":
-                return True
-            if side == "short" and regime_prev == "uptrend":
-                return True
-
-    # --- 3) Invalidate if price closes back through the signal level (setup failed) ---
-    sig_level = float(pending_order.get("signal_level", np.nan))
-    tol = float(params.get("tol", 0.0))  # already in decimal (bps/10000)
-    side = str(pending_order.get("side","")).lower()
-
-    if np.isfinite(sig_level):
-        if side == "long":
-            # reclaim failed: close back below level (with tol)
-            if float(row_prev["close"]) < sig_level * (1.0 - tol):
-                return True
-        elif side == "short":
-            # breakdown failed: close back above level (with tol)
-            if float(row_prev["close"]) > sig_level * (1.0 + tol):
-                return True
-
-    return False
-
-def _rr_gate_tp(tp1: float, tp2: float, tp1_enabled: bool) -> float:
-    # If TP1 is disabled, gate on TP2 instead
-    if tp1_enabled and np.isfinite(tp1):
-        return float(tp1)
-    return float(tp2) if np.isfinite(tp2) else float("nan")
-
-def get_monday_range_completed(df: pd.DataFrame, current_time: pd.Timestamp) -> tuple[float, float]:
-    current_time = pd.to_datetime(current_time, utc=True)
-    idx = pd.to_datetime(df.index, utc=True)
-
-    this_mon_start = (current_time - pd.Timedelta(days=current_time.dayofweek)).normalize()
-    this_mon_end   = this_mon_start + pd.Timedelta(days=1)
-
-    mon_start = (this_mon_start - pd.Timedelta(days=7)) if current_time < this_mon_end else this_mon_start
-    mon_end   = mon_start + pd.Timedelta(days=1)
-
-    # RIGHT-LABELED candles: exclude boundary at mon_start (belongs to prior day)
-    monday_data = df.loc[(idx > mon_start) & (idx <= mon_end)]
-    if monday_data.empty:
-        return np.nan, np.nan
-
-    return float(monday_data["high"].max()), float(monday_data["low"].min())
-
-def get_monthly_open(df: pd.DataFrame, current_time: pd.Timestamp) -> float:
-    current_time = pd.to_datetime(current_time, utc=True)
-    idx = pd.to_datetime(df.index, utc=True)
-
-    month_start = current_time.normalize().replace(day=1)
-
-    loc = idx.searchsorted(month_start, side="left")
-    if loc < len(df):
-        ts = idx[loc]
-        if ts.year == current_time.year and ts.month == current_time.month:
-            return float(df.iloc[loc]["open"])
-
-    month_data = df[(idx.year == current_time.year) & (idx.month == current_time.month)]
-    if not month_data.empty:
-        return float(month_data.iloc[0]["open"])
-
-    return np.nan
-
-def sweep_cluster_low(df: pd.DataFrame, level: float, end_idx: int, max_lookback: int):
-    start = max(0, end_idx - max_lookback + 1)
-    j = end_idx
-    min_low = float("inf")
-    seen = False
-    while j >= start:
-        lo = float(df["low"].iloc[j])
-        cl = float(df["close"].iloc[j])
-        if (lo < level) or (cl < level):
-            seen = True
-            min_low = min(min_low, lo)
-            j -= 1
-            continue
-        if seen:
-            break
-        j -= 1
-    return (min_low if seen else np.nan)
-
-def sweep_cluster_high(df: pd.DataFrame, level: float, end_idx: int, max_lookback: int):
-    start = max(0, end_idx - max_lookback + 1)
-    j = end_idx
-    max_hi = -float("inf")
-    seen = False
-    while j >= start:
-        hi = float(df["high"].iloc[j])
-        cl = float(df["close"].iloc[j])
-        if (hi > level) or (cl > level):
-            seen = True
-            max_hi = max(max_hi, hi)
-            j -= 1
-            continue
-        if seen:
-            break
-        j -= 1
-    return (max_hi if seen else np.nan)
-
-def pick_targets_long(entry_px: float, candidates: list[float], min_tp_dist: float = 0.0):
-    ups = sorted({float(x) for x in candidates if pd.notna(x) and np.isfinite(x) and float(x) > entry_px + min_tp_dist})
-    tp1 = ups[0] if len(ups) >= 1 else np.nan
-    tp2 = ups[1] if len(ups) >= 2 else np.nan
-    return tp1, tp2
-
-def pick_targets_short(entry_px: float, candidates: list[float], min_tp_dist: float = 0.0):
-    dns = sorted({float(x) for x in candidates if pd.notna(x) and np.isfinite(x) and float(x) < entry_px - min_tp_dist}, reverse=True)
-    tp1 = dns[0] if len(dns) >= 1 else np.nan
-    tp2 = dns[1] if len(dns) >= 2 else np.nan
-    return tp1, tp2
-
-
-def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any], params: Dict[str, Any], force_eod_close: bool = False):
-    """
-    XO LOGIC UPDATE:
-    1. Levels: Monday Range (High/Low), Monthly Open, Composite VAL/VAH.
-    2. Trigger: DEVIATION & RECLAIM (Trap).
-    3. Stop Loss: Structural.
-    4. Integrated Filters via params["filters_func"]
+    Returns: trades_df, summary, open_pos (active if any), pending_list (unfilled orders)
+    params expects:
+      atr_period, ema_fast, ema_slow, hold_bars, retest_bars, tol,
+      atr_mult, min_stop_bps, min_tp1_bps, min_rr,
+      use_val_reclaim, use_vah_break, use_sp_cont, sp_bands, entry_style
     """
     df = df.copy()
-
-    entry_style = str(params.get("entry_style", "Market-on-trigger"))
-    tol = float(params.get("tol", 0.0))
-    
-    # Ensure index is datetime
-    if not isinstance(df.index, pd.DatetimeIndex):
-        df.index = pd.to_datetime(df.index, utc=True)
-    elif df.index.tz is None:
-        df.index = df.index.tz_localize("UTC")
-    else:
-        df.index = df.index.tz_convert("UTC")
-
-    # Calculate indicators
     df["atr"] = atr(df, params["atr_period"])
     df["cvd_proxy"] = cvd_proxy(df)
     df = ema_regime(df, params["ema_fast"], params["ema_slow"])
 
-    trades: List[Dict[str, Any]] = []
-    open_pos: Optional[Dict[str, Any]] = None
-    pending_order: Optional[Dict[str, Any]] = None
+    trades: List[Dict[str,Any]] = []
+    open_pos: Optional[Dict[str,Any]] = None
+    pending_order: Optional[Dict[str,Any]] = None
 
-    # Rolling Composite Profile
-    lookback_days = int(params.get("lookback_days", 35))
-    comp_bins     = int(params.get("comp_bins", 240))
-    va_cov        = float(params.get("va_cov", 0.68))
-    rolling_comp = rolling_composite_profile_cached(df[["close", "volume"]], lookback_days, comp_bins, 20, va_cov)
-    
-    val_series = rolling_comp["VAL"].reindex(df.index)
-    poc_series = rolling_comp["POC"].reindex(df.index)
-    vah_series = rolling_comp["VAH"].reindex(df.index)
+    VAL, POC, VAH = comp["VAL"], comp["POC"], comp["VAH"]
+    trig_cfg = LevelTriggerCfg(params["hold_bars"], params["retest_bars"], params["tol"])
+    val_reclaims = set(crossed_and_held(df, VAL, "up", trig_cfg)) if params["use_val_reclaim"] else set()
+    vah_breaks   = set(crossed_and_held(df, VAH, "down", trig_cfg)) if params["use_vah_break"] else set()
+    sp_bands = params.get("sp_bands", []) or []
 
-    # Param extraction
-    min_rr = float(params["min_rr"])
-    tp1_exit_pct = int(params.get("tp1_exit_pct", 100))
-    tp1_exit_frac = tp1_exit_pct / 100.0
-    tp1_enabled = tp1_exit_frac > 0.0
-    min_tp1_bps = int(params.get("min_tp1_bps", 50))
-    min_stop_bps = int(params.get("min_stop_bps", 20))
-    atr_mult_tp = float(params.get("atr_mult_tp", params.get("atr_mult", 1.5)))
-    atr_mult_sl = float(params.get("atr_mult_sl", params.get("atr_mult", 1.5)))
-    
-    # XO specific params
-    lookback_deviation = int(params.get("lookback_deviation", 5))
-    
-    # Retrieve Filter Function
+    atr_mult     = float(params["atr_mult"])
+    min_stop_bps = int(params["min_stop_bps"])
+    min_tp1_bps  = int(params["min_tp1_bps"])
+    min_rr       = float(params["min_rr"])
+    entry_style  = params.get("entry_style", "Stop-through")
     filters_func = params.get("filters_func", None)
 
-    # HELPER METHODS (Nested)
-    def _planned_entry(level: float, direction: str, entry_style: str, tol: float) -> tuple[str, float]:
-        # direction: "long" or "short"
-        if entry_style == "Market-on-trigger":
-            return "market", float("nan")  # caller uses o_cur
-        if entry_style == "Stop-through":
-            return ("stop", level * (1.0 + tol)) if direction == "long" else ("stop", level * (1.0 - tol))
-        # Limit-on-retest
-        return ("limit", level * (1.0 - tol)) if direction == "long" else ("limit", level * (1.0 + tol))
-
-    def _dedupe_levels(levels, tol_bps: float = 2.0):
-        lv = sorted([float(x) for x in levels if pd.notna(x)])
-        out = []
-        for x in lv:
-            if not out:
-                out.append(x)
-                continue
-            tol = abs(out[-1]) * (tol_bps / 10000.0)
-            if abs(x - out[-1]) > tol:
-                out.append(x)
-        return out
-
-    def _fill_px_for_gap(entry_kind: str, side: str, epx: float, o_cur: float) -> float:
-        # Optional but strongly recommended (handles open already beyond stop/limit)
-        if entry_kind == "stop":
-            return max(epx, o_cur) if side == "long" else min(epx, o_cur)
-        if entry_kind == "limit":
-            return min(epx, o_cur) if side == "long" else max(epx, o_cur)
-        return epx
-
-    def _manage_open_pos(open_pos: Dict[str, Any], ts: pd.Timestamp, hi_cur: float, lo_cur: float):
-        side = open_pos["side"]
-        sl   = float(open_pos["sl"])
-        tp1  = float(open_pos.get("tp1", np.nan))
-        tp2  = float(open_pos.get("tp2", np.nan))
-
-        sl_hit  = (lo_cur <= sl) if side == "long" else (hi_cur >= sl)
-        tp1_hit = tp1_enabled and np.isfinite(tp1) and ((hi_cur >= tp1) if side == "long" else (lo_cur <= tp1))
-        tp2_hit = np.isfinite(tp2) and ((hi_cur >= tp2) if side == "long" else (lo_cur <= tp2))
-
-        hit = None
-        if sl_hit:
-            hit = ("SL", sl)
-        else:
-            tp1_full_exit = (tp1_exit_frac >= 0.999)
-            if tp1_full_exit:
-                if tp1_hit: hit = ("TP1", tp1)
-                elif tp2_hit: hit = ("TP2", tp2)
-            else:
-                if tp2_hit: hit = ("TP2", tp2)
-                elif tp1_hit: hit = ("TP1", tp1)
-
-        if not hit:
-            return open_pos, False
-
-        kind, exit_price = hit
-        entry = float(open_pos["entry"])
-        qty0  = float(open_pos.get("qty", 1.0))
-        risk_abs = abs(entry - sl) or float("nan")
-
-        def _append_leg(exit_kind, exit_px, leg_qty):
-            pnl_px = ((exit_px - entry) if side == "long" else (entry - exit_px)) * leg_qty
-            pnl_R  = (((exit_px - entry) / risk_abs) if side == "long" else ((entry - exit_px) / risk_abs)) * leg_qty
-            trades.append({
-                "entry_time": open_pos["entry_time"], "exit_time": ts,
-                "side": side, "reason": open_pos["reason"], "exit_kind": exit_kind,
-                "entry": entry, "sl": sl, "tp1": tp1, "tp2": tp2,
-                "exit": float(exit_px), "pnl": float(pnl_px), "pnl_R": float(pnl_R),
-                "qty": float(leg_qty),
-                "entry_kind": open_pos.get("entry_kind", "market"),
-            })
-
-        if (kind == "TP2" and (0.0 < tp1_exit_frac < 1.0) and tp1_hit and np.isfinite(tp1) and np.isfinite(tp2)):
-            take_qty = qty0 * tp1_exit_frac
-            rem_qty  = qty0 - take_qty
-            _append_leg("TP1_part", tp1, take_qty)
-            _append_leg("TP2", tp2, rem_qty)
-            return None, True
-
-        if kind in ("SL", "TP2"):
-            _append_leg(kind, exit_price, qty0)
-            return None, True
-
-        if tp1_exit_frac <= 0.0: return open_pos, False
-        if tp1_exit_frac >= 1.0:
-            _append_leg("TP1", exit_price, qty0)
-            return None, True
-
-        take_qty = qty0 * tp1_exit_frac
-        rem_qty  = qty0 - take_qty
-        _append_leg("TP1_part", exit_price, take_qty)
-        open_pos["qty"] = float(rem_qty)
-        open_pos["tp1"] = float("nan")
-        return open_pos, False
+    # % to exit at TP1; remainder rides to TP2/SL
+    tp1_exit_pct = int(params.get("tp1_exit_pct", 100))
+    if tp1_exit_pct not in (0, 25, 50, 75, 100):
+        tp1_exit_pct = 100
+    tp1_exit_frac = tp1_exit_pct / 100.0
 
 
-    idx = df.index
-    for i in range(len(df)):
-        ts = idx[i]
-        if i < lookback_deviation + 2: continue
+    for ts, row in df.iterrows():
+        px = float(row["close"])
+        atrv = float(row["atr"]) if np.isfinite(row["atr"]) else np.nan
+        regime = row["regime"]
 
-        row = df.iloc[i]
-        hi_cur, lo_cur = float(row["high"]), float(row["low"])
-        o_cur = float(row["open"])
-
-        ts_prev  = idx[i-1]
-        row_prev = df.iloc[i-1]
-
-        # --- Levels at T-1 ---
-        mon_h, mon_l = get_monday_range_completed(df, ts_prev)
-        m_open       = get_monthly_open(df, ts_prev)
-        VAL_p = float(val_series.iloc[i-1]) if pd.notna(val_series.iloc[i-1]) else np.nan
-        VAH_p = float(vah_series.iloc[i-1]) if pd.notna(vah_series.iloc[i-1]) else np.nan
-        POC_p = float(poc_series.iloc[i-1]) if pd.notna(poc_series.iloc[i-1]) else np.nan
-
-        support_levels    = _dedupe_levels([mon_l, m_open, VAL_p])
-        resistance_levels = _dedupe_levels([mon_h, m_open, VAH_p])
-
-        exited_this_bar = False
-
-        # --- 1) Manage existing position ---
-        if open_pos is not None:
-            open_pos, exited_this_bar = _manage_open_pos(open_pos, ts, hi_cur, lo_cur)
-
-        # --- pending order lifecycle (only when no open position) ---
-        if open_pos is None and pending_order is not None:
-
-            # 1) invalidate BEFORE activation (uses ONLY row_prev + params)
-            if should_invalidate_pending(ts, row_prev, pending_order, df, params):
+        # Try to fill pending on later bars
+        if pending_order and open_pos is None and ts > pending_order["created_ts"]:
+            lo = float(row["low"]); hi = float(row["high"])
+            e  = float(pending_order["entry"])
+            if lo <= e <= hi:
+                open_pos = {
+                    "side": "long" if pending_order["side"] == "long" else "short",
+                    "entry_time": ts,
+                    "entry": e,
+                    "sl":   float(pending_order["sl"]),
+                    "tp1":  float(pending_order["tp1"]),
+                    "tp2":  float(pending_order.get("tp2", np.nan)),
+                    "reason": pending_order["reason"],
+                    "qty": 1.0,
+                }
                 pending_order = None
-            else:
-                # 2) refresh SL/TPs using ONLY info up to ts_prev
-                pending_order = refresh_pending_order_pre_activation_xo(
-                    pending_order,
-                    i_prev=i-1,
-                    df=df,
-                    VAL_p=VAL_p, POC_p=POC_p, VAH_p=VAH_p,
-                    mon_h=mon_h, mon_l=mon_l,
-                    lookback_deviation=lookback_deviation,
-                    min_stop_bps=min_stop_bps,
-                    min_tp1_bps=min_tp1_bps,
-                    atr_buf_x=float(params.get("_extra_atr_buffer", 0.0)),  # <-- add
-                )
 
-                # cancel pending if plan becomes invalid
-                side = str(pending_order.get("side","")).lower()
-                entry = float(pending_order["entry"])
-                sl    = float(pending_order["sl"])
-                tp1   = float(pending_order.get("tp1", np.nan))
-                tp2   = float(pending_order.get("tp2", np.nan))
-
-                tp_gate = tp1 if (tp1_enabled and np.isfinite(tp1)) else tp2
-                risk = abs(entry - sl)
-                reward = (tp_gate - entry) if side == "long" else (entry - tp_gate)
-
-                if (not np.isfinite(tp_gate)) or (risk <= 0) or (reward <= 0) or ((reward / risk) < min_rr):
-                    pending_order = None
-                    continue
-
-
-                # 3) check activation on CURRENT bar (hi/lo), fill at entry price
-                ek = pending_order.get("entry_kind", "")
-                side = str(pending_order.get("side", "")).lower()
-                epx = float(pending_order["entry"])
-
-                filled = False
-                if ek == "stop":
-                    filled = (hi_cur >= epx) if side == "long" else (lo_cur <= epx)
-                elif ek == "limit":
-                    filled = (lo_cur <= epx) if side == "long" else (hi_cur >= epx)
-
-                if filled:
-                    fill_px = _fill_px_for_gap(ek, side, epx, o_cur)
-                    open_pos = {
-                        "side": side,
-                        "entry_kind": ek,
-                        "entry_time": ts,
-                        "entry": float(fill_px),
-                        "sl": float(pending_order["sl"]),
-                        "tp1": float(pending_order["tp1"]),
-                        "tp2": float(pending_order["tp2"]),
-                        "reason": pending_order.get("reason", ""),
-                        "qty": 1.0,
-                    }
-                    pending_order = None
-
-                    # ✅ handle same-bar SL/TP
-                    open_pos, _exited = _manage_open_pos(open_pos, ts, hi_cur, lo_cur)
-                    if _exited:
-                        # open_pos will already be None if fully exited
-                        continue
-
-            # if you had a pending, don't arm a second one on the same bar
-            if pending_order is not None:
-                continue
-
-        if exited_this_bar: continue
-
-        # --- 2) Detect + Enter new setups ---
-        if open_pos is None:
-            close_prev  = float(row_prev["close"])
-            low_prev    = float(row_prev["low"])
-            high_prev   = float(row_prev["high"])
-            close_prev2 = float(df["close"].iloc[i-2])
-
-            # ---- LONG ----
-            for level in support_levels:
-                level = float(level)
-                reclaim = (close_prev > level) and ((low_prev < level) or (close_prev2 <= level))
-                if not reclaim: continue
-
-                structure_sl = sweep_cluster_low(df, level, end_idx=i-1, max_lookback=lookback_deviation)
-                if not np.isfinite(structure_sl): continue
-
-                # decide planned entry
-                if entry_style == "Market-on-trigger":
-                    entry_kind = "market"
-                    entry_px = o_cur
-                else:
-                    entry_kind, entry_px = _planned_entry(level, "long", entry_style, tol)
-
-                atr_buf_x = float(params.get("_extra_atr_buffer", 0.0))
-                atrv_prev = float(row_prev.get("atr", np.nan))
-                if atr_buf_x > 0 and np.isfinite(atrv_prev):
-                    structure_sl = float(structure_sl) - atr_buf_x * atrv_prev
-
-                # then compute structure_sl / min_stop / tp1,tp2 / min_tp / min_rr using entry_px (NOT o_cur)
-
-                min_stop_dist = entry_px * (min_stop_bps / 10000.0)
-                risk = entry_px - structure_sl
-                if risk < min_stop_dist:
-                    structure_sl = entry_px - min_stop_dist
-                    risk = entry_px - structure_sl
-
-                if risk <= 0: continue
-
-                min_tp_dist = entry_px * (min_tp1_bps / 10000.0)
-                tp1, tp2 = pick_targets_long(entry_px, [POC_p, VAH_p, mon_h], min_tp_dist)
-
-                # If TP1 is enabled, require TP1 to exist
-                if tp1_enabled and not np.isfinite(tp1):
-                    continue
-
-                # Ensure TP2 fallback exists
-                if not np.isfinite(tp2):
-                    tp2 = entry_px + 2.0 * risk
-
-                tp_gate = tp1 if (tp1_enabled and np.isfinite(tp1)) else tp2
-                if not np.isfinite(tp_gate):
-                    continue
-
-                min_tp_dist = entry_px * (min_tp1_bps / 10000.0)
-                if abs(tp_gate - entry_px) < min_tp_dist:
-                    continue
-
-                reward = tp_gate - entry_px
-                if (reward / risk) < min_rr:
-                    continue
-
-
-                # --- CHECK FILTERS ---
-                if filters_func is not None:
-                    # Signature: (i_ts, side, entry_px, reason, df_in, comp_in, rng_in, row_now)
-                    # Use df, comp, and rng passed into backtest_xo_logic
-                    comp_now = {"VAL": VAL_p, "POC": POC_p, "VAH": VAH_p}
-
-                    df_hist = df.loc[:ts_prev]
-                    rng_now = rolling_swing_range(df_hist, lookback=max(150, int(params.get("comp_bins", 240))//2))
-
-                    if not filters_func(ts_prev, "long", entry_px, "XO Reclaim", df, comp_now, rng_now, row_prev):
-                        continue
-
-                if entry_style == "Market-on-trigger":
-                    open_pos = {
-                        "side": "long", "entry_time": ts, "entry": float(entry_px), "sl": float(structure_sl),
-                        "tp1": float(tp1), "tp2": float(tp2), "reason": f"XO Reclaim {level:.2f}",
-                        "qty": 1.0, "entry_kind": "market",
-                    }
-                    break
-                else:
-                    # create pending order instead of opening immediately
-                    if entry_style == "Stop-through":
-                        entry_kind = "stop"
-                        pend_entry = level * (1.0 + tol)
-                    else:  # "Limit-on-retest"
-                        entry_kind = "limit"
-                        pend_entry = level * (1.0 - tol)
-
-                    pending_order = {
-                        "side": "long",
-                        "entry_kind": entry_kind,
-                        "entry": float(entry_px),
-                        "sl": float(structure_sl),
-                        "tp1": float(tp1),
-                        "tp2": float(tp2),
-                        "reason": f"XO Reclaim {level:.2f}",
-                        "created_ts": ts,
-                        "signal_ts": ts_prev,
-                        "signal_level": float(level),
-                        "signal_low": float(low_prev),
-                        "signal_high": float(high_prev),
-                    }
-
-                    # Try same-bar activation
-                    ek = pending_order["entry_kind"]
-                    side = str(pending_order.get("side", "")).lower()
-                    epx  = float(pending_order["entry"])
-
-                    filled = False
-                    if ek == "stop":
-                        filled = (hi_cur >= epx) if side == "long" else (lo_cur <= epx)
-                    elif ek == "limit":
-                        filled = (lo_cur <= epx) if side == "long" else (hi_cur >= epx)
-
-                    if filled:
-                        fill_px = _fill_px_for_gap(ek, side, epx, o_cur)
-                        open_pos = {
-                            "side": side,
-                            "entry_kind": ek,
-                            "entry_time": ts,
-                            "entry": float(fill_px),
-                            "sl": float(pending_order["sl"]),
-                            "tp1": float(pending_order["tp1"]),
-                            "tp2": float(pending_order["tp2"]),
-                            "reason": pending_order.get("reason", ""),
-                            "qty": 1.0,
-                        }
-                        pending_order = None
-
-                        # same-bar SL/TP handling (your existing behavior)
-                        open_pos, _exited = _manage_open_pos(open_pos, ts, hi_cur, lo_cur)
-                        if _exited:
-                            continue
-
-
-                    break
-
-
-            # ---- SHORT ----
-            if open_pos is None and pending_order is None:
-                for level in resistance_levels:
-                    level = float(level)
-                    reclaim = (close_prev < level) and ((high_prev > level) or (close_prev2 >= level))
-                    if not reclaim: continue
-
-                    structure_sl = sweep_cluster_high(df, level, end_idx=i-1, max_lookback=lookback_deviation)
-                    if not np.isfinite(structure_sl): continue
-
-                    # decide planned entry
-                    if entry_style == "Market-on-trigger":
-                        entry_kind = "market"
-                        entry_px = o_cur
-                    else:
-                        entry_kind, entry_px = _planned_entry(level, "short", entry_style, tol)
-
-                    # then compute structure_sl / min_stop / tp1,tp2 / min_tp / min_rr using entry_px (NOT o_cur)
-
-                    atr_buf_x = float(params.get("_extra_atr_buffer", 0.0))
-                    atrv_prev = float(row_prev.get("atr", np.nan))
-                    if atr_buf_x > 0 and np.isfinite(atrv_prev):
-                        structure_sl = float(structure_sl) + atr_buf_x * atrv_prev
-
-                    min_stop_dist = entry_px * (min_stop_bps / 10000.0)
-                    risk = structure_sl - entry_px
-                    if risk < min_stop_dist:
-                        structure_sl = entry_px + min_stop_dist
-                        risk = structure_sl - entry_px
-
-                    if risk <= 0: continue
-
-                    min_tp_dist = entry_px * (min_tp1_bps / 10000.0)
-                    tp1, tp2 = pick_targets_short(entry_px, [POC_p, VAL_p, mon_l], min_tp_dist)
-
-                    if tp1_enabled and not np.isfinite(tp1):
-                        continue
-
-                    if not np.isfinite(tp2):
-                        tp2 = entry_px - 2.0 * risk
-
-                    tp_gate = tp1 if (tp1_enabled and np.isfinite(tp1)) else tp2
-                    if not np.isfinite(tp_gate):
-                        continue
-
-                    min_tp_dist = entry_px * (min_tp1_bps / 10000.0)
-                    if abs(tp_gate - entry_px) < min_tp_dist:
-                        continue
-
-                    reward = entry_px - tp_gate
-                    if (reward / risk) < min_rr:
-                        continue
-
-
-                    # --- CHECK FILTERS ---
+        # If flat & no pending, evaluate triggers
+        if open_pos is None and pending_order is None and np.isfinite(atrv):
+            # VAL reclaim → Long
+            if params["use_val_reclaim"] and (ts in val_reclaims) and np.isfinite(VAL):
+                if entry_style == "Stop-through":
+                    entry_target = float(VAL * (1 + params["tol"]))  # stop-buy above
+                    plan = level_to_level_plan_safe(entry_target, "long", [POC, VAH], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+                    plan["sl"] = min(plan["sl"], float(row["low"])) 
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
                     if filters_func is not None:
-                        comp_now = {"VAL": VAL_p, "POC": POC_p, "VAH": VAH_p}
+                        ok_gate = bool(filters_func(ts, "long", entry_target, "VAL_reclaim", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        pending_order = {"side":"long","entry":float(entry_target),
+                                        "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                        "reason":"VAL_reclaim","created_ts":ts}
+                elif entry_style == "Limit-on-retest":
+                    entry_target = float(VAL * (1 - params["tol"]))  # buy-limit into retest
+                    plan = level_to_level_plan_safe(entry_target, "long", [POC, VAH], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+                    plan["sl"] = min(plan["sl"], float(row["low"])) 
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
+                    if filters_func is not None:
+                        ok_gate = bool(filters_func(ts, "long", entry_target, "VAL_reclaim_limit_retest", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        pending_order = {"side":"long","entry":float(entry_target),
+                                        "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                        "reason":"VAL_reclaim_limit_retest","created_ts":ts}
+                else:  # Market-on-trigger
+                    entry_target = float(px)
+                    plan = level_to_level_plan_safe(entry_target, "long", [POC, VAH], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+                    plan["sl"] = min(plan["sl"], float(row["low"])) 
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
+                    if filters_func is not None:
+                        ok_gate = bool(filters_func(ts, "long", entry_target, "VAL_reclaim_market", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        open_pos = {"side":"long","entry_time":ts,"entry":float(entry_target),
+                                    "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                    "reason":"VAL_reclaim_market"}
 
-                        df_hist = df.loc[:ts_prev]
-                        rng_now = rolling_swing_range(df_hist, lookback=max(150, int(params.get("comp_bins", 240))//2))
+            # VAH breakdown → Short
+            elif params["use_vah_break"] and (ts in vah_breaks) and np.isfinite(VAH):
+                if entry_style == "Stop-through":
+                    entry_target = float(VAH * (1 - params["tol"]))  # stop-sell below
+                    plan = level_to_level_plan_safe(entry_target, "short", [POC, VAL], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
+                    if filters_func is not None:
+                        ok_gate = bool(filters_func(ts, "short", entry_target, "VAH_breakdown", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        pending_order = {"side":"short","entry":float(entry_target),
+                                         "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                         "reason":"VAH_breakdown","created_ts":ts}
+                elif entry_style == "Limit-on-retest":
+                    entry_target = float(VAH * (1 + params["tol"]))  # sell-limit into retest
+                    plan = level_to_level_plan_safe(entry_target, "short", [POC, VAL], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
+                    if filters_func is not None:
+                        ok_gate = bool(filters_func(ts, "short", entry_target, "VAH_breakdown_limit_retest", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        pending_order = {"side":"short","entry":float(entry_target),
+                                         "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                         "reason":"VAH_breakdown_limit_retest","created_ts":ts}
+                else:  # Market-on-trigger
+                    entry_target = float(px)
+                    plan = level_to_level_plan_safe(entry_target, "short", [POC, VAL], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
+                    if filters_func is not None:
+                        ok_gate = bool(filters_func(ts, "short", entry_target, "VAH_breakdown_market", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        open_pos = {"side":"short","entry_time":ts,"entry":float(entry_target),
+                                    "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                    "reason":"VAH_breakdown_market"}
 
-                        if not filters_func(ts_prev, "short", entry_px, "XO Lost", df, comp_now, rng_now, row_prev):
-                            continue
-
-                    if entry_style == "Market-on-trigger":
-                        open_pos = {
-                            "side": "short", "entry_time": ts, "entry": float(entry_px), "sl": float(structure_sl),
-                            "tp1": float(tp1), "tp2": float(tp2), "reason": f"XO Lost {level:.2f}",
-                            "qty": 1.0, "entry_kind": "market",
-                        }
-                        break
+            # Single-print continuation
+            elif params["use_sp_cont"] and len(sp_bands) > 0:
+                touched = None
+                for (lo_band, hi_band) in sp_bands:
+                    if row["high"] >= lo_band and row["low"] <= hi_band:
+                        if regime == "downtrend" and px < lo_band:
+                            touched = ("short", (lo_band, hi_band)); break
+                        if regime == "uptrend" and px > hi_band:
+                            touched = ("long", (lo_band, hi_band)); break
+                if touched:
+                    side, (lo_band, hi_band) = touched
+                    if side == "long":
+                        if entry_style == "Limit-on-retest":
+                            entry_target = float(hi_band * (1 - params["tol"]))  # buy-limit back into band
+                        else:
+                            entry_target = float(hi_band * (1 + params["tol"]))  # stop-buy above band
+                        plan = level_to_level_plan_safe(entry_target, "long", [POC, VAH], atrv, atr_mult, min_stop_bps, min_tp1_bps)
                     else:
-                        if entry_style == "Stop-through":
-                            entry_kind = "stop"
-                            pend_entry = level * (1.0 - tol)
-                        else:  # "Limit-on-retest"
-                            entry_kind = "limit"
-                            pend_entry = level * (1.0 + tol)
+                        if entry_style == "Limit-on-retest":
+                            entry_target = float(lo_band * (1 + params["tol"]))  # sell-limit back into band
+                        else:
+                            entry_target = float(lo_band * (1 - params["tol"]))  # stop-sell below band
+                        plan = level_to_level_plan_safe(entry_target, "short", [POC, VAL], atrv, atr_mult, min_stop_bps, min_tp1_bps)
+ 
+                    rr1 = _rr(entry_target, plan["sl"], plan["tp1"])
+                    ok_gate = True
+                    if filters_func is not None:
+                        ok_gate = bool(filters_func(ts, side, entry_target, f"SP_reject_{side}", df, comp, row))
+                    if np.isfinite(rr1) and rr1 >= min_rr and ok_gate:
+                        if entry_style == "Market-on-trigger":
+                            open_pos = {"side":side,"entry_time":ts,"entry":float(px),
+                                        "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                        "reason":f"SP_reject_{side}_market"}
+                        else:
+                            pending_order = {"side":side,"entry":float(entry_target),
+                                            "sl":float(plan["sl"]),"tp1":float(plan["tp1"]),"tp2":float(plan["tp2"]),
+                                            "reason":f"SP_reject_{side}","created_ts":ts}
 
-                        pending_order = {
-                            "side": "short",
-                            "entry_kind": entry_kind,
-                            "entry": float(entry_px),
-                            "sl": float(structure_sl),
-                            "tp1": float(tp1),
-                            "tp2": float(tp2),
-                            "reason": f"XO Lost {level:.2f}",
-                            "created_ts": ts,
-                            "signal_ts": ts_prev,
-                            "signal_level": float(level),
-                            "signal_low": float(low_prev),
-                            "signal_high": float(high_prev),
-                        }
+        # Manage an open position
+        if open_pos is not None:
+            hit = None
+            if open_pos["side"] == "long":
+                if row["low"] <= open_pos["sl"]:
+                    hit = ("SL", float(open_pos["sl"]))
+                elif np.isfinite(open_pos["tp1"]) and row["high"] >= open_pos["tp1"]:
+                    # TP1 tagged; check if TP2 also tagged this bar
+                    tp2_tagged_same_bar = np.isfinite(open_pos.get("tp2", np.nan)) and (row["high"] >= float(open_pos["tp2"]))
+                    hit = ("TP1", float(open_pos["tp1"]), tp2_tagged_same_bar)
+            else:  # short
+                if row["high"] >= open_pos["sl"]:
+                    hit = ("SL", float(open_pos["sl"]))
+                elif np.isfinite(open_pos["tp1"]) and row["low"] <= open_pos["tp1"]:
+                    tp2_tagged_same_bar = np.isfinite(open_pos.get("tp2", np.nan)) and (row["low"] <= float(open_pos["tp2"]))
+                    hit = ("TP1", float(open_pos["tp1"]), tp2_tagged_same_bar)
 
-                        # Try same-bar activation
-                        ek = pending_order["entry_kind"]
-                        side = str(pending_order.get("side", "")).lower()
-                        epx  = float(pending_order["entry"])
+            if hit:
+                if hit[0] == "SL":
+                    kind, px_exit = hit
+                    entry = float(open_pos["entry"])
+                    side  = open_pos["side"]
+                    sl    = float(open_pos["sl"])
+                    tp1   = float(open_pos["tp1"])
+                    tp2   = float(open_pos.get("tp2", np.nan))
+                    qty   = float(open_pos.get("qty", 1.0))
 
-                        filled = False
-                        if ek == "stop":
-                            filled = (hi_cur >= epx) if side == "long" else (lo_cur <= epx)
-                        elif ek == "limit":
-                            filled = (lo_cur <= epx) if side == "long" else (hi_cur >= epx)
+                    risk_abs = abs(entry - sl) or float("nan")
+                    exit_price = float(px_exit)
+                    pnl_px = ((exit_price - entry) if side == "long" else (entry - exit_price)) * qty
+                    pnl_R  = (((exit_price - entry) / risk_abs) if side == "long" else ((entry - exit_price) / risk_abs)) * qty
 
-                        if filled:
-                            fill_px = _fill_px_for_gap(ek, side, epx, o_cur)
-                            open_pos = {
-                                "side": side,
-                                "entry_kind": ek,
-                                "entry_time": ts,
-                                "entry": float(fill_px),
-                                "sl": float(pending_order["sl"]),
-                                "tp1": float(pending_order["tp1"]),
-                                "tp2": float(pending_order["tp2"]),
-                                "reason": pending_order.get("reason", ""),
-                                "qty": 1.0,
-                            }
-                            pending_order = None
+                    trades.append({
+                        "entry_time": open_pos["entry_time"], "exit_time": ts,
+                        "side": side, "reason": open_pos["reason"], "exit_kind": kind,
+                        "entry": entry, "sl": sl, "tp1": tp1, "tp2": tp2,
+                        "exit": exit_price, "pnl": float(pnl_px), "pnl_R": float(pnl_R),
+                        "qty": float(qty),
+                    })
+                    open_pos = None
 
-                            # same-bar SL/TP handling (your existing behavior)
-                            open_pos, _exited = _manage_open_pos(open_pos, ts, hi_cur, lo_cur)
-                            if _exited:
-                                continue
+                else:
+                    # TP1 logic with optional partial exit and same-bar TP2 upgrade
+                    _, tp1_px, tp2_same = hit
+                    entry = float(open_pos["entry"])
+                    side  = open_pos["side"]
+                    sl    = float(open_pos["sl"])
+                    tp1   = float(open_pos["tp1"])
+                    tp2   = float(open_pos.get("tp2", np.nan))
+                    qty0  = float(open_pos.get("qty", 1.0))
+                    risk_abs = abs(entry - sl) or float("nan")
+
+                    # Helper to append a realized leg
+                    def _append_leg(kind: str, exit_px: float, leg_qty: float):
+                        pnl_px = ((exit_px - entry) if side == "long" else (entry - exit_px)) * leg_qty
+                        pnl_R  = (((exit_px - entry) / risk_abs) if side == "long" else ((entry - exit_px) / risk_abs)) * leg_qty
+                        trades.append({
+                            "entry_time": open_pos["entry_time"], "exit_time": ts,
+                            "side": side, "reason": open_pos["reason"], "exit_kind": kind,
+                            "entry": entry, "sl": sl, "tp1": tp1, "tp2": tp2,
+                            "exit": float(exit_px), "pnl": float(pnl_px), "pnl_R": float(pnl_R),
+                            "qty": float(leg_qty),
+                        })
+
+                    # (1) Nothing to take at TP1 → effectively skip TP1
+                    if tp1_exit_frac <= 0.0:
+                        if tp2_same and np.isfinite(tp2):
+                            # All out at TP2 on the same bar
+                            _append_leg("TP2", float(tp2), qty0)
+                            open_pos = None
+                        else:
+                            # Keep the entire position open
+                            pass
+
+                    # (2) Full exit at TP1 (legacy behavior)
+                    elif tp1_exit_frac >= 1.0:
+                        # If TP2 also tagged, prefer TP2 (keeps original best-case upgrade on same bar)
+                        if tp2_same and np.isfinite(tp2):
+                            _append_leg("TP2", float(tp2), qty0)
+                        else:
+                            _append_leg("TP1", float(tp1_px), qty0)
+                        open_pos = None
+
+                    # (3) Partial exit at TP1; remainder continues to TP2/SL
+                    else:
+                        # Partial exit at TP1; remainder continues to TP2/SL
+                        take_qty = qty0 * tp1_exit_frac
+                        rem_qty  = qty0 - take_qty
+                        _append_leg("TP1_part", float(tp1_px), take_qty)
+
+                        if tp2_same and np.isfinite(tp2):
+                            _append_leg("TP2", float(tp2), rem_qty)
+                            open_pos = None
+                        else:
+                            # Keep remainder open but disable further TP1 hits
+                            open_pos["qty"] = float(rem_qty)
+                            open_pos["tp1"] = float("nan")   # <-- add this line
 
 
-                        break
-
-
-        if open_pos is not None and open_pos.get("entry_time") == ts:
-            if open_pos.get("entry_kind") == "market":
-                open_pos, _ = _manage_open_pos(open_pos, ts, hi_cur, lo_cur)
-
-    # EOD Close
+    # Optional mark-to-market close at end
     if open_pos is not None and force_eod_close:
-        ts_end = df.index[-1]
-        entry, side, sl, qty = float(open_pos["entry"]), open_pos["side"], float(open_pos["sl"]), float(open_pos.get("qty", 1.0))
-        tp1, tp2 = float(open_pos.get("tp1", np.nan)), float(open_pos.get("tp2", np.nan))
+        ts_end   = df.index[-1]
+        entry    = float(open_pos["entry"])
+        side     = open_pos["side"]
+        sl       = float(open_pos["sl"])
+        tp1      = float(open_pos["tp1"])
+        tp2      = float(open_pos.get("tp2", np.nan))
         exit_price = float(df["close"].iloc[-1])
         risk_abs = abs(entry - sl) or float("nan")
+        qty = float(open_pos.get("qty", 1.0))
         pnl_R = ( (exit_price - entry) / risk_abs if side == "long" else (entry - exit_price) / risk_abs ) * qty
         pnl_px = ( (exit_price - entry) if side == "long" else (entry - exit_price) ) * qty
+
         trades.append({
-            "entry_time": open_pos["entry_time"], "entry_kind": open_pos.get("entry_kind", "market"), "exit_time": ts_end,
+            "entry_time": open_pos["entry_time"], "exit_time": ts_end,
             "side": side, "reason": open_pos["reason"], "exit_kind": "EOD",
             "entry": entry, "sl": sl, "tp1": tp1, "tp2": tp2,
             "exit": exit_price, "pnl": float(pnl_px), "pnl_R": float(pnl_R), "qty": float(qty),
@@ -1197,41 +622,62 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
         open_pos = None
 
     trades_df = pd.DataFrame(trades)
-    expected_cols = ["entry_time","exit_time","side","reason","exit_kind","entry_kind","entry","sl","tp1","tp2","exit","pnl","pnl_R","qty"]
-    if trades_df.empty: trades_df = pd.DataFrame(columns=expected_cols)
-    else:
-        for c in expected_cols:
-            if c not in trades_df.columns: trades_df[c] = np.nan
 
+    # Summary
     if not trades_df.empty:
         delta = (pd.to_datetime(trades_df["exit_time"], utc=True) - pd.to_datetime(trades_df["entry_time"], utc=True))
         trades_df["hold_minutes"] = delta.dt.total_seconds() / 60.0
         period_mins = _period_minutes(params.get("tf_for_stats", "1h")) or 60
         trades_df["hold_bars"] = trades_df["hold_minutes"] / period_mins
-        r_series = trades_df["pnl_R"]
-        summary = {
+
+        legacy = {
             "trades": int(len(trades_df)),
             "hit_rate": float((trades_df["pnl"] > 0).mean()),
             "total_pnl": float(trades_df["pnl"].sum()),
             "avg_pnl": float(trades_df["pnl"].mean()),
             "median_pnl": float(trades_df["pnl"].median()),
+        }
+        r_series = trades_df["pnl_R"]
+        r_summary = {
             "total_R": float(r_series.fillna(0).sum()),
             "avg_R": float(r_series.dropna().mean()) if r_series.notna().any() else float("nan"),
             "median_R": float(r_series.dropna().median()) if r_series.notna().any() else float("nan"),
             "hit_rate_R": float((r_series.dropna() > 0).mean()) if r_series.notna().any() else float("nan"),
         }
+        summary = {**legacy, **r_summary}
     else:
-        summary = {"trades": 0, "hit_rate": float("nan"), "total_pnl": 0.0, "avg_pnl": float("nan"), "median_pnl": float("nan"), "total_R": 0.0, "avg_R": float("nan"), "median_R": float("nan"), "hit_rate_R": float("nan")}
+        summary = {"trades": 0, "hit_rate": float("nan"), "total_pnl": 0.0, "avg_pnl": float("nan"),
+                   "median_pnl": float("nan"), "total_R": 0.0, "avg_R": float("nan"),
+                   "median_R": float("nan"), "hit_rate_R": float("nan")}
 
-    pending_list = [pending_order] if pending_order is not None else []
+    # Package any unfilled pending order
+    pending_list: List[Dict[str,Any]] = []
+    if pending_order is not None:
+        pending_list.append({
+            "side": pending_order["side"],
+            "entry": float(pending_order["entry"]),
+            "sl":   float(pending_order["sl"]),
+            "tp1":  float(pending_order["tp1"]),
+            "tp2":  float(pending_order.get("tp2", np.nan)),
+            "reason": pending_order.get("reason",""),
+            "created_ts": pending_order.get("created_ts")
+        })
+
     return trades_df, summary, open_pos, pending_list
 
 # ----------------- UI -----------------
 
+st.set_page_config(page_title="Level Mapping Strategy — XO", layout="wide")
 st.title("Level Mapping Strategy — XO")
+
+
 
 # --- Ensure Telegram sender is defined before UI uses it ---
 
+try:
+    import requests  # may already be imported elsewhere
+except Exception:
+    requests = None
 
 if "_send_tg" not in globals():
     def _send_tg(tkn: str, chat_id: str, text: str) -> None:
@@ -1251,16 +697,12 @@ if "tg_seen_active" not in st.session_state:
     st.session_state["tg_seen_active"] = set()    # (symbol, entry_time, entry)
 if "tg_seen_closed" not in st.session_state:
     st.session_state["tg_seen_closed"] = set()    # (symbol, entry_time, exit_time, exit_kind, exit)
-if "tg_hits_seen" not in st.session_state:
-    st.session_state["tg_hits_seen"] = set()
 
 with st.sidebar:
     st.subheader("Inputs")
     predefined_symbols = [
     "BTCUSDT","ETHUSDT","SOLUSDT","XRPUSDT","AVAXUSDT",
-    "LTCUSDT","ZECUSDT", "ASTERUSDT", "AAVEUSDT", "HYPEUSDT", "XLMUSDT", "DOGEUSDT", "BNBUSDT",
-    "TRXUSDT", "ADAUSDT", "LINKUSDT", "HBARUSDT", "UNIUSDT", "DOTUSDT", "SHIB1000USDT", "ENAUSDT", "LDOUSDT", 
-    "WIFUSDT", "FARTCOINUSDT", "TRUMPUSDT", "XVGUSDT", "MONUSDT"
+    "LTCUSDT","ZECUSDT", "ASTERUSDT", "AAVEUSDT", "HYPEUSDT", "ENAUSDT", "XLMUSDT", "DOGEUSDT", "BNBUSDT"
     ]
     symbols_selected = st.multiselect(
     "Symbols", options=predefined_symbols, default=predefined_symbols,
@@ -1273,7 +715,7 @@ with st.sidebar:
     def _parse_syms(s):
         return [t.strip().upper() for t in s.split(",") if t.strip()]
     symbols_final = sorted(set(symbols_selected + _parse_syms(extra_symbols)))
-    tf = st.selectbox("Timeframe", ["5m","15m","30m","1h","4h","12h","1d","1W"], index=5, help="Bar interval for resampling. Shorter TF = faster signals and smaller ATR; affects hold/retest windows and R/R.")
+    tf = st.selectbox("Timeframe", ["5m","15m","30m","1h","4h","12h","1d","1W"], index=3, help="Bar interval for resampling. Shorter TF = faster signals and smaller ATR; affects hold/retest windows and R/R.")
     lookback_days = st.slider("Composite days", 21, 49, 35, 1, help="Days of history to build the volume profile (VAL/POC/VAH). Longer = steadier levels, fewer triggers.")
     n_bins = st.slider("Profile bins", 120, 400, 240, 20, help="Number of histogram bins in the volume profile. Higher = finer granularity; can slightly shift VAL/POC/VAH.")
 
@@ -1284,19 +726,14 @@ with st.sidebar:
         min_stop_bps = st.number_input("Min stop distance (bps)", value=25, min_value=0, max_value=500, step=5, help="Hard minimum stop distance in basis points. Prevents unrealistically tight stops; can reduce R/R and block ideas.")
         min_tp1_bps  = st.number_input("Min TP1 distance (bps)",  value=50, min_value=0, max_value=5000, step=10, help="Minimum distance from entry to TP1 (bps). Ensures TP1 is not too close; affects R/R gating.")
         min_rr       = st.number_input("Min R/R (to TP1)",        value=1.2, min_value=0.5, max_value=5.0, step=0.1, help="Trades are only armed if R/R(entry→TP1 vs entry→SL) ≥ this. Raise for pickier ideas; lower to allow more.")
-        va_cov = st.slider("Value Area coverage", 0.60, 0.75, 0.68, 0.01)
+
         ema_fast = st.number_input("EMA fast", 5, 50, 12, 1, help="Fast EMA for regime. Smaller = more reactive regimes → more SP continuation signals.")
         ema_slow = st.number_input("EMA slow", 10, 100, 21, 1, help="Slow EMA for regime. Larger = steadier regimes → fewer SP continuation signals.")
         atr_period = st.number_input("ATR period", 5, 50, 14, 1, help="ATR lookback. Shorter = more responsive stops/targets; Longer = smoother stops.")
 
-        lookback_deviation = st.number_input(
-            "Deviation lookback (bars)",
-            min_value=2, max_value=100, value=5, step=1,
-            help="How far back to search for the sweep cluster low/high to place structural SL."
-        )
-        hold_bars = st.number_input("Hold bars past level", 1, 10, 3, 1, help="After crossing VAL/VAH, # of consecutive closes beyond the level required before a retest counts. Higher = stricter triggers.")
-        retest_bars = st.number_input("Retest window (bars)", 1, 20, 8, 1, help="Bars allowed for the retest after the hold. If no retest within this window → no order is armed.")
-        tol_bps = st.number_input("Level tolerance (bps)", 0, 50, 10, 1, help="Tolerance applied to entry relative to VAL/VAH/SP bands. Larger = entry further from level; can change R/R and fill probability.")
+        hold_bars = st.number_input("Hold bars past level", 1, 10, 2, 1, help="After crossing VAL/VAH, # of consecutive closes beyond the level required before a retest counts. Higher = stricter triggers.")
+        retest_bars = st.number_input("Retest window (bars)", 1, 20, 6, 1, help="Bars allowed for the retest after the hold. If no retest within this window → no order is armed.")
+        tol_bps = st.number_input("Level tolerance (bps)", 0, 50, 5, 1, help="Tolerance applied to entry relative to VAL/VAH/SP bands. Larger = entry further from level; can change R/R and fill probability.")
 
         entry_style = st.selectbox(
         "Entry style",
@@ -1315,19 +752,18 @@ with st.sidebar:
         drop_last_incomplete = st.checkbox("Drop last incomplete candle", True, help="If checked, removes a last bar whose timestamp is in the future (still forming). Prevents using incomplete bars for signals.")
     
     with st.expander("Optional Filters (advanced)", expanded=False):
-        st.caption("These gate entries.")
+        st.caption("These gate entries. All are OFF by default.")
         col1, col2 = st.columns(2)
-        use_htf_conf = col1.checkbox("Require HTF confluence (Monthly/Weekly)", value=True)
-        htf_tol_bps  = col1.slider("HTF confluence tolerance (bps)", 2, 60, 25, 1)
+        use_htf_conf = col1.checkbox("Require HTF confluence (Monthly/Weekly)", value=False)
+        htf_tol_bps  = col1.slider("HTF confluence tolerance (bps)", 2, 60, 15, 1)
         use_accept   = col1.checkbox("Require acceptance at level", value=False)
         accept_bars  = col1.slider("Bars of acceptance (proxy)", 1, 6, 2, 1)
         use_htf_ema_gate = col1.checkbox("Require HTF EMA(12/25) bull intact", value=False,
                                  help="Weekly & 3-Day: price > both EMAs, no fresh bearish cross.")
-        avoid_mid    = col2.checkbox("Avoid mid-range entries", value=True)
+        avoid_mid    = col2.checkbox("Avoid mid-range entries", value=False)
         mid_min_bps  = col2.slider("Min distance from mid (bps)", 10, 200, 40, 5)
-        no_fade      = col2.checkbox("No shorts into support / longs into resistance", value=True)
-        opp_buf_bps  = col2.slider("Opposite-level buffer (bps)", 5, 60, 25, 1)
-        block_countertrend_entries    = col2.checkbox("Block entries against EMA regime (no longs in downtrend, no shorts in uptrend)", value=True)
+        no_fade      = col2.checkbox("No shorts into support / longs into resistance", value=False)
+        opp_buf_bps  = col2.slider("Opposite-level buffer (bps)", 5, 60, 15, 1)
 
         st.markdown("---")
         st.caption("Flow confirmation proxies (no DOM needed)")
@@ -1341,22 +777,8 @@ with st.sidebar:
         add_atr_buf = st.checkbox("Add ATR buffer beyond zone to SL", value=False)
         atr_buf_x   = st.slider("ATR buffer (× ATR)", 0.0, 1.5, 0.5, 0.1) if add_atr_buf else 0.0
 
+        use_htf_ema_gate = st.checkbox("Require HTF EMA(12/25) bull intact (1W & 3D)", value=False)
         use_mid_gate = st.checkbox("Mid-gate is crisper, avoid-mid is spacing", value=False)
-
-    with st.expander("Pending order behaviour"):
-        col1, col2 = st.columns(2)
-
-        max_pending_bars = col1.number_input(
-            "Max bars to keep a pending order alive (0 = never timeout)",
-            min_value=0,
-            max_value=50,
-            value=6,
-            step=1,
-        )
-        invalidate_on_regime_flip = col2.checkbox(
-            "Cancel pending orders if EMA regime flips against them",
-            value=True,
-        )
 
 
     # --- Telegram Alerts (sidebar) ---
@@ -1391,7 +813,6 @@ with st.sidebar:
         notify_hits = st.checkbox("Notify on ACTIVE hits (SL/TP1/TP2)", value=True)
 
 
-
     run_btn = st.button("Run", use_container_width=True)
 
 # ---- Symbol picker (after sidebar so symbols_final exists) ----
@@ -1417,28 +838,452 @@ def _load(symbol: str, tf: str) -> pd.DataFrame:
     if load_ohlcv is None:
         st.error("No data loader found. Please expose `load_ohlcv(symbol, timeframe)` in your host app.")
         st.stop()
-
     df = load_ohlcv(symbol, tf, limit=1500, category="linear")
-    if df is None or df.empty:
-        return pd.DataFrame(columns=["open","high","low","close","volume"])
-
     if "time" in df.columns:
-        t = df["time"]
-        # robust: handle ms vs s vs already-ISO
-        if np.issubdtype(t.dtype, np.number):
-            med = float(pd.to_numeric(t, errors="coerce").dropna().median()) if t.notna().any() else 0.0
-            unit = "ms" if med > 1e12 else "s"
-            idx = pd.to_datetime(t, unit=unit, utc=True, errors="coerce")
-        else:
-            idx = pd.to_datetime(t, utc=True, errors="coerce")
-
+        idx = pd.to_datetime(df["time"], utc=True)
         df = df.drop(columns=["time"]).set_index(idx)
-        df = df[~df.index.duplicated(keep="last")].sort_index()
-    if "volume" not in df.columns:
-        df["volume"] = 0.0
-    return df
+    elif not isinstance(df.index, pd.DatetimeIndex):
+        df.index = pd.to_datetime(df.index, utc=True)
+    return df.sort_index().dropna(subset=["open","high","low","close"]).copy()
+
+def run_for_symbol(symbol: str):
+    st.header(symbol)
+    raw = _load(symbol, tf)
+    df = resample_ohlcv(raw, tf)
+    htf_state = htf_ema_state(df)
+    htf_bull_intact = (htf_state["weekly"]["bull_ok"] and not htf_state["weekly"]["bear_cross"]) \
+                  and (htf_state["d3"]["bull_ok"] and not htf_state["d3"]["bear_cross"])
+
+    if drop_last_incomplete:
+        df = drop_incomplete_bar(df, tf)
+
+    comp = composite_profile(df, days=lookback_days, n_bins=n_bins)
+    rng = rolling_swing_range(df, lookback= max(150, n_bins//2))
+    eq_highs = equal_extrema_mask(df["high"].rolling(5).max(), tol_bps)  # small window cluster
+    eq_lows  = equal_extrema_mask(df["low"].rolling(5).min(), tol_bps)
+    sp_bands = single_prints(comp["hist"])
+
+    params = {
+        "tf_for_stats": tf,
+        "ema_fast": int(ema_fast), "ema_slow": int(ema_slow),
+        "atr_period": int(atr_period),
+        "hold_bars": int(hold_bars), "retest_bars": int(retest_bars),
+        "tol": float(tol_bps)/10000.0,
+        "use_val_reclaim": True,
+        "use_vah_break": True,
+        "use_sp_cont": True,
+        "sp_bands": sp_bands,
+        "atr_mult": float(atr_mult),
+        "min_stop_bps": int(min_stop_bps),
+        "min_tp1_bps": int(min_tp1_bps),
+        "min_rr": float(min_rr),
+        "entry_style": entry_style,
+        "tp1_exit_pct": int(tp1_exit_pct),  # NEW
+        "_extra_atr_buffer": float(atr_buf_x) if add_atr_buf else 0.0,
+    }
+
+    # --- Build HTF composites (used only if user enables HTF confluence) ---
+    def _htf_composites(df_in: pd.DataFrame) -> Dict[str, Dict[str, float]]:
+        out = {}
+        try:
+            out["weekly"]  = composite_profile(df_in, days=84,  n_bins=n_bins)
+            out["monthly"] = composite_profile(df_in, days=168, n_bins=n_bins)
+        except Exception:
+            out["weekly"]={"VAL":np.nan,"POC":np.nan,"VAH":np.nan}
+            out["monthly"]={"VAL":np.nan,"POC":np.nan,"VAH":np.nan}
+        return out
+
+    htf = _htf_composites(df) if use_htf_conf else {"weekly":{}, "monthly":{}}
+
+    def _bps(a,b): 
+        try: return abs((a-b)/a)*1e4
+        except Exception: return np.inf
+
+    def _nearest_bps(px, levels: Dict[str,float]):
+        vals = [v for v in [levels.get("VAL"), levels.get("POC"), levels.get("VAH")] if np.isfinite(v)]
+        if not vals: return np.inf
+        return min(_bps(px, v) for v in vals)
+
+    def _opp_nearest_bps(side: str, px: float, comp_levels: Dict[str,float]):
+        # Longs must not be too close to resistance (VAH/POC), Shorts must not be too close to support (VAL/POC)
+        if side == "long":
+            vals = [v for v in [comp_levels.get("POC"), comp_levels.get("VAH")] if np.isfinite(v)]
+        else:
+            vals = [v for v in [comp_levels.get("POC"), comp_levels.get("VAL")] if np.isfinite(v)]
+        if not vals: return np.inf
+        return min(_bps(px, v) for v in vals)
+
+    def _accepted(side: str, i_ts: pd.Timestamp) -> bool:
+        if not use_accept or accept_bars <= 0: 
+            return True
+        try:
+            ix = df.index.get_loc(i_ts)
+            w  = df.iloc[max(0, ix-accept_bars+1):ix+1]
+            if w.empty: return False
+            if side == "long":
+                return (w["close"] > comp["VAL"]).all() if np.isfinite(comp["VAL"]) else True
+            else:
+                return (w["close"] < comp["VAH"]).all() if np.isfinite(comp["VAH"]) else True
+        except Exception:
+            return True
+
+    def _relvol_ok(i_ts: pd.Timestamp) -> bool:
+        if not use_relvol: return True
+        try:
+            vol = df["volume"]
+            ma  = vol.rolling(50, min_periods=10).mean()
+            v   = float(vol.loc[i_ts])
+            m   = float(ma.loc[i_ts])
+            thr = float(relvol_x)/100.0
+            return (m > 0) and (v >= thr*m)
+        except Exception:
+            return True
+
+    def _wick_ok(side: str, i_ts: pd.Timestamp, entry: float) -> bool:
+        if not use_wick: return True
+        try:
+            r = df.loc[i_ts]
+            hi, lo, op, cl = float(r["high"]), float(r["low"]), float(r["open"]), float(r["close"])
+            up_w  = max(0.0, hi - max(op, cl))
+            dn_w  = max(0.0, min(op, cl) - lo)
+            w_bps = lambda x: (x/entry)*1e4 if entry>0 else 0.0
+            if side == "long":
+                return w_bps(dn_w) >= float(wick_min_bp)
+            else:
+                return w_bps(up_w) >= float(wick_min_bp)
+        except Exception:
+            return True
+
+    # compose optional entry filters (all AND-ed)
+    def _filters_func(i_ts: pd.Timestamp, side: str, entry_px: float, reason: str,
+                    df_in: pd.DataFrame, comp_in: Dict[str,Any], rng_in: Dict[str, float],
+                    row_now: pd.Series) -> bool:
+        # HTF confluence
+        if use_htf_conf:
+            ok_w = _nearest_bps(entry_px, htf.get("weekly", {}))  <= float(htf_tol_bps)
+            ok_m = _nearest_bps(entry_px, htf.get("monthly", {})) <= float(htf_tol_bps)
+            if not (ok_w or ok_m): 
+                return False
+        # Acceptance proxy (relative to VAL/VAH band)
+        if not _accepted(side, i_ts):
+            return False
+        # Avoid mid-range entries
+        if avoid_mid and np.isfinite(comp_in["VAL"]) and np.isfinite(comp_in["VAH"]):
+            mid = 0.5*(float(comp_in["VAL"])+float(comp_in["VAH"]))
+            if _bps(entry_px, mid) < float(mid_min_bps):
+                return False
+        # No-fade guard (opposite level too close)
+        if no_fade:
+            if _opp_nearest_bps(side, entry_px, comp_in) < float(opp_buf_bps):
+                return False
+        # Flow proxies
+        if not _relvol_ok(i_ts):
+            return False
+        if not _wick_ok(side, i_ts, entry_px):
+            return False
+        if use_htf_ema_gate and not htf_bull_intact and side == "long":
+            return False
+        # Mid as routing gate (binary)
+        if np.isfinite(rng["mid"]):
+            if entry_px >= rng["mid"] and side == "long":
+                pass  # OK → favor range high targeting
+            elif entry_px <= rng["mid"] and side == "short":
+                pass  # OK → favor range low targeting
+            else:
+                # entering into the wrong half: reduce selectivity
+                return False
+        rng = rolling_swing_range(df, lookback=300)  # or reuse existing
+        if use_mid_gate and np.isfinite(rng.get("mid", np.nan)):
+            if side == "long" and entry_px < rng["mid"]:
+                return False
+            if side == "short" and entry_px > rng["mid"]:
+                return False
+        if use_breakout_logic and np.isfinite(rng.get("hi", np.nan)) and np.isfinite(rng.get("lo", np.nan)):
+            dev_up = breakout_or_deviation(df, float(rng["hi"]), "up", retest=2, tol_bps=tol_bps*1e4)
+            dev_dn = breakout_or_deviation(df, float(rng["lo"]), "down", retest=2, tol_bps=tol_bps*1e4)
+            if side == "long" and dev_up == "deviation":
+                return False
+            if side == "short" and dev_dn == "deviation":
+                return False
+        if sfp_only and np.isfinite(rng_in.get("hi", np.nan)) and np.isfinite(rng_in.get("lo", np.nan)):
+            if side == "short" and not is_sfp(df, float(rng_in["hi"]), "short"): return False
+            if side == "long"  and not is_sfp(df, float(rng_in["lo"]), "long"):  return False
+        if use_htf_ema_gate:
+            stt = htf_ema_state(df)
+            if side == "long":
+                if not (stt["weekly"]["bull_ok"] and stt["d3"]["bull_ok"]) or (stt["weekly"]["bear_cross"] or stt["d3"]["bear_cross"]):
+                    return False
+            # (You can mirror shorts with a separate toggle if desired.)
+        if use_comp_expansion and np.isfinite(comp.get("VAL", np.nan)) and np.isfinite(comp.get("VAH", np.nan)):
+            key = comp["VAL"] if side == "long" else comp["VAH"]
+            if compression_squeeze(df):
+                # Require closes to accept beyond key for N bars
+                acc = df["close"].tail(3) > key if side=="long" else df["close"].tail(3) < key
+                if not bool(acc.all()):
+                    return False
+        if use_cvd_absorption:
+            if side=="long" and rising_cvd_no_progress_near_resistance(df_in, comp): return False
+            if side=="short" and rising_cvd_no_progress_near_support(df_in, comp):   return False
+
+        if use_oi_spike_reduce and oi_spike(df_in.tail(200)):
+            # Either block, or reduce size via a size factor you already expose in UI
+            return False
+        if naked_poc_guard and naked_pocs:
+            for npoc in naked_pocs:
+                if np.isfinite(npoc) and _bps(entry_px, float(npoc)) < float(naked_poc_bps):
+                    return False
+        if use_btc_guard and side=="long" and symbol.upper() in ("ETHUSDT","SOLUSDT","ETHUSD","SOLUSD"):
+            if btc_guard.get("near_resistance", False):
+                return False
+        return True
+
+    # attach filters + atr buffer into params (engine will call conditionally)
+    params["filters_func"] = _filters_func if any([use_htf_conf, use_accept, avoid_mid, no_fade, use_relvol, use_wick]) else None
+    params["_extra_atr_buffer"] = float(atr_buf_x) if add_atr_buf else 0.0
+
+    trades_df, summary, active_open, pending_list = backtest_xo_logic(df, comp, params, force_eod_close=False)
+
+    # --- Telegram notifications (UI-only; no trade-logic changes) ---
+    if ("enable_tg" in globals() and enable_tg) and tg_token and tg_chat_id:
+        tf_now = tf  # timeframe chosen above
+
+        def _val_line(c: Dict[str, Any]) -> str:
+            vals = []
+            try:
+                for k in ("VAL", "POC", "VAH"):
+                    v = c.get(k, float("nan"))
+                    if np.isfinite(v):
+                        vals.append(f"{k}: <b>{v:.4f}</b>")
+            except Exception:
+                pass
+            return " · ".join(vals) if vals else ""
+
+        # PREVIEWED (pending) orders
+        if ("notify_preview" in globals() and notify_preview) and pending_list:
+            for p in pending_list:
+                try:
+                    k = (symbol, str(p.get("created_ts")), float(p["entry"]))
+                except Exception:
+                    k = (symbol, str(p.get("created_ts")), str(p.get("entry")))
+                if k in st.session_state["tg_seen_pending"]:
+                    continue
+
+                entry = float(p["entry"]); sl = float(p["sl"])
+                tp1 = float(p.get("tp1", float("nan"))); tp2 = float(p.get("tp2", float("nan")))
+                risk = abs(entry - sl) or float("nan")
+                R1 = ((tp1 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp1)) else float("nan")
+                R2 = ((tp2 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp2)) else float("nan")
+                reason = p.get("reason", "")
+                created = p.get("created_ts")
+
+                lines = [
+                    f"🟨 <b>PREVIEW</b> — <b>{symbol}</b> ({_esc(tf_now)})",
+                    f"Side: <b>{_esc(p['side']).upper()}</b>  ·  {_esc(reason)}",
+                    f"Entry: <b>{entry:.4f}</b> | SL: <b>{sl:.4f}</b>",
+                    f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}{'' if not np.isfinite(R1) else f'  (≈ {R1:.2f}R)'}",
+                    f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}{'' if not np.isfinite(R2) else f'  (≈ {R2:.2f}R)'}",
+                    _val_line(comp),
+                    (f"Created: {created}" if created is not None else "")
+                ]
+                _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines if ln]))
+                st.session_state["tg_seen_pending"].add(k)
+
+        # ACTIVE (open) position
+        if ("notify_active" in globals() and notify_active) and (active_open is not None):
+            try:
+                k2 = (symbol, str(active_open.get("entry_time")), float(active_open["entry"]))
+            except Exception:
+                k2 = (symbol, str(active_open.get("entry_time")), str(active_open.get("entry")))
+            if k2 not in st.session_state["tg_seen_active"]:
+                entry = float(active_open["entry"]); sl = float(active_open["sl"])
+                tp1 = float(active_open.get("tp1", float("nan"))); tp2 = float(active_open.get("tp2", float("nan")))
+                last_px = float(df["close"].iloc[-1])
+                risk = abs(entry - sl) or float("nan")
+                u_pnl = (last_px - entry) if active_open["side"] == "long" else (entry - last_px)
+                u_R = (u_pnl / risk) if (np.isfinite(risk) and risk > 0) else float("nan")
+
+                lines2 = [
+                    f"🟢 <b>ACTIVE</b> — <b>{symbol}</b> ({_esc(tf_now)})",
+                    f"Side: <b>{_esc(active_open['side']).upper()}</b>  ·  {_esc(active_open.get('reason',''))}",
+                    f"Entry: <b>{entry:.4f}</b> | SL: <b>{sl:.4f}</b>",
+                    f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}  |  "
+                    f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}",
+                    f"Last: <b>{last_px:.4f}</b>  ·  U.PnL: {'—' if not np.isfinite(u_pnl) else f'{u_pnl:.4f}'}"
+                    f"{'' if not np.isfinite(u_R) else f'  (≈ {u_R:.2f}R)'}",
+                    _val_line(comp),
+                ]
+                _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines2 if ln]))
+                # --- ACTIVE milestone hits (SL/TP1/TP2) ---
+                if ("enable_tg" in globals() and enable_tg) and tg_token and tg_chat_id \
+                and ("notify_hits" in globals() and notify_hits) \
+                and ("active_open" in locals() and active_open is not None):
+
+                    entry_time = active_open.get("entry_time")
+                    side = str(active_open.get("side", "")).lower()
+
+                    # Current last price on chart
+                    last_px = float(df["close"].iloc[-1])
+
+                    # Targets
+                    sl = float(active_open.get("sl", float("nan")))
+                    tp1 = float(active_open.get("tp1", float("nan")))
+                    tp2 = float(active_open.get("tp2", float("nan")))
+
+                    def _hit(milestone: str) -> bool:
+                        # Returns True if milestone is hit by last_px for given side
+                        if not np.isfinite(sl):
+                            return False
+                        if milestone == "SL":
+                            return (last_px <= sl) if side == "long" else (last_px >= sl)
+
+                        if milestone == "TP1":
+                            if not np.isfinite(tp1):
+                                return False
+                            return (last_px >= tp1) if side == "long" else (last_px <= tp1)
+
+                        if milestone == "TP2":
+                            if not np.isfinite(tp2):
+                                return False
+                            return (last_px >= tp2) if side == "long" else (last_px <= tp2)
+
+                        return False
+
+                    # Check each milestone in priority order (SL first, then TP2, then TP1)
+                    for mk, badge in (("SL", "🔴"), ("TP2", "🟣"), ("TP1", "🟩")):
+                        key = (symbol, str(entry_time), mk)
+                        if key in st.session_state["tg_hits_seen"]:
+                            continue
+                        if not _hit(mk):
+                            continue
+
+                        # Compose a nice message
+                        entry = float(active_open["entry"])
+                        risk = abs(entry - sl) if np.isfinite(sl) else float("nan")
+                        u_pnl = (last_px - entry) if side == "long" else (entry - last_px)
+                        u_R = (u_pnl / risk) if (np.isfinite(risk) and risk > 0) else float("nan")
+
+                        _targets = []
+                        if np.isfinite(tp1): _targets.append(f"TP1: <b>{tp1:.4f}</b>")
+                        if np.isfinite(tp2): _targets.append(f"TP2: <b>{tp2:.4f}</b>")
+                        targets_line = "  |  ".join(_targets) if _targets else "No TPs set"
+
+                        lines_hit = [
+                            f"{badge} <b>{mk} HIT</b> — <b>{symbol}</b> ({_esc(tf)})",
+                            f"Side: <b>{side.upper()}</b>  ·  {_esc(active_open.get('reason',''))}",
+                            f"Entry: <b>{entry:.4f}</b>  |  SL: <b>{sl if not np.isfinite(sl) else f'{sl:.4f}'}</b>",
+                            targets_line,
+                            f"Last: <b>{last_px:.4f}</b>  ·  U.PnL: {'—' if not np.isfinite(u_pnl) else f'{u_pnl:.4f}'}"
+                            f"{'' if not np.isfinite(u_R) else f'  (≈ {u_R:.2f}R)'}"
+                        ]
+                        _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines_hit if ln]))
+                        st.session_state["tg_hits_seen"].add(key)
+
+                st.session_state["tg_seen_active"].add(k2)
+                # --- Telegram dedupe for milestone hits ---
+                if "tg_hits_seen" not in st.session_state:
+                    st.session_state["tg_hits_seen"] = set()  # keys: (symbol, str(entry_time), "SL"/"TP1"/"TP2")
 
 
+    st.subheader("Composite Levels")
+    st.write(pd.DataFrame({"Level":["VAL","POC","VAH"], "Price":[comp["VAL"], comp["POC"], comp["VAH"]]}))
+
+    st.subheader("Active (open) position now")
+    if active_open is None:
+        st.info("No currently-open position under the rules.")
+    else:
+        last = float(df["close"].iloc[-1])
+        entry = float(active_open["entry"]); sl = float(active_open["sl"])
+        tp1 = float(active_open.get("tp1", np.nan)); tp2 = float(active_open.get("tp2", np.nan))
+        side = active_open["side"]
+        risk = abs(entry - sl) or float("nan")
+        u_pnl = (last - entry) if side == "long" else (entry - last)
+        u_R = (u_pnl / risk) if (risk == risk and risk > 0) else float("nan")
+        st.dataframe(pd.DataFrame([{
+            "Side": side, "Reason": active_open.get("reason",""), "Entry Time": active_open.get("entry_time"),
+            "Entry": entry, "SL": sl, "TP1": tp1, "TP2": tp2, "Last": last, "Unrealized PnL": u_pnl, "Unrealized R": u_R
+        }]).style.format({
+            "Entry":"{:,.2f}","SL":"{:,.2f}","TP1":"{:,.2f}","TP2":"{:,.2f}",
+            "Last":"{:,.2f}","Unrealized PnL":"{:,.4f}","Unrealized R":"{:.2f}"
+        }), use_container_width=True)
+
+    st.subheader("Pending orders (awaiting fill)")
+    if not pending_list:
+        st.info("No pending orders right now.")
+    else:
+        rows = []
+        last_ts = df.index[-1]
+        for p in pending_list:
+            entry = float(p["entry"]); sl=float(p["sl"]); tp1=float(p.get("tp1", np.nan)); tp2=float(p.get("tp2", np.nan))
+            side=p["side"]; risk=abs(entry-sl) or float("nan")
+            R1=((tp1-entry)/risk) if (risk==risk and risk>0 and tp1==tp1) else float("nan")
+            R2=((tp2-entry)/risk) if (risk==risk and risk>0 and tp2==tp2) else float("nan")
+            created=p.get("created_ts"); age_mins=None
+            try:
+                if created is not None:
+                    age_mins=(pd.to_datetime(last_ts) - pd.to_datetime(created)).total_seconds()/60.0
+            except Exception:
+                pass
+            rows.append({"Side":side,"Reason":p.get("reason",""),"Created":created,"Age (min)":age_mins,
+                         "Entry":entry,"SL":sl,"TP1":tp1,"TP2":tp2,"Planned R→TP1":R1,"Planned R→TP2":R2})
+        dfp = pd.DataFrame(rows)[["Side","Reason","Created","Age (min)","Entry","SL","TP1","TP2","Planned R→TP1","Planned R→TP2"]]
+        st.dataframe(dfp.style.format({
+            "Age (min)":"{:.1f}",
+            "Entry":"{:,.2f}","SL":"{:,.2f}","TP1":"{:,.2f}","TP2":"{:,.2f}",
+            "Planned R→TP1":"{:.2f}","Planned R→TP2":"{:.2f}"
+        }), use_container_width=True)
+
+    st.subheader("Backtest Summary")
+    c = st.columns(5)
+    c[0].metric("Trades", summary["trades"])
+    c[1].metric("Hit Rate", "—" if math.isnan(summary["hit_rate"]) else f"{round(summary['hit_rate']*100,1)}%")
+    c[2].metric("Total PnL (units)", round(summary["total_pnl"],2))
+    c[3].metric("Avg R", "—" if math.isnan(summary["avg_R"]) else round(summary["avg_R"],3))
+    c[4].metric("Total R", round(summary["total_R"],2))
+
+    st.subheader("Trades")
+    if trades_df.empty:
+        st.info("No trades under current params/period.")
+    else:
+        show_cols = [c for c in ["entry_time","exit_time","side","reason","exit_kind","entry","sl","tp1","tp2","exit","pnl","pnl_R","hold_minutes","hold_bars"] if c in trades_df.columns]
+        st.dataframe(trades_df[show_cols], use_container_width=True)
+
+        # --- Per-symbol charts: Cumulative R and Distribution of R ---
+        try:
+            import matplotlib
+            matplotlib.use("Agg")
+            import matplotlib.pyplot as plt
+
+            # Cumulative R (trade order)
+            st.markdown("#### Cumulative R (closed trades)")
+            fig_cr, ax_cr = plt.subplots(figsize=(7,3.5))
+            trades_df_sorted = trades_df.reset_index(drop=True)
+            y_cr = trades_df_sorted["pnl_R"].fillna(0).cumsum().values
+            ax_cr.plot(range(len(y_cr)), y_cr, marker="o", markersize=3 if len(y_cr) > 80 else 5)
+
+            ax_cr.set_xlabel("Trade #")
+            ax_cr.set_ylabel("Cumulative R")
+            ax_cr.set_title(f"{symbol} — Cumulative R")
+            ax_cr.grid(True, which="both", axis="both", alpha=0.3)
+            ax_cr.margins(x=0.01)
+
+            # show at most ~8–10 integer ticks on x; prune to avoid overlap at edges
+            ax_cr.xaxis.set_major_locator(MaxNLocator(nbins=9, integer=True, prune="both"))
+            ax_cr.tick_params(axis="x", labelsize=8)
+            st.pyplot(fig_cr)
+
+            
+        except Exception as _e:
+            st.warning(f"Plot error: {_e}")
+
+        # Collect for all-symbol aggregation
+        try:
+            if "all_trades" not in st.session_state:
+                st.session_state["all_trades"] = []
+            tdf = trades_df.copy()
+            tdf["symbol"] = symbol
+            st.session_state["all_trades"].append(tdf)
+        except Exception as _e:
+            st.warning(f"Aggregation error: {_e}")
 
 def _fmt_ddhhmm(minutes):
     """Format minutes as dd:hh:mm (zero-padded). Returns '—' if missing."""
@@ -1538,204 +1383,18 @@ def expansion_accept(df: pd.DataFrame, key_level: float, side: str, bars=2, tol_
         pass
     return False
 
-# Advanced toggles (not currently wired to UI; keep defined to avoid NameError)
-use_breakout_logic = False
-sfp_only = False
-use_comp_expansion = False
-use_cvd_absorption = False
-use_oi_spike_reduce = False
-naked_poc_guard = False
-use_btc_guard = False
-
-def build_filters_func(symbol: str, df: pd.DataFrame, n_bins: int, cfg: Dict[str, Any]):
-    use_htf_conf = bool(cfg.get("use_htf_conf", False))
-    htf_tol_bps  = float(cfg.get("htf_tol_bps", 0))
-    use_accept   = bool(cfg.get("use_accept", False))
-    accept_bars  = int(cfg.get("accept_bars", 0))
-    avoid_mid    = bool(cfg.get("avoid_mid", False))
-    mid_min_bps  = float(cfg.get("mid_min_bps", 0))
-    no_fade      = bool(cfg.get("no_fade", False))
-    opp_buf_bps  = float(cfg.get("opp_buf_bps", 0))
-    block_countertrend_entries = bool(cfg.get("block_countertrend_entries", False))
-
-    use_relvol   = bool(cfg.get("use_relvol", False))
-    relvol_x     = float(cfg.get("relvol_x", 0))
-    use_wick     = bool(cfg.get("use_wick", False))
-    wick_min_bp  = float(cfg.get("wick_min_bp", 0))
-
-    use_htf_ema_gate = bool(cfg.get("use_htf_ema_gate", False))
-    use_mid_gate = bool(cfg.get("use_mid_gate", False))
-
-    va_cov_local = float(cfg.get("va_cov", 0.68))
-
-
-    # Return None if no filters are enabled
-    enabled = any([
-        use_htf_conf,
-        use_accept,
-        avoid_mid,
-        no_fade,
-        use_relvol,
-        use_wick,
-        use_htf_ema_gate,
-        use_mid_gate,
-        block_countertrend_entries,
-        # advanced toggles (currently false in your code)
-        use_breakout_logic, sfp_only, use_comp_expansion, use_cvd_absorption,
-        use_oi_spike_reduce, naked_poc_guard, use_btc_guard,
-    ])
-    if not enabled:
-        return None
-
-    def _bps(a, b):
-        try:
-            a = float(a); b = float(b)
-            return abs((a - b) / a) * 1e4 if a != 0 else np.inf
-        except Exception:
-            return np.inf
-
-    def _nearest_bps(px, levels: dict):
-        vals = [levels.get("VAL"), levels.get("POC"), levels.get("VAH")]
-        vals = [v for v in vals if np.isfinite(v)]
-        return min((_bps(px, v) for v in vals), default=np.inf)
-
-    def _opp_nearest_bps(side: str, px: float, comp_levels: dict):
-        if side == "long":
-            vals = [comp_levels.get("POC"), comp_levels.get("VAH")]
-        else:
-            vals = [comp_levels.get("POC"), comp_levels.get("VAL")]
-        vals = [v for v in vals if np.isfinite(v)]
-        return min((_bps(px, v) for v in vals), default=np.inf)
-
-    def _accepted(side: str, i_ts: pd.Timestamp, comp_in: dict, df_local: pd.DataFrame) -> bool:
-        if not use_accept or accept_bars <= 0:
-            return True
-        try:
-            ix = df_local.index.get_loc(i_ts)
-            w  = df_local.iloc[max(0, ix - accept_bars + 1):ix + 1]
-            if w.empty:
-                return False
-            val = comp_in.get("VAL", np.nan)
-            vah = comp_in.get("VAH", np.nan)
-            if side == "long":
-                return (w["close"] > val).all() if np.isfinite(val) else True
-            else:
-                return (w["close"] < vah).all() if np.isfinite(vah) else True
-        except Exception:
-            return True  # fail-open
-
-    def _relvol_ok(i_ts: pd.Timestamp, df_local: pd.DataFrame) -> bool:
-        if not use_relvol:
-            return True
-        try:
-            vol = df_local["volume"]
-            ma  = vol.rolling(50, min_periods=10).mean()
-            v   = float(vol.loc[i_ts])
-            m   = float(ma.loc[i_ts])
-            thr = float(relvol_x) / 100.0
-            return (m > 0) and (v >= thr * m)
-        except Exception:
-            return False
-
-    def _wick_ok(side: str, i_ts: pd.Timestamp, entry: float, df_local: pd.DataFrame) -> bool:
-        if not use_wick:
-            return True
-        try:
-            r = df_local.loc[i_ts]
-            hi, lo, op, cl = float(r["high"]), float(r["low"]), float(r["open"]), float(r["close"])
-            up_w = max(0.0, hi - max(op, cl))
-            dn_w = max(0.0, min(op, cl) - lo)
-            w_bps = lambda x: (x / entry) * 1e4 if entry > 0 else 0.0
-            return (w_bps(dn_w) >= float(wick_min_bp)) if side == "long" else (w_bps(up_w) >= float(wick_min_bp))
-        except Exception:
-            return False
-
-    def _filters_func(i_ts, side, entry_px, reason, df_in, comp_in, rng_in, row_now) -> bool:
-        # enforce history-only
-        try:
-            df_hist = df_in.loc[:i_ts]
-        except Exception:
-            df_hist = df_in
-        if df_hist is None or df_hist.empty:
-            return False
-
-        # 1) HTF confluence
-        if use_htf_conf:
-            htf_w = composite_profile(df_hist, days=84,  n_bins=n_bins, va_cov=va_cov_local)
-            htf_m = composite_profile(df_hist, days=168, n_bins=n_bins, va_cov=va_cov_local)
-            ok_w = _nearest_bps(entry_px, htf_w) <= float(htf_tol_bps)
-            ok_m = _nearest_bps(entry_px, htf_m) <= float(htf_tol_bps)
-            if not (ok_w or ok_m):
-                return False
-
-        # 2) acceptance
-        if not _accepted(side, i_ts, comp_in, df_hist):
-            return False
-
-        # 3) avoid mid
-        if avoid_mid and np.isfinite(comp_in.get("VAL", np.nan)) and np.isfinite(comp_in.get("VAH", np.nan)):
-            mid = 0.5 * (float(comp_in["VAL"]) + float(comp_in["VAH"]))
-            if _bps(entry_px, mid) < float(mid_min_bps):
-                return False
-
-        # 4) no fade
-        if no_fade and _opp_nearest_bps(side, entry_px, comp_in) < float(opp_buf_bps):
-            return False
-
-        # 5) flow proxies
-        if not _relvol_ok(i_ts, df_hist):
-            return False
-        if not _wick_ok(side, i_ts, entry_px, df_hist):
-            return False
-
-        # 6) HTF EMA gate (longs)
-        if use_htf_ema_gate and side == "long":
-            st_htf = htf_ema_state(df_hist)
-            bull_intact_now = (st_htf["weekly"]["bull_ok"] and not st_htf["weekly"]["bear_cross"]) and \
-                              (st_htf["d3"]["bull_ok"] and not st_htf["d3"]["bear_cross"])
-            if not bull_intact_now:
-                return False
-
-        # 7) countertrend block
-        if block_countertrend_entries:
-            regime_now = row_now.get("regime", None)
-            if side == "long" and regime_now == "downtrend":
-                return False
-            if side == "short" and regime_now == "uptrend":
-                return False
-
-        # mid-gate (optional)
-        if use_mid_gate and np.isfinite(rng_in.get("mid", np.nan)):
-            if side == "long" and entry_px < rng_in["mid"]:
-                return False
-            if side == "short" and entry_px > rng_in["mid"]:
-                return False
-
-        return True
-
-    return _filters_func
-
 
 def compute_for_symbol(symbol: str) -> Dict[str, Any]:
     """Compute everything for a symbol and return a dict; also triggers Telegram alerts (same as before)."""
-    
     raw = _load(symbol, tf)
-    df = raw
-    want = _period_minutes(tf)
-    if want and len(raw) >= 5:
-        # median spacing in minutes
-        med = raw.index.to_series().diff().dropna().median()
-        have = int(round(med.total_seconds() / 60)) if pd.notna(med) else None
+    df = resample_ohlcv(raw, tf)
+    if drop_last_incomplete:
+        df = drop_incomplete_bar(df, tf)
 
-        # only resample if spacing doesn't match desired tf
-        if have is None or have != want:
-            df = resample_ohlcv(raw, tf)
-
-        if drop_last_incomplete:
-            df = drop_incomplete_bar(df, tf)
-
-    comp = composite_profile(df, days=lookback_days, n_bins=n_bins, va_cov=va_cov)
+    comp = composite_profile(df, days=lookback_days, n_bins=n_bins)
     rng = rolling_swing_range(df, lookback= max(150, n_bins//2))
+    eq_highs = equal_extrema_mask(df["high"].rolling(5).max(), tol_bps)  # small window cluster
+    eq_lows  = equal_extrema_mask(df["low"].rolling(5).min(), tol_bps)
     sp_bands = single_prints(comp["hist"])
 
     params = {
@@ -1743,8 +1402,7 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
         "ema_fast": int(ema_fast), "ema_slow": int(ema_slow),
         "atr_period": int(atr_period),
         "hold_bars": int(hold_bars), "retest_bars": int(retest_bars),
-        "tol_bps": float(tol_bps),
-        "tol": float(tol_bps) / 10000.0, 
+        "tol": float(tol_bps)/10000.0,
         "use_val_reclaim": True,
         "use_vah_break": True,
         "use_sp_cont": True,
@@ -1752,63 +1410,14 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
         "atr_mult": float(atr_mult),
         "min_stop_bps": int(min_stop_bps),
         "min_tp1_bps": int(min_tp1_bps),
-        "atr_mult_tp": float(atr_mult),
-        "atr_mult_sl": float(atr_mult),
         "min_rr": float(min_rr),
         "entry_style": entry_style,
-        "tp1_exit_pct": int(tp1_exit_pct),
-        "lookback_days": int(lookback_days),
-        "comp_bins": int(n_bins),
-        "max_pending_bars": int(max_pending_bars),
-        "invalidate_on_regime_flip": bool(invalidate_on_regime_flip),
-        "_extra_atr_buffer": float(atr_buf_x) if add_atr_buf else 0.0,
-        "block_countertrend_entries": bool(block_countertrend_entries),
-        "va_cov": float(va_cov),
-        "lookback_deviation": int(lookback_deviation),
+        "min_rr": float(min_rr),
+        "entry_style": entry_style,
+        "tp1_exit_pct": int(tp1_exit_pct),  # NEW
     }
-    filter_cfg = {
-        "use_htf_conf": use_htf_conf,
-        "htf_tol_bps": htf_tol_bps,
-        "use_accept": use_accept,
-        "accept_bars": accept_bars,
-        "avoid_mid": avoid_mid,
-        "mid_min_bps": mid_min_bps,
-        "no_fade": no_fade,
-        "opp_buf_bps": opp_buf_bps,
-        "block_countertrend_entries": block_countertrend_entries,
-        "use_relvol": use_relvol,
-        "relvol_x": relvol_x,
-        "use_wick": use_wick,
-        "wick_min_bp": wick_min_bp,
-        "use_htf_ema_gate": use_htf_ema_gate,
-        "use_mid_gate": use_mid_gate,
-        "va_cov": float(va_cov),
-    }
-    params["filters_func"] = build_filters_func(symbol, df, n_bins, filter_cfg)
 
-
-    trades_df, summary, active_open, pending_list = backtest_xo_logic(df, comp, rng, params, force_eod_close=False)
-
-    # CLOSED trade notifications (deduped)
-    if enable_tg and tg_token and tg_chat_id and notify_closed and not trades_df.empty:
-        last_trade = trades_df.iloc[-1].to_dict()
-        ek = str(last_trade.get("exit_kind", ""))
-
-        # normalize partial TP1 into TP1 for filtering
-        ek_filter = "TP1" if ek.startswith("TP1") else ek
-
-        if ek_filter in closed_types:
-            key = (symbol, str(last_trade.get("entry_time")), str(last_trade.get("exit_time")), ek, float(last_trade.get("exit", np.nan)))
-            if key not in st.session_state["tg_seen_closed"]:
-                msg = "\n".join([
-                    f"✅ <b>CLOSED</b> — <b>{symbol}</b> ({_esc(tf)})",
-                    f"Side: <b>{_esc(last_trade.get('side','')).upper()}</b>  ·  {_esc(last_trade.get('reason',''))}",
-                    f"Exit: <b>{float(last_trade.get('exit')):.4f}</b>  ·  Kind: <b>{_esc(ek)}</b>",
-                    f"PnL_R: <b>{float(last_trade.get('pnl_R', 0.0)):.2f}R</b>",
-                ])
-                _send_tg(tg_token, tg_chat_id, msg)
-                st.session_state["tg_seen_closed"].add(key)
-
+    trades_df, summary, active_open, pending_list = backtest_xo_logic(df, comp, params, force_eod_close=False)
 
     # Telegram (same rules as your in-function block)
     if ("enable_tg" in globals() and enable_tg) and tg_token and tg_chat_id:
@@ -1829,8 +1438,7 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
         if ("notify_preview" in globals() and notify_preview) and pending_list:
             for p in pending_list:
                 try:
-                    sig = p.get("signal_ts", p.get("created_ts"))
-                    k = (symbol, str(sig), float(p["entry"]))
+                    k = (symbol, str(p.get("created_ts")), float(p["entry"]))
                 except Exception:
                     k = (symbol, str(p.get("created_ts")), str(p.get("entry")))
                 if k in st.session_state["tg_seen_pending"]:
@@ -1842,7 +1450,6 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
                 R2 = ((tp2 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp2)) else float("nan")
                 reason = p.get("reason", "")
                 created = p.get("created_ts")
-                signal  = p.get("signal_ts", None)
                 lines = [
                     f"🟨 <b>PREVIEW</b> — <b>{symbol}</b> ({_esc(tf_now)})",
                     f"Side: <b>{_esc(p['side']).upper()}</b>  ·  {_esc(reason)}",
@@ -1850,8 +1457,7 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
                     f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}{'' if not np.isfinite(R1) else f'  (≈ {R1:.2f}R)'}",
                     f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}{'' if not np.isfinite(R2) else f'  (≈ {R2:.2f}R)'}",
                     _val_line(comp),
-                    (f"Created: {created}" if created is not None else ""),
-                    (f"Signal: {signal}" if signal is not None else ""),
+                    (f"Created: {created}" if created is not None else "")
                 ]
                 _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines if ln]))
                 st.session_state["tg_seen_pending"].add(k)
@@ -1935,7 +1541,6 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
 
 def render_symbol(symbol: str, res: Dict[str,Any]):
     """Render the SAME UI you had for run_for_symbol, using precomputed results (no recompute)."""
-    levels = {"support": [], "resistance": []}
     df = res["df"]; comp = res["comp"]; trades_df = res["trades_df"]
     summary = res["summary"]; active_open = res["active_open"]; pending_list = res["pending_list"]
 
@@ -2008,7 +1613,7 @@ def render_symbol(symbol: str, res: Dict[str,Any]):
     show_cols = [c for c in ["entry_time","exit_time","side","reason","exit_kind","entry","sl","tp1","tp2","exit","pnl","pnl_R","hold_minutes","hold_bars"] if c in trades_df.columns]
     st.dataframe(trades_df[show_cols], use_container_width=True)
 
-    # ---------------- Support / Resistance Chart ----------------
+        # ---------------- Support / Resistance Chart ----------------
     with st.expander("Price with Support/Resistance (selected timeframe)", expanded=True):
         st.caption("Swing-based S/R with de-duplication; composite VAL/POC/VAH included.")
         colA, colB, colC, colD = st.columns(4)
@@ -2021,18 +1626,14 @@ def render_symbol(symbol: str, res: Dict[str,Any]):
         # Build composite dict (VAL/POC/VAH) for context lines
         comp_levels = {"VAL": comp.get("VAL", np.nan), "POC": comp.get("POC", np.nan), "VAH": comp.get("VAH", np.nan)}
 
-        try:
-            levels = _find_sr_levels(
-                df=df,
-                lookback_bars=int(lookback_bars),
-                swing=int(swing),
-                max_levels=int(max_levels),
-                min_distance_bps=float(min_dist_bps),
-                include_composite=comp_levels,
-            )
-        except Exception as e:
-            st.warning(f"S/R level calc error: {e}")
-            levels = {"support": [], "resistance": []}
+        levels = _find_sr_levels(
+            df=df,
+            lookback_bars=int(lookback_bars),
+            swing=int(swing),
+            max_levels=int(max_levels),
+            min_distance_bps=float(min_dist_bps),
+            include_composite=comp_levels,
+        )
 
     # Plot close with S/R horizontals (date-aware axis)
     try:
@@ -2174,8 +1775,6 @@ try:
 except NameError:
     run_btn = True
 if run_btn:
-    for k in ("tg_seen_pending","tg_seen_active","tg_seen_closed","tg_hits_seen"):
-        st.session_state[k] = set()
     st.session_state["results"] = {}       # symbol -> result dict
     st.session_state["all_trades"] = []    # rebuild aggregation
 
@@ -2186,6 +1785,7 @@ if run_btn:
             st.warning(f"{sym}: compute error — {_e}")
 
 # ---- Render section (no recompute required) ----
+# ---- Render section (no recompute required) ----
 if st.session_state.get("results"):
     if selection == "ALL":
         # Combined charts across all symbols (same as your existing section)
@@ -2195,10 +1795,6 @@ if st.session_state.get("results"):
         import pandas as _pd
 
         all_df = _pd.concat([d["trades_df"].assign(symbol=s) for s, d in st.session_state["results"].items()], ignore_index=True)
-        if all_df.empty or ("pnl_R" not in all_df.columns):
-            st.info("No closed trades across symbols for this run (nothing to plot yet).")
-            st.stop()
-
 
 
         # Bar chart: total R per symbol
