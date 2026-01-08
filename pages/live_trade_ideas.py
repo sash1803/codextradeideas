@@ -23,6 +23,7 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib.dates import AutoDateLocator, ConciseDateFormatter
 
 import math
+import os
 from typing import List, Dict, Any, Tuple, Optional
 
 import numpy as np
@@ -30,7 +31,11 @@ import pandas as pd
 import streamlit as st
 import html as _html
 
-st.set_page_config(page_title="Level Mapping Strategy — XO", layout="wide")
+try:
+    st.set_page_config(page_title="Level Mapping Strategy — XO", layout="wide")
+except Exception:
+    # Allow module import in headless/unit-test contexts where Streamlit isn't running
+    pass
 
 # Optional third-party dependency (safe import)
 try:
@@ -311,6 +316,42 @@ class RetestTriggerState:
                 self.reset()
 
         return False
+
+
+def _run_trigger_self_tests() -> None:
+    """Lightweight, in-module verification for hold + retest sequencing."""
+
+    def _assert_triggers(side: str, closes, highs, lows, level: float, expect_index: int):
+        stg = RetestTriggerState(side=side, hold_bars=2, retest_window=3, tolerance=0.001)
+        hits = []
+        for i, (c, h, l) in enumerate(zip(closes, highs, lows)):
+            if stg.update(close=c, high=h, low=l, level=level):
+                hits.append(i)
+        assert hits == ([expect_index] if expect_index is not None else []), f"Unexpected hits: {hits}"
+
+    # Long: two-bar hold above level (100.2/100.3), then wick retest and close acceptance triggers entry
+    closes_up = [99.5, 100.2, 100.3, 100.15, 100.4]
+    highs_up  = [99.9, 100.5, 100.6, 100.5, 100.8]
+    lows_up   = [99.3, 99.9, 100.0, 99.92, 100.1]
+    _assert_triggers("up", closes_up, highs_up, lows_up, level=100.0, expect_index=3)
+
+    # Short: two-bar hold below level, but no retest within window → no trigger
+    closes_dn = [100.5, 99.8, 99.6, 99.4, 99.2]
+    highs_dn  = [100.7, 100.0, 99.9, 99.7, 99.5]
+    lows_dn   = [100.2, 99.5, 99.3, 99.1, 98.9]
+    _assert_triggers("down", closes_dn, highs_dn, lows_dn, level=100.0, expect_index=None)
+
+    # Short: hold then retest into tolerance band within window triggers
+    closes_dn_ok = [100.5, 99.8, 99.6, 99.85, 99.4]
+    highs_dn_ok  = [100.7, 100.0, 99.9, 100.02, 99.6]
+    lows_dn_ok   = [100.2, 99.5, 99.3, 99.55, 99.1]
+    _assert_triggers("down", closes_dn_ok, highs_dn_ok, lows_dn_ok, level=100.0, expect_index=3)
+
+
+SELF_TEST = os.environ.get("XO_SELFTEST", "0") == "1"
+if SELF_TEST:
+    _run_trigger_self_tests()
+    raise SystemExit(0)
 
 
 class LevelTriggerCfg:
@@ -812,6 +853,7 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
         row = df.iloc[i]
         hi_cur, lo_cur = float(row["high"]), float(row["low"])
         o_cur = float(row["open"])
+        close_cur = float(row["close"])
 
         ts_prev  = idx[i-1]
         row_prev = df.iloc[i-1]
@@ -913,11 +955,26 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
             high_prev   = float(row_prev["high"])
             close_prev2 = float(df["close"].iloc[i-2])
 
+            eps_level = lambda lvl: abs(float(lvl)) * tol
+            def _held(side: str, lvl: float) -> bool:
+                if i < hold_bars:
+                    return False
+                window = df.iloc[i-hold_bars:i]
+                if side == "long":
+                    return bool((window["close"] > (lvl + eps_level(lvl))).all())
+                return bool((window["close"] < (lvl - eps_level(lvl))).all())
+
             # ---- LONG ----
             for level in support_levels:
                 level = float(level)
-                reclaim = (close_prev > level) and ((low_prev < level) or (close_prev2 <= level))
-                if not reclaim: continue
+                eps = eps_level(level)
+                reclaim = (close_prev > (level + eps)) and ((low_prev < (level - eps)) or (close_prev2 <= (level - eps)))
+                if not (reclaim and _held("long", level)):
+                    continue
+
+                retest_ok = (lo_cur <= (level + eps)) and (close_cur > (level - eps))
+                if not retest_ok:
+                    continue
 
                 structure_sl = sweep_cluster_low(df, level, end_idx=i-1, max_lookback=lookback_deviation)
                 if not np.isfinite(structure_sl): continue
@@ -1050,8 +1107,14 @@ def backtest_xo_logic(df: pd.DataFrame, comp: Dict[str, Any], rng: Dict[str, Any
             if open_pos is None and pending_order is None:
                 for level in resistance_levels:
                     level = float(level)
-                    reclaim = (close_prev < level) and ((high_prev > level) or (close_prev2 >= level))
-                    if not reclaim: continue
+                    eps = eps_level(level)
+                    lost = (close_prev < (level - eps)) and ((high_prev > (level + eps)) or (close_prev2 >= (level + eps)))
+                    if not (lost and _held("short", level)):
+                        continue
+
+                    retest_ok = (hi_cur >= (level - eps)) and (close_cur < (level + eps))
+                    if not retest_ok:
+                        continue
 
                     structure_sl = sweep_cluster_high(df, level, end_idx=i-1, max_lookback=lookback_deviation)
                     if not np.isfinite(structure_sl): continue
@@ -1716,35 +1779,33 @@ def build_filters_func(symbol: str, df: pd.DataFrame, n_bins: int, cfg: Dict[str
     return _filters_func
 
 
-def compute_for_symbol(symbol: str) -> Dict[str, Any]:
-    """Compute everything for a symbol and return a dict; also triggers Telegram alerts (same as before)."""
-    
-    raw = _load(symbol, tf)
+def prepare_symbol_context(symbol: str, tf_now: str) -> Dict[str, Any]:
+    raw = _load(symbol, tf_now)
     df = raw
-    want = _period_minutes(tf)
+    want = _period_minutes(tf_now)
     if want and len(raw) >= 5:
-        # median spacing in minutes
         med = raw.index.to_series().diff().dropna().median()
         have = int(round(med.total_seconds() / 60)) if pd.notna(med) else None
-
-        # only resample if spacing doesn't match desired tf
         if have is None or have != want:
-            df = resample_ohlcv(raw, tf)
+            df = resample_ohlcv(raw, tf_now)
 
-        if drop_last_incomplete:
-            df = drop_incomplete_bar(df, tf)
+    if drop_last_incomplete:
+        df = drop_incomplete_bar(df, tf_now)
 
     comp = composite_profile(df, days=lookback_days, n_bins=n_bins, va_cov=va_cov)
-    rng = rolling_swing_range(df, lookback= max(150, n_bins//2))
+    rng = rolling_swing_range(df, lookback=max(150, n_bins // 2))
     sp_bands = single_prints(comp["hist"])
+    return {"df": df, "comp": comp, "rng": rng, "sp_bands": sp_bands}
 
+
+def build_strategy_params(symbol: str, df: pd.DataFrame, sp_bands: List[Tuple[float, float]]) -> Dict[str, Any]:
     params = {
         "tf_for_stats": tf,
         "ema_fast": int(ema_fast), "ema_slow": int(ema_slow),
         "atr_period": int(atr_period),
         "hold_bars": int(hold_bars), "retest_bars": int(retest_bars),
         "tol_bps": float(tol_bps),
-        "tol": float(tol_bps) / 10000.0, 
+        "tol": float(tol_bps) / 10000.0,
         "use_val_reclaim": True,
         "use_vah_break": True,
         "use_sp_cont": True,
@@ -1785,145 +1846,161 @@ def compute_for_symbol(symbol: str) -> Dict[str, Any]:
         "va_cov": float(va_cov),
     }
     params["filters_func"] = build_filters_func(symbol, df, n_bins, filter_cfg)
+    return params
 
 
-    trades_df, summary, active_open, pending_list = backtest_xo_logic(df, comp, rng, params, force_eod_close=False)
+def notify_closed_trades(symbol: str, trades_df: pd.DataFrame, tf_now: str) -> None:
+    if not (enable_tg and tg_token and tg_chat_id and notify_closed and not trades_df.empty):
+        return
 
-    # CLOSED trade notifications (deduped)
-    if enable_tg and tg_token and tg_chat_id and notify_closed and not trades_df.empty:
-        last_trade = trades_df.iloc[-1].to_dict()
-        ek = str(last_trade.get("exit_kind", ""))
+    last_trade = trades_df.iloc[-1].to_dict()
+    ek = str(last_trade.get("exit_kind", ""))
+    ek_filter = "TP1" if ek.startswith("TP1") else ek
+    if ek_filter not in closed_types:
+        return
 
-        # normalize partial TP1 into TP1 for filtering
-        ek_filter = "TP1" if ek.startswith("TP1") else ek
+    key = (symbol, str(last_trade.get("entry_time")), str(last_trade.get("exit_time")), ek, float(last_trade.get("exit", np.nan)))
+    if key in st.session_state["tg_seen_closed"]:
+        return
 
-        if ek_filter in closed_types:
-            key = (symbol, str(last_trade.get("entry_time")), str(last_trade.get("exit_time")), ek, float(last_trade.get("exit", np.nan)))
-            if key not in st.session_state["tg_seen_closed"]:
-                msg = "\n".join([
-                    f"✅ <b>CLOSED</b> — <b>{symbol}</b> ({_esc(tf)})",
-                    f"Side: <b>{_esc(last_trade.get('side','')).upper()}</b>  ·  {_esc(last_trade.get('reason',''))}",
-                    f"Exit: <b>{float(last_trade.get('exit')):.4f}</b>  ·  Kind: <b>{_esc(ek)}</b>",
-                    f"PnL_R: <b>{float(last_trade.get('pnl_R', 0.0)):.2f}R</b>",
-                ])
-                _send_tg(tg_token, tg_chat_id, msg)
-                st.session_state["tg_seen_closed"].add(key)
+    msg = "\n".join([
+        f"✅ <b>CLOSED</b> — <b>{symbol}</b> ({_esc(tf_now)})",
+        f"Side: <b>{_esc(last_trade.get('side','')).upper()}</b>  ·  {_esc(last_trade.get('reason',''))}",
+        f"Exit: <b>{float(last_trade.get('exit')):.4f}</b>  ·  Kind: <b>{_esc(ek)}</b>",
+        f"PnL_R: <b>{float(last_trade.get('pnl_R', 0.0)):.2f}R</b>",
+    ])
+    _send_tg(tg_token, tg_chat_id, msg)
+    st.session_state["tg_seen_closed"].add(key)
 
 
-    # Telegram (same rules as your in-function block)
-    if ("enable_tg" in globals() and enable_tg) and tg_token and tg_chat_id:
-        tf_now = tf
+def _val_line(comp: Dict[str, Any]) -> str:
+    vals = []
+    try:
+        for k in ("VAL", "POC", "VAH"):
+            v = comp.get(k, float("nan"))
+            if np.isfinite(v):
+                vals.append(f"{k}: <b>{v:.4f}</b>")
+    except Exception:
+        pass
+    return " · ".join(vals) if vals else ""
 
-        def _val_line(c: Dict[str, Any]) -> str:
-            vals = []
+
+def notify_live_states(symbol: str, tf_now: str, comp: Dict[str, Any], df: pd.DataFrame, pending_list: List[Dict[str, Any]], active_open: Optional[Dict[str, Any]]):
+    if not (("enable_tg" in globals() and enable_tg) and tg_token and tg_chat_id):
+        return
+
+    if ("notify_preview" in globals() and notify_preview) and pending_list:
+        for p in pending_list:
             try:
-                for k in ("VAL", "POC", "VAH"):
-                    v = c.get(k, float("nan"))
-                    if np.isfinite(v):
-                        vals.append(f"{k}: <b>{v:.4f}</b>")
+                sig = p.get("signal_ts", p.get("created_ts"))
+                k = (symbol, str(sig), float(p["entry"]))
             except Exception:
-                pass
-            return " · ".join(vals) if vals else ""
+                k = (symbol, str(p.get("created_ts")), str(p.get("entry")))
+            if k in st.session_state["tg_seen_pending"]:
+                continue
+            entry = float(p["entry"]); sl = float(p["sl"])
+            tp1 = float(p.get("tp1", float("nan"))); tp2 = float(p.get("tp2", float("nan")))
+            risk = abs(entry - sl) or float("nan")
+            R1 = ((tp1 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp1)) else float("nan")
+            R2 = ((tp2 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp2)) else float("nan")
+            reason = p.get("reason", "")
+            created = p.get("created_ts")
+            signal  = p.get("signal_ts", None)
+            lines = [
+                f"🟨 <b>PREVIEW</b> — <b>{symbol}</b> ({_esc(tf_now)})",
+                f"Side: <b>{_esc(p['side']).upper()}</b>  ·  {_esc(reason)}",
+                f"Entry: <b>{entry:.4f}</b> | SL: <b>{sl:.4f}</b>",
+                f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}{'' if not np.isfinite(R1) else f'  (≈ {R1:.2f}R)'}",
+                f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}{'' if not np.isfinite(R2) else f'  (≈ {R2:.2f}R)'}",
+                _val_line(comp),
+                (f"Created: {created}" if created is not None else ""),
+                (f"Signal: {signal}" if signal is not None else ""),
+            ]
+            _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines if ln]))
+            st.session_state["tg_seen_pending"].add(k)
 
-        # PREVIEWED (pending)
-        if ("notify_preview" in globals() and notify_preview) and pending_list:
-            for p in pending_list:
-                try:
-                    sig = p.get("signal_ts", p.get("created_ts"))
-                    k = (symbol, str(sig), float(p["entry"]))
-                except Exception:
-                    k = (symbol, str(p.get("created_ts")), str(p.get("entry")))
-                if k in st.session_state["tg_seen_pending"]:
+    if ("notify_active" in globals() and notify_active) and (active_open is not None):
+        try:
+            k2 = (symbol, str(active_open.get("entry_time")), float(active_open["entry"]))
+        except Exception:
+            k2 = (symbol, str(active_open.get("entry_time")), str(active_open.get("entry")))
+        if k2 not in st.session_state["tg_seen_active"]:
+            entry = float(active_open["entry"]); sl = float(active_open["sl"])
+            tp1 = float(active_open.get("tp1", float("nan"))); tp2 = float(active_open.get("tp2", float("nan")))
+            last_px = float(df["close"].iloc[-1])
+            risk = abs(entry - sl) or float("nan")
+            u_pnl = (last_px - entry) if active_open["side"] == "long" else (entry - last_px)
+            u_R = (u_pnl / risk) if (np.isfinite(risk) and risk > 0) else float("nan")
+            lines2 = [
+                f"🟢 <b>ACTIVE</b> — <b>{symbol}</b> ({_esc(tf_now)})",
+                f"Side: <b>{_esc(active_open['side']).upper()}</b>  ·  {_esc(active_open.get('reason',''))}",
+                f"Entry: <b>{entry:.4f}</b> | SL: <b>{sl:.4f}</b>",
+                f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}  |  "
+                f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}",
+                f"Last: <b>{last_px:.4f}</b>  ·  U.PnL: {'—' if not np.isfinite(u_pnl) else f'{u_pnl:.4f}'}"
+                f"{'' if not np.isfinite(u_R) else f'  (≈ {u_R:.2f}R)'}",
+                _val_line(comp),
+            ]
+            _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines2 if ln]))
+            st.session_state["tg_seen_active"].add(k2)
+
+        if ("notify_hits" in globals() and notify_hits):
+            if "tg_hits_seen" not in st.session_state:
+                st.session_state["tg_hits_seen"] = set()
+            entry_time = active_open.get("entry_time")
+            side = str(active_open.get("side", "")).lower()
+            last_px = float(df["close"].iloc[-1])
+            sl = float(active_open.get("sl", float("nan")))
+            tp1 = float(active_open.get("tp1", float("nan")))
+            tp2 = float(active_open.get("tp2", float("nan")))
+            def _hit(mk: str) -> bool:
+                if not np.isfinite(sl): return False
+                if mk == "SL":  return (last_px <= sl) if side=="long" else (last_px >= sl)
+                if mk == "TP1": return np.isfinite(tp1) and ((last_px >= tp1) if side=="long" else (last_px <= tp1))
+                if mk == "TP2": return np.isfinite(tp2) and ((last_px >= tp2) if side=="long" else (last_px <= tp2))
+                return False
+            for mk, badge in (("SL","🔴"),("TP2","🟣"),("TP1","🟩")):
+                key = (symbol, str(entry_time), mk)
+                if key in st.session_state["tg_hits_seen"]:
                     continue
-                entry = float(p["entry"]); sl = float(p["sl"])
-                tp1 = float(p.get("tp1", float("nan"))); tp2 = float(p.get("tp2", float("nan")))
-                risk = abs(entry - sl) or float("nan")
-                R1 = ((tp1 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp1)) else float("nan")
-                R2 = ((tp2 - entry) / risk) if (np.isfinite(risk) and risk > 0 and np.isfinite(tp2)) else float("nan")
-                reason = p.get("reason", "")
-                created = p.get("created_ts")
-                signal  = p.get("signal_ts", None)
-                lines = [
-                    f"🟨 <b>PREVIEW</b> — <b>{symbol}</b> ({_esc(tf_now)})",
-                    f"Side: <b>{_esc(p['side']).upper()}</b>  ·  {_esc(reason)}",
-                    f"Entry: <b>{entry:.4f}</b> | SL: <b>{sl:.4f}</b>",
-                    f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}{'' if not np.isfinite(R1) else f'  (≈ {R1:.2f}R)'}",
-                    f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}{'' if not np.isfinite(R2) else f'  (≈ {R2:.2f}R)'}",
-                    _val_line(comp),
-                    (f"Created: {created}" if created is not None else ""),
-                    (f"Signal: {signal}" if signal is not None else ""),
-                ]
-                _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines if ln]))
-                st.session_state["tg_seen_pending"].add(k)
-
-        # ACTIVE + milestone hits (SL/TP1/TP2)
-        if ("notify_active" in globals() and notify_active) and (active_open is not None):
-            try:
-                k2 = (symbol, str(active_open.get("entry_time")), float(active_open["entry"]))
-            except Exception:
-                k2 = (symbol, str(active_open.get("entry_time")), str(active_open.get("entry")))
-            if k2 not in st.session_state["tg_seen_active"]:
-                entry = float(active_open["entry"]); sl = float(active_open["sl"])
-                tp1 = float(active_open.get("tp1", float("nan"))); tp2 = float(active_open.get("tp2", float("nan")))
-                last_px = float(df["close"].iloc[-1])
-                risk = abs(entry - sl) or float("nan")
-                u_pnl = (last_px - entry) if active_open["side"] == "long" else (entry - last_px)
+                if not _hit(mk):
+                    continue
+                entry = float(active_open["entry"])
+                risk = abs(entry - sl) if np.isfinite(sl) else float("nan")
+                u_pnl = (last_px - entry) if side == "long" else (entry - last_px)
                 u_R = (u_pnl / risk) if (np.isfinite(risk) and risk > 0) else float("nan")
-                lines2 = [
-                    f"🟢 <b>ACTIVE</b> — <b>{symbol}</b> ({_esc(tf_now)})",
-                    f"Side: <b>{_esc(active_open['side']).upper()}</b>  ·  {_esc(active_open.get('reason',''))}",
-                    f"Entry: <b>{entry:.4f}</b> | SL: <b>{sl:.4f}</b>",
-                    f"TP1: {'—' if not np.isfinite(tp1) else f'<b>{tp1:.4f}</b>'}  |  "
-                    f"TP2: {'—' if not np.isfinite(tp2) else f'<b>{tp2:.4f}</b>'}",
+                _targets = []
+                if np.isfinite(tp1): _targets.append(f"TP1: <b>{tp1:.4f}</b>")
+                if np.isfinite(tp2): _targets.append(f"TP2: <b>{tp2:.4f}</b>")
+                targets_line = "  |  ".join(_targets) if _targets else "No TPs set"
+                lines_hit = [
+                    f"{badge} <b>{mk} HIT</b> — <b>{symbol}</b> ({_esc(tf_now)})",
+                    f"Side: <b>{side.upper()}</b>  ·  {_esc(active_open.get('reason',''))}",
+                    f"Entry: <b>{entry:.4f}</b>  |  SL: <b>{sl if not np.isfinite(sl) else f'{sl:.4f}'}</b>",
+                    targets_line,
                     f"Last: <b>{last_px:.4f}</b>  ·  U.PnL: {'—' if not np.isfinite(u_pnl) else f'{u_pnl:.4f}'}"
                     f"{'' if not np.isfinite(u_R) else f'  (≈ {u_R:.2f}R)'}",
-                    _val_line(comp),
                 ]
-                _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines2 if ln]))
-                st.session_state["tg_seen_active"].add(k2)
+                _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines_hit if ln]))
+                st.session_state["tg_hits_seen"].add(key)
 
-            # Hits (your newer behavior)
-            if ("notify_hits" in globals() and notify_hits):
-                if "tg_hits_seen" not in st.session_state:
-                    st.session_state["tg_hits_seen"] = set()
-                entry_time = active_open.get("entry_time")
-                side = str(active_open.get("side", "")).lower()
-                last_px = float(df["close"].iloc[-1])
-                sl = float(active_open.get("sl", float("nan")))
-                tp1 = float(active_open.get("tp1", float("nan")))
-                tp2 = float(active_open.get("tp2", float("nan")))
-                def _hit(mk: str) -> bool:
-                    if not np.isfinite(sl): return False
-                    if mk == "SL":  return (last_px <= sl) if side=="long" else (last_px >= sl)
-                    if mk == "TP1": return np.isfinite(tp1) and ((last_px >= tp1) if side=="long" else (last_px <= tp1))
-                    if mk == "TP2": return np.isfinite(tp2) and ((last_px >= tp2) if side=="long" else (last_px <= tp2))
-                    return False
-                for mk, badge in (("SL","🔴"),("TP2","🟣"),("TP1","🟩")):
-                    key = (symbol, str(entry_time), mk)
-                    if key in st.session_state["tg_hits_seen"]: 
-                        continue
-                    if not _hit(mk): 
-                        continue
-                    entry = float(active_open["entry"])
-                    risk = abs(entry - sl) if np.isfinite(sl) else float("nan")
-                    u_pnl = (last_px - entry) if side == "long" else (entry - last_px)
-                    u_R = (u_pnl / risk) if (np.isfinite(risk) and risk > 0) else float("nan")
-                    _targets = []
-                    if np.isfinite(tp1): _targets.append(f"TP1: <b>{tp1:.4f}</b>")
-                    if np.isfinite(tp2): _targets.append(f"TP2: <b>{tp2:.4f}</b>")
-                    targets_line = "  |  ".join(_targets) if _targets else "No TPs set"
-                    lines_hit = [
-                        f"{badge} <b>{mk} HIT</b> — <b>{symbol}</b> ({_esc(tf_now)})",
-                        f"Side: <b>{side.upper()}</b>  ·  {_esc(active_open.get('reason',''))}",
-                        f"Entry: <b>{entry:.4f}</b>  |  SL: <b>{sl if not np.isfinite(sl) else f'{sl:.4f}'}</b>",
-                        targets_line,
-                        f"Last: <b>{last_px:.4f}</b>  ·  U.PnL: {'—' if not np.isfinite(u_pnl) else f'{u_pnl:.4f}'}"
-                        f"{'' if not np.isfinite(u_R) else f'  (≈ {u_R:.2f}R)'}"
-                    ]
-                    _send_tg(tg_token, tg_chat_id, "\n".join([ln for ln in lines_hit if ln]))
-                    st.session_state["tg_hits_seen"].add(key)
 
-    # add to all_trades aggregation
+
+def compute_for_symbol(symbol: str) -> Dict[str, Any]:
+    """Compute everything for a symbol and return a dict; also triggers Telegram alerts (same as before)."""
+
+    ctx = prepare_symbol_context(symbol, tf)
+    df = ctx["df"]
+    comp = ctx["comp"]
+    rng = ctx["rng"]
+    sp_bands = ctx["sp_bands"]
+
+    params = build_strategy_params(symbol, df, sp_bands)
+    trades_df, summary, active_open, pending_list = backtest_xo_logic(df, comp, rng, params, force_eod_close=False)
+
+    notify_closed_trades(symbol, trades_df, tf)
+    notify_live_states(symbol, tf, comp, df, pending_list, active_open)
+
     if "all_trades" not in st.session_state:
         st.session_state["all_trades"] = []
     tdf = trades_df.copy()
